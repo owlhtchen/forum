@@ -1,0 +1,26 @@
+{
+  "name": "forum",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/owlhtchen/forum.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/owlhtchen/forum/issues"
+  },
+  "homepage": "https://github.com/owlhtchen/forum#readme",
+  "dependencies": {
+    "create-react-app": "^3.3.0",
+    "express": "^4.17.1",
+    "react-router-dom": "^5.1.2"
+  }
+}
