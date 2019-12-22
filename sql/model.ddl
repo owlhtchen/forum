@@ -52,8 +52,15 @@ CREATE TABLE Post (
   content text,
   postType postTypeDomain not null,
   authorID integer not null
+    references Account(accountID)
+);
+
+CREATE TABLE Upvote (
+  accountID integer
     references Account(accountID),
-  upvotes integer default 0 
+  postID integer
+    references Post(postID),
+  primary key (accountID, postID)
 );
 
 
