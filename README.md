@@ -10,11 +10,11 @@
   - Profile
   - Friends (Following, Follower)
   - Block
-  - Blog
+  - Column
   - DM
   - OAuth ??
   - Password recovery
-  - Random Thoughts
+  - Timeline
   - History
   - Reputation
   - Favorites
@@ -27,15 +27,15 @@
   - Follow, email notification, feed
   - Daily highlight
   - Share via QR code
+  - Vote
 - Admin
   - Add/Delete themes
   - Add/Delete post
-  - Suspend accounts
-- Themes
+  - ~~Suspend accounts~~
+- Category
   - Join
 - Search
   - Advance filter (time, theme)
 - Sort
   - By new
   - By top of (all time, within ...)
-  - By rising
