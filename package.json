@@ -1,27 +1,25 @@
 {
-  "name": "forum",
+  "name": "server",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
+    "client-dev": "npm start --prefix client",
+    "server-dev": "cross-env NODE_ENV=prod nodemon server/index.js",
+    "start-dev": "concurrently \"npm run server-dev\" \"npm run client-dev\"",
     "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/owlhtchen/forum.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/owlhtchen/forum/issues"
-  },
-  "homepage": "https://github.com/owlhtchen/forum#readme",
   "dependencies": {
-    "create-react-app": "^3.3.0",
+    "concurrently": "^5.0.2",
     "express": "^4.17.1",
-    "pg-promise": "^10.3.1",
-    "react-router-dom": "^5.1.2"
+    "mongoose": "^5.8.3"
+  },
+  "devDependencies": {
+    "cross-env": "^6.0.3",
+    "nodemon": "^2.0.2"
   }
 }
