@@ -1,8 +1,9 @@
 const express = require('express');
 const path = require('path');
 var mongoose = require('mongoose');
+const users = require('./routes/user');
 
-mongoose.connect('mongodb://localhost/test', {useNewUrlParser: true});
+mongoose.connect('mongodb://localhost/forum', {useNewUrlParser: true});
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
@@ -13,6 +14,8 @@ db.once('open', function() {
 
     // Serve the static files from the React app
     app.use(express.static(path.join(__dirname, 'client/build')));
+
+    app.use('/users', users);
 
     // An api endpoint that returns a short list of items
     app.get('/api/getList', (req,res) => {

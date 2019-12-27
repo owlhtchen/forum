@@ -4,6 +4,8 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema({
   password: String, // 'local'
   email: String, //'local'
+  thirdPartyID: String,  // 'facebook' or 'google'
+  username: String, 
   gender: {
     type: String,
     enum: ['male', 'female']
@@ -16,11 +18,14 @@ const userSchema = new Schema({
     type: Date,
     default: Date.now
   },
-  method: {
+  source: {
     type: String,
     enum: ['local', 'google', 'facebook']
   },
-  isDelete: Boolean,
+  isDelete: {
+    type: Boolean,
+    default: false
+  },
   browserHistory: [{
     date: Number,
     contents: [{
