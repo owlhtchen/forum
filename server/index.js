@@ -1,6 +1,8 @@
 const express = require('express');
 const path = require('path');
 var mongoose = require('mongoose');
+var bodyParser = require('body-parser')
+
 const users = require('./routes/user');
 
 mongoose.connect('mongodb://localhost/forum', {useNewUrlParser: true});
@@ -11,6 +13,9 @@ db.once('open', function() {
   console.log("connected to mongod");
  
     const app = express();
+
+    app.use(bodyParser.urlencoded({ extended: false }));
+    app.use(bodyParser.json());
 
     // Serve the static files from the React app
     app.use(express.static(path.join(__dirname, 'client/build')));
