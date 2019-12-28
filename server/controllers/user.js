@@ -21,7 +21,7 @@ module.exports = {
       const foundUser = await User.findOne({ email : user.email});
 
       if(user.email && foundUser) {
-        return res.status(403).json({
+        return res.json({
           error: 'email alreadly registered'
         });
       }
@@ -37,5 +37,10 @@ module.exports = {
     } catch(err) {
       next(err);
     }
-  } 
+  },
+  getSecret: async (req, res, next) => {
+    res.json({
+      secret: "Shh! This is a secret"
+    });
+  }
 }

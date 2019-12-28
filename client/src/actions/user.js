@@ -1,6 +1,7 @@
 //  mapDispatchToProps() receives the dispatch() method and returns callback props 
 // that you want to inject into the presentational component
 import axios from 'axios';
+const { SIGN_UP, SIGN_ERROR } = require("../actions/types");
 
 export const signUp = (formData) => {
   return async (dispatch, getState) => {
@@ -17,10 +18,18 @@ export const signUp = (formData) => {
       __proto__: Object
       */
      if(!res.data || !res.data.token) {
-       throw new Error();
+       throw new Error("email already in use");
      }
+     dispatch({
+       type: SIGN_UP,
+       token: res.data.token
+     });
+
     } catch(err) {
-      console.log("error in signup action");
+      dispatch({
+        type: SIGN_ERROR,
+        errorMsg: "email already in use"
+      })
     }
   }
 }
