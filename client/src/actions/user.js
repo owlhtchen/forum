@@ -9,6 +9,7 @@ export const signOut = () => {
       type: SIGN_OUT
     });
     localStorage.removeItem('token');
+    axios.defaults.headers.common['authorization'] = "";
   }
 }
 
@@ -23,7 +24,10 @@ export const getSecret = () => {
         secret: res.data.secret
       });
     } catch(err) {
-
+      dispatch({
+        type: GET_SECRET,
+        secret: ''
+      });
     }
   }
 }
@@ -51,6 +55,7 @@ export const signUp = (formData) => {
      });
 
      localStorage.setItem('token', res.data.token);
+     axios.defaults.headers.common['authorization'] = res.data.token;
     } catch(err) {
       dispatch({
         type: SIGN_ERROR,
