@@ -3,6 +3,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { Route, Switch } from 'react-router-dom';
 import Navbar from './Navbar';
 import Signup from './Signup';
+import Dashboard from './Dashboard';
 
 class App extends Component {
   state = {  }
@@ -13,6 +14,7 @@ class App extends Component {
           <Navbar />
           <div className="container">
             <Signup />
+            <Dashboard />
           </div>
         </BrowserRouter>
       </div>
