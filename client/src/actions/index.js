@@ -1,7 +1,30 @@
 //  mapDispatchToProps() receives the dispatch() method and returns callback props 
 // that you want to inject into the presentational component
 import axios from 'axios';
-const { SIGN_UP, SIGN_ERROR, GET_SECRET, SIGN_OUT } = require("../actions/types");
+const { SIGN_UP, SIGN_ERROR, GET_SECRET, SIGN_OUT, SIGN_IN } = require("./types");
+
+export const signIn = (formData) => {
+  return async (dispatch, getState) => {
+    try {
+      const res = await axios.post("http://localhost:5000/users/signin", formData);
+     if(!res.data || !res.data.token) {
+       throw new Error("user not found");
+     }
+     dispatch({
+       type: SIGN_IN,
+       token: res.data.token
+     });
+
+     localStorage.setItem('token', res.data.token);
+     axios.defaults.headers.common['authorization'] = res.data.token;
+    } catch(err) {
+      dispatch({
+        type: SIGN_ERROR,
+        errorMsg: "user not found"
+      })
+    }
+  }
+}
 
 export const signOut = () => {
   return (dispatch, getState) => {
@@ -17,7 +40,6 @@ export const getSecret = () => {
   return async (dispatch, getState) => {
     try {
       const res = await axios.get("http://localhost:5000/users/secret");
-      console.log(res);
       
       dispatch({
         type: GET_SECRET,

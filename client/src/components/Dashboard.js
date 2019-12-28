@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import * as actions from '../actions/user';
+import * as actions from '../actions';
 import { connect } from 'react-redux';
 
 class Dashboard extends Component {
-  async componentWillMount() {
+  async componentDidMount() {
     await this.props.getSecret();
   }
 

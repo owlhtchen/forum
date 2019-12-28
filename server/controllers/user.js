@@ -13,6 +13,12 @@ const SignJWTToken = (user) => {
 }
 
 module.exports = {
+  signIn: (req, res, next) => {
+    const token = SignJWTToken(req.user);
+    return res.json({
+      token: token
+    });
+  },
   signUp: async (req, res, next) => {
     try {
       let user = { ...req.body };

@@ -1,4 +1,4 @@
-const { SIGN_UP, SIGN_ERROR, SIGN_OUT } = require('../actions/types');
+const { SIGN_UP, SIGN_ERROR, SIGN_OUT, SIGN_IN } = require('../actions/types');
 
 const initState = {
   token: "",
@@ -14,6 +14,8 @@ export const userReducer = (state = initState, action) => {
       return { ...state, token: "", isAuthed: false, errorMsg: action.errorMsg}
     case SIGN_OUT:
       return { ...state, token: "", isAuthed: false, errorMsg: "" }
+    case SIGN_IN:
+      return { ...state, token: action.token, isAuthed: true, errorMsg: "" }
     default:
       return state
   }

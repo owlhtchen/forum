@@ -6,11 +6,9 @@ import { compose } from 'redux';
 import CustomInput from './CustomInput';
 import * as actions from '../actions';
 
-class Signup extends Component {
+class Signin extends Component {
   onSubmit = async (formData) => {
-    // data: {email: "email@email.com", username: "user", password: "aaa", sex: "male"}
-    // console.log(formData);
-    await this.props.signUp(formData);
+    await this.props.signIn(formData);
 
     if(this.props.errorMsg === '') {
       this.props.history.push('/dashboard');
@@ -33,30 +31,15 @@ class Signup extends Component {
           />
 
           <Field 
-          id="username"
-          name="username"
-          label="Username"
-          type="text"
-          component={ CustomInput }
-          />
-
-          <Field 
           id="password"
           name="password"
           label="Password"
           type="password"
           component={ CustomInput }
           />
+ 
 
-          <div>
-            <label>Gender</label>
-            <div>
-              <label><Field name="gender" component="input" type="radio" value="male"/> Male</label> <br />
-              <label><Field name="gender" component="input" type="radio" value="female"/> Female</label>
-            </div>
-          </div>   
-
-          <button type="submit" className="btn bg-primary text-white mt-2 mr-2" disabled={pristine || submitting} >Sign Up</button>        
+          <button type="submit" className="btn bg-primary text-white mt-2 mr-2" disabled={pristine || submitting} >Sign In</button>        
           <button type="button" className="btn bg-primary text-white mt-2" disabled={pristine || submitting} onClick={reset}>Clear Values</button>
         </form>
       </div>
@@ -71,6 +54,6 @@ const mapStateToProps = (state) => {
 }
 
 export default compose(
-  reduxForm({ form: 'signup' }),
+  reduxForm({ form: 'signin' }),
   connect(mapStateToProps, actions)
-)(Signup);
+)(Signin);
