@@ -10,7 +10,7 @@ class Dashboard extends Component {
   render() {
     return (
       <div>
-        <h3>dashboard</h3>
+        <h3 className="mt-3">Dashboard</h3>
         <p>{this.props.secret}</p>
       </div>
     )

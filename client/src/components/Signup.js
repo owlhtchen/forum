@@ -11,6 +11,10 @@ class Signup extends Component {
     // data: {email: "email@email.com", username: "user", password: "aaa", sex: "male"}
     // console.log(formData);
     await this.props.signUp(formData);
+
+    if(this.props.errorMsg === '') {
+      this.props.history.push('/dashboard');
+    }
   }
 
   render() {
@@ -60,7 +64,13 @@ class Signup extends Component {
   }
 }
 
+const mapStateToProps = (state) => {
+  return {
+    errorMsg: state.user.errorMsg
+  };
+}
+
 export default compose(
   reduxForm({ form: 'signup' }),
-  connect(null, actions)
+  connect(mapStateToProps, actions)
 )(Signup);
