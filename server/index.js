@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const cors = require('cors');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser')
 
@@ -17,6 +18,8 @@ db.once('open', function() {
     app.use(bodyParser.urlencoded({ extended: false }));
     app.use(bodyParser.json());
 
+    app.use(cors());
+     
     // Serve the static files from the React app
     app.use(express.static(path.join(__dirname, 'client/build')));
 

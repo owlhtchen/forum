@@ -4,4 +4,4 @@ var router = express.Router()
 
 router.post('/signup', UserController.signUp);
 
-module.exports = router 
+module.exports = router; 
