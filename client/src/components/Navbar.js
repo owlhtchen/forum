@@ -1,7 +1,14 @@
 import React, { Component } from 'react'
 import {Link, NavLink} from 'react-router-dom';
+import { connect } from 'react-redux';
 
-export default class Navbar extends Component {
+import * as actions from '../actions/user';
+
+class Navbar extends Component {
+  onClick = () => {
+    this.props.signOut();
+  }
+
   render() {
     return (
         <nav className="navbar navbar-expand navbar-light bg-light">
@@ -23,7 +30,7 @@ export default class Navbar extends Component {
                 <NavLink className="nav-link" to="/users/signin">Sign In</NavLink>
               </li>
               <li className="nav-item">
-                <NavLink className="nav-link" to="/users/signout">Sign Out</NavLink>
+                <NavLink className="nav-link" to="/users/signout" onClick={this.onClick}>Sign Out</NavLink>
               </li>
             </ul>
           </div>
@@ -32,3 +39,4 @@ export default class Navbar extends Component {
   }
 }
 
+export default connect(null, actions)(Navbar);

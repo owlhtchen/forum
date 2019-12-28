@@ -1,7 +1,16 @@
 //  mapDispatchToProps() receives the dispatch() method and returns callback props 
 // that you want to inject into the presentational component
 import axios from 'axios';
-const { SIGN_UP, SIGN_ERROR, GET_SECRET } = require("../actions/types");
+const { SIGN_UP, SIGN_ERROR, GET_SECRET, SIGN_OUT } = require("../actions/types");
+
+export const signOut = () => {
+  return (dispatch, getState) => {
+    dispatch({
+      type: SIGN_OUT
+    });
+    localStorage.removeItem('token');
+  }
+}
 
 export const getSecret = () => {
   return async (dispatch, getState) => {
