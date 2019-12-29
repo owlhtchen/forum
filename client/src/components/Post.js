@@ -56,7 +56,12 @@ class Post extends Component {
               <option value="column">Column</option>
             </select>
           </fieldset>
-          <SimpleMDE id="mde" value={ this.state.mdeValue } onChange={this.handleChange}/>
+          <SimpleMDE id="mde" 
+          value={ this.state.mdeValue } 
+          onChange={this.handleChange} 
+          options = {{
+            spellChecker: false
+          }} />
           <input type="submit" className="btn btn-primary" />
         </form>
       </div>
