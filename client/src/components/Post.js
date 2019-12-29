@@ -4,11 +4,13 @@ import "easymde/dist/easymde.min.css";
 import axios from 'axios';
 import { connect } from 'react-redux';
 
+const mdeID = "mdeID";
+
 class Post extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      mdeValue: ''
+      mdeValue: localStorage.getItem(`smde_${mdeID}`) || ''
     }
   }
 
@@ -56,11 +58,16 @@ class Post extends Component {
               <option value="column">Column</option>
             </select>
           </fieldset>
-          <SimpleMDE id="mde" 
+          <SimpleMDE id={mdeID}
           value={ this.state.mdeValue } 
           onChange={this.handleChange} 
           options = {{
-            spellChecker: false
+            spellChecker: false,
+            autosave: {
+              enable: true, 
+              uniqueId: mdeID,
+              delay: 1000
+            }
           }} />
           <input type="submit" className="btn btn-primary" />
         </form>
