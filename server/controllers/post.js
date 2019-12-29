@@ -7,6 +7,7 @@ module.exports = {
         ...req.body
       });
       await newPost.save();      
+      res.json({status: "Your post has been submitted"});
     } catch(err){
       next(err);
     }

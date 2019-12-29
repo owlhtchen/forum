@@ -20,16 +20,23 @@ class Post extends Component {
   };
 
   handleSubmit = async (e) => {
-    e.preventDefault();
-    const title = document.getElementById('title').value;
-    const postType = document.getElementById('postType').value;
-    await axios.post('http://localhost:5000/posts/makepost', {
-      title: title,
-      content: this.state.mdeValue,
-      postType: postType,
-      authorID: this.props.userID
-    });
-    document.getElementById("post-form").reset();
+    try{
+      e.preventDefault();
+      const title = document.getElementById('title').value;
+      const postType = document.getElementById('postType').value;
+      await axios.post('http://localhost:5000/posts/makepost', {
+        title: title,
+        content: this.state.mdeValue,
+        postType: postType,
+        authorID: this.props.userID
+      });
+      document.getElementById("post-form").reset();
+      this.setState({
+        mdeValue: ""
+      });
+    } catch(err) {
+      
+    }
   }
 
   render() {
@@ -42,14 +49,15 @@ class Post extends Component {
           </fieldset>
           <fieldset className="mb-2">
             <select name="postType" id="postType" className="form-control">
+              <option>-- select a type --</option>
               <option value="post">Post</option>
               <option value="comment">Comment</option>
               <option value="timeline">Timeline</option>
               <option value="column">Column</option>
             </select>
           </fieldset>
-          <SimpleMDE onChange={this.handleChange} />
-          <button className="btn btn-primary">Submit</button>
+          <SimpleMDE id="mde" value={ this.state.mdeValue } onChange={this.handleChange}/>
+          <input type="submit" className="btn btn-primary" />
         </form>
       </div>
     )
