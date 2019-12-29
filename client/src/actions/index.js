@@ -44,7 +44,7 @@ export const googleOauth = (response) => {
       res = await axios.post("http://localhost:5000/users/oauth/google", response);
       console.log("after");
       console.log(res);
-     if(!res.errorMsg) {
+     if(!res.data || !res.data.token) {
        throw new Error(res.errorMsg);
      }
      dispatch({
