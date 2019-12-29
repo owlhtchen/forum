@@ -1,10 +1,10 @@
 const User = require('../models/user');
-const JWT = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 const {JWT_SECRET} = require('../config/index');
 
 const SignJWTToken = (user) => {
   // the claim names are only three characters long as JWT is meant to be compact.
-  return JWT.sign({
+  return jwt.sign({
     iss: 'forum',
     sub: user.id,
     iat: new Date().getTime(),
@@ -16,7 +16,8 @@ module.exports = {
   signIn: (req, res, next) => {
     const token = SignJWTToken(req.user);
     return res.json({
-      token: token
+      token: token,
+      userID: req.user.id
     });
   },
   signUp: async (req, res, next) => {
@@ -38,7 +39,8 @@ module.exports = {
       await newUser.save();
       const token = SignJWTToken(newUser);
       return res.json({
-        token: token
+        token: token,
+        userID: newUser.id
       })
     } catch(err) {
       next(err);

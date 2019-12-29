@@ -5,6 +5,7 @@ var mongoose = require('mongoose');
 var bodyParser = require('body-parser')
 
 const users = require('./routes/user');
+const posts = require('./routes/post');
 
 mongoose.connect('mongodb://localhost/forum', {useNewUrlParser: true});
 var db = mongoose.connection;
@@ -18,14 +19,15 @@ db.once('open', function() {
     app.use(bodyParser.urlencoded({ extended: false }));
     app.use(bodyParser.json());
 
-    require('./passport');
-
     app.use(cors());
+
+    require('./passport');
 
     // Serve the static files from the React app
     app.use(express.static(path.join(__dirname, 'client/build')));
 
     app.use('/users', users);
+    app.use('/posts', posts);
 
     // Handles any requests that don't match the ones above
     app.get('*', (req,res) =>{

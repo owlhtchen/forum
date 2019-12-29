@@ -12,7 +12,8 @@ export const signIn = (formData) => {
      }
      dispatch({
        type: SIGN_IN,
-       token: res.data.token
+       token: res.data.token,
+       userID: res.data.userID
      });
 
      localStorage.setItem('token', res.data.token);
@@ -71,9 +72,11 @@ export const signUp = (formData) => {
      if(!res.data || !res.data.token) {
        throw new Error("email already in use");
      }
+     console.log(res)
      dispatch({
        type: SIGN_UP,
-       token: res.data.token
+       token: res.data.token,
+       userID: res.data.userID
      });
 
      localStorage.setItem('token', res.data.token);
