@@ -3,6 +3,18 @@
 import axios from 'axios';
 const { SIGN_UP, SIGN_ERROR, GET_SECRET, SIGN_OUT, SIGN_IN } = require("./types");
 
+const setSignInStatus = (res) => {
+  localStorage.setItem('token', res.data.token);
+  localStorage.setItem('userID', res.data.userID);
+  axios.defaults.headers.common['authorization'] = res.data.token;
+}
+
+const setSignOutStatus = () => {
+  localStorage.removeItem('token');
+  localStorage.removeItem('userID');
+  axios.defaults.headers.common['authorization'] = "";
+}
+
 export const signIn = (formData) => {
   return async (dispatch, getState) => {
     try {
@@ -15,14 +27,36 @@ export const signIn = (formData) => {
        token: res.data.token,
        userID: res.data.userID
      });
-
-     localStorage.setItem('token', res.data.token);
-     localStorage.setItem('userID', res.data.userID);
-     axios.defaults.headers.common['authorization'] = res.data.token;
+     setSignInStatus(res);
     } catch(err) {
       dispatch({
         type: SIGN_ERROR,
         errorMsg: "user not found"
+      })
+    }
+  }
+}
+
+export const googleOauth = (response) => {
+  return async (dispatch, getState) => {
+    let res;
+    try {
+      res = await axios.post("http://localhost:5000/users/oauth/google", response);
+      console.log("after");
+      console.log(res);
+     if(!res.errorMsg) {
+       throw new Error(res.errorMsg);
+     }
+     dispatch({
+       type: SIGN_IN,
+       token: res.data.token,
+       userID: res.data.userID
+     });
+     setSignInStatus(res);
+    } catch(err) {
+      dispatch({
+        type: SIGN_ERROR,
+        errorMsg: res.errorMsg
       })
     }
   }
@@ -33,9 +67,7 @@ export const signOut = () => {
     dispatch({
       type: SIGN_OUT
     });
-    localStorage.removeItem('token');
-    localStorage.removeItem('userID');
-    axios.defaults.headers.common['authorization'] = "";
+    setSignOutStatus();
   }
 }
 
@@ -74,16 +106,12 @@ export const signUp = (formData) => {
      if(!res.data || !res.data.token) {
        throw new Error("email already in use");
      }
-     console.log(res)
      dispatch({
        type: SIGN_UP,
        token: res.data.token,
        userID: res.data.userID
      });
-
-     localStorage.setItem('token', res.data.token);
-     localStorage.setItem('userID', res.data.userID);
-     axios.defaults.headers.common['authorization'] = res.data.token;
+     setSignInStatus(res);
     } catch(err) {
       dispatch({
         type: SIGN_ERROR,

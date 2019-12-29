@@ -15,7 +15,11 @@ const postSchema = new Schema({
   authorID: {
     type: Schema.Types.ObjectID,
     ref: 'User'
-  }
+  },
+  likedBy: [{
+    type: Schema.Types.ObjectID,
+    ref: 'User'
+  }]
 })
 
 const Post = mongoose.model('post', postSchema);

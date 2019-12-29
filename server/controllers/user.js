@@ -29,7 +29,7 @@ module.exports = {
 
       if(user.email && foundUser) {
         return res.json({
-          error: 'email alreadly registered'
+          errorMsg: 'email alreadly registered'
         });
       }
       const newUser = new User({
@@ -49,6 +49,36 @@ module.exports = {
   getSecret: async (req, res, next) => {
     res.json({
       secret: "Shh! This is a secret"
+    });
+  },
+  googleOauth: async (req, res, next) => {
+    const { googleId, profileObj } = req.body;
+    if(!googleId || !profileObj) {
+      return res.json({
+        errorMsg: "google login failed"
+      });
+    }
+  
+    const { email, name } = profileObj;
+    let foundUser = await User.findOne({
+      source: 'google',
+      thirdPartyID: googleId
+    });
+
+    if(!foundUser) {
+      foundUser = new User({
+        email: email,
+        thirdPartyID: googleId,
+        username: name,
+        source: 'google'
+      })
+      await foundUser.save();
+    }
+
+    const token = SignJWTToken(foundUser);
+    return res.json({
+      token: token,
+      userID: foundUser.id
     });
   }
 }
