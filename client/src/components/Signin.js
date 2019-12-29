@@ -16,12 +16,16 @@ class Signin extends Component {
   }
 
   render() {
-    const { handleSubmit, pristine, reset, submitting } = this.props
+    const { handleSubmit, pristine, reset, submitting, errorMsg } = this.props
 
     return (
-
-      <div className="col-lg-6">
-        <form className="mt-3" onSubmit={handleSubmit(this.onSubmit)}>
+      <div className="col-lg-6" className="mt-3">
+        { errorMsg !== "" && 
+          <div class="alert alert-danger" role="alert">
+            { errorMsg }
+          </div> 
+        }
+        <form onSubmit={handleSubmit(this.onSubmit)}>
           <Field 
           id="email"
           name="email"

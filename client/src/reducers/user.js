@@ -12,9 +12,9 @@ export const userReducer = (state = initState, action) => {
     case SIGN_UP:
       return { ...state, token : action.token, isAuthed: true, errorMsg: "", userID: action.userID}
     case SIGN_ERROR:
-      return { ...state, token: "", isAuthed: false, errorMsg: action.errorMsg}
+      return { ...state, token: "", isAuthed: false, errorMsg: action.errorMsg, userID: ""}
     case SIGN_OUT:
-      return { ...state, token: "", isAuthed: false, errorMsg: "" }
+      return { ...state, token: "", isAuthed: false, errorMsg: "", userID: "" }
     case SIGN_IN:
       return { ...state, token: action.token, isAuthed: true, errorMsg: "", userID: action.userID }
     default:
