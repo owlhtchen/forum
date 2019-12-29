@@ -18,7 +18,7 @@ const store = createStore(rootReducer, {
   user: {
     token: token,
     userID: userID, 
-    isAuthed: (token !== "" && userID !== "") ? true: false
+    isAuthed: (token !== null && userID !== null && token !== "" && userID !== "") ? true: false
   }
 }, composeEnhancers(applyMiddleware(reduxThunk)) );
 

@@ -12,13 +12,15 @@ class Navbar extends Component {
   render() {
     return (
         <nav className="navbar navbar-expand navbar-light bg-light">
-          <Link className="navbar-brand" to="#">Forum</Link>
+          <Link className="navbar-brand" to="/">Forum</Link>
 
           <div className="collapse navbar-collapse">
             
             <ul className="navbar-nav mr-auto">
               <li className="nav-item">
-                <NavLink className="nav-link" to="/dashboard">Dashboard</NavLink>
+                { this.props.isAuthed ? 
+                <NavLink className="nav-link" to="/dashboard">Dashboard</NavLink> :
+                "" }
               </li>
             </ul>
 

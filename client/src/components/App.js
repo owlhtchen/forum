@@ -6,6 +6,8 @@ import Signup from './Signup';
 import Dashboard from './Dashboard';
 import Signin from './Signin';
 import Post from './Post';
+import Homepage from './Homepage';
+import authGuard from './authGuard';
 
 class App extends Component {
   state = {  }
@@ -16,10 +18,11 @@ class App extends Component {
           <Navbar />
           <div className="container">
             <Switch>
-              <Route exact path="/dashboard" component={ Dashboard } />
+              <Route exact path="/" component={ Homepage } />
+              <Route exact path="/dashboard" component={ authGuard(Dashboard) } />
               <Route exact path="/users/signup" component={ Signup } />
               <Route exact path="/users/signin" component={ Signin } />
-              <Route exact path="/posts/makepost" component={Post} />
+              <Route exact path="/posts/makepost" component={authGuard(Post)} />
             </Switch>
           </div>
         </BrowserRouter>
