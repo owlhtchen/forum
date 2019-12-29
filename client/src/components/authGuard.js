@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 const authGuard = (OriginalComponent) => {
@@ -18,7 +19,11 @@ const authGuard = (OriginalComponent) => {
     }
 
     render() {
-      return <OriginalComponent {...this.props} />
+      if(this.props.isAuthed) {
+        return <OriginalComponent {...this.props} />;
+      } else {
+        return <Redirect to="/" />
+      }
     } 
   } 
 
