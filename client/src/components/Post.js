@@ -64,7 +64,7 @@ class Post extends Component {
           options = {{
             spellChecker: false,
             autosave: {
-              enable: true, 
+              enabled: true, 
               uniqueId: mdeID,
               delay: 1000
             }
