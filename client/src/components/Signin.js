@@ -21,7 +21,7 @@ class Signin extends Component {
     return (
       <div className="col-lg-6" className="mt-3">
         { errorMsg !== "" && 
-          <div class="alert alert-danger" role="alert">
+          <div className="alert alert-danger">
             { errorMsg }
           </div> 
         }
