@@ -19,22 +19,23 @@ class Post extends Component {
     
   };
 
-  handleSubmit = (e) => {
+  handleSubmit = async (e) => {
     e.preventDefault();
     const title = document.getElementById('title').value;
     const postType = document.getElementById('postType').value;
-    axios.post('http://localhost:5000/posts/makepost', {
+    await axios.post('http://localhost:5000/posts/makepost', {
       title: title,
       content: this.state.mdeValue,
       postType: postType,
       authorID: this.props.userID
-    })
+    });
+    document.getElementById("post-form").reset();
   }
 
   render() {
     return (
       <div className="mt-4 mb-4">
-        <form onSubmit={this.handleSubmit}>
+        <form onSubmit={this.handleSubmit} id="post-form">
           <fieldset>
             <label htmlFor="title" className="mr-3 mb-2 h3">Title</label>
             <input type="text" id="title" className="h3"></input>

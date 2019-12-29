@@ -9,11 +9,18 @@ import './index.css';
 import App from './components/App';
 import rootReducer from './reducers/index';
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const store = createStore(rootReducer, {}, composeEnhancers(applyMiddleware(reduxThunk)) );
-
 const token = localStorage.getItem('token');
+const userID = localStorage.getItem('userID');
 axios.defaults.headers.common['authorization'] = token;
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const store = createStore(rootReducer, {
+  user: {
+    token: token,
+    userID: userID, 
+    isAuthed: (token != "" && userID != "") ? true: false
+  }
+}, composeEnhancers(applyMiddleware(reduxThunk)) );
 
 render((
   <Provider store={store}>
