@@ -23,15 +23,21 @@ class Navbar extends Component {
             </ul>
 
             <ul className="navbar-nav ml-auto">
-              <li className="nav-item">
-                <NavLink className="nav-link" to="/users/signup">Sign Up</NavLink>
-              </li>
-              <li className="nav-item">
-                <NavLink className="nav-link" to="/users/signin">Sign In</NavLink>
-              </li>
-              <li className="nav-item">
-                <NavLink className="nav-link" to="/users/signout" onClick={this.onClick}>Sign Out</NavLink>
-              </li>
+              { this.props.isAuthed ? [
+                <li className="nav-item" key="makepost">
+                  <NavLink className="nav-link" to="/posts/makepost">Make Post</NavLink>
+                </li>,              
+                <li className="nav-item" key="signout">
+                  <NavLink className="nav-link" to="/users/signout" onClick={this.onClick}>Sign Out</NavLink>
+                </li>
+              ] : [
+                <li className="nav-item" key="signup">
+                  <NavLink className="nav-link" to="/users/signup">Sign Up</NavLink>
+                </li>, 
+                <li className="nav-item" key="signin">
+                  <NavLink className="nav-link" to="/users/signin">Sign In</NavLink>
+                </li>                
+              ]}
             </ul>
           </div>
         </nav>
@@ -39,4 +45,10 @@ class Navbar extends Component {
   }
 }
 
-export default connect(null, actions)(Navbar);
+const mapStateToProps = (state) => {
+  return {
+    isAuthed: state.user.isAuthed
+  }
+}
+
+export default connect(mapStateToProps, actions)(Navbar);

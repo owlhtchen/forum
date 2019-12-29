@@ -5,6 +5,7 @@ import Navbar from './Navbar';
 import Signup from './Signup';
 import Dashboard from './Dashboard';
 import Signin from './Signin';
+import Post from './Post';
 
 class App extends Component {
   state = {  }
@@ -18,6 +19,7 @@ class App extends Component {
               <Route exact path="/dashboard" component={ Dashboard } />
               <Route exact path="/users/signup" component={ Signup } />
               <Route exact path="/users/signin" component={ Signin } />
+              <Route exact path="/posts/makepost" component={Post} />
             </Switch>
           </div>
         </BrowserRouter>
