@@ -62,7 +62,8 @@ module.exports = {
   viewPost: async (req, res, next) => {
     try {
       const { postID } = req.params;
-      const post = await Post.findById(postID).populate('authorID'); 
+      const post = await Post.findById(postID).populate(
+        'authorID', 'username'); 
       // console.log(post.authorID);       
       res.json(post);
     } catch(err) {

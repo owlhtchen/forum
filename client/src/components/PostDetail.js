@@ -31,7 +31,10 @@ export default class PostDetail extends Component {
       <div>
         <h2>{ title }</h2>
         <p>{ createDate }</p>
-        <ReactMarkdown source={content}/>
+        <p>{ authorID.username }</p>
+        <ReactMarkdown 
+        source={content}
+        linkTarget="_blank"/>
       </div>
     )
   }
