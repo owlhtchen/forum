@@ -20,13 +20,13 @@ code {
   content: '- Show Less';
 }
 
-#post-summary #collapseExample.collapse:not(.show) {
+#post-summary .post-content.collapse:not(.show) {
   display: block;
   /* height = lineheight * no of lines to display */
-  height: 8.5em;
+  height: 4.5em;
   overflow: hidden;
 }
 
-#post-summary #collapseExample.collapsing {
-  height: 8.5em;
+#post-summary .post-content.collapsing {
+  height: 4.5em;
 }

@@ -72,7 +72,7 @@ export default class Homepage extends Component {
                 </div>
                 <div className="card-body">
                   <p className="h6 card-subtitle text-muted">{post.author[0].username}</p>
-                  <p className="card-text collapse" id={"post-content-" + index}>{post.content}</p>
+                  <p className="card-text collapse post-content" id={"post-content-" + index}>{post.content}</p>
                   <a className="collapsed" data-toggle="collapse" href={"#post-content-" + index}></a>
                 </div>
               </div>
