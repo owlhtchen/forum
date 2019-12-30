@@ -23,10 +23,14 @@ code {
 #post-summary .post-content.collapse:not(.show) {
   display: block;
   /* height = lineheight * no of lines to display */
-  height: 4.5em;
+  height: 2.5em;
   overflow: hidden;
 }
-
+#post-summary .post-content.collapse.show {
+  display: block;
+  min-height: 2.5em;
+  /* height = lineheight * no of lines to display */
+}
 #post-summary .post-content.collapsing {
-  height: 4.5em;
+  height: 2.5em;
 }
