@@ -24,8 +24,9 @@ module.exports = {
           baseScore,  // op2
           {"$subtract": [0,{"$divide": [{"$subtract":[ new Date(),"$createDate" ]}, upvoteDecrease] }]} //op3
           ] }
-        }
-    }
+        },
+       
+    }, {"$sort":{"score":-1}}
     ];
     try {
       if(!lastPost) {
@@ -37,7 +38,7 @@ module.exports = {
         const lastPostScore = lastPost.likedBy.length + baseScore - 
         (new Date().getTime() - Date.parse(lastPost.createDate)) / upvoteDecrease;
         let q2 = query.concat([
-          {"$match":{"score" : {"$lt": lastPostScore}}},
+          {"$match":{"score" : {"$lt": lastPostScore}}},         
           {"$limit": 50}
         ]);
         result = await Post.aggregate(q2);
