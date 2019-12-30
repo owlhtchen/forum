@@ -20,7 +20,8 @@ for i in range(100):
         'createDate':datetime.datetime.now(),
         'content':text,
         'postType': 'post',
-        'authorID':user_id
+        'authorID':user_id,
+        'likedBy': []
     }
     posts.insert_one(post)
     

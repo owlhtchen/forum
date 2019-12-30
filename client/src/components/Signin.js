@@ -3,7 +3,6 @@ import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import GoogleLogin from 'react-google-login';
-import axios from 'axios';
 
 import CustomInput from './CustomInput';
 import * as actions from '../actions';

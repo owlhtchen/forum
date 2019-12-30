@@ -36,8 +36,6 @@ module.exports = {
       } else {
         const lastPostScore = lastPost.likedBy.length + baseScore - 
         (new Date().getTime() - Date.parse(lastPost.createDate)) / upvoteDecrease;
-        console.log(lastPost);
-        console.log(lastPostScore);
         let q2 = query.concat([
           {"$match":{"score" : {"$lt": lastPostScore}}},
           {"$limit": 50}
