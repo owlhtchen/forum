@@ -18,7 +18,6 @@ class Signin extends Component {
   }
 
   responseGoogle = async (response) => {
-    console.log(response);
     await this.props.googleOauth(response);
 
     if(this.props.errorMsg === '') {
