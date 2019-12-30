@@ -1,45 +1,9 @@
 import React, { Component } from 'react'
-import axios from 'axios'
 const ReactMarkdown = require('react-markdown')
 
 export default class PostDetail extends Component {
-  signal = axios.CancelToken.source();
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      post: null 
-    }
-  }
-
-  componentWillUnmount() {
-    this.signal.cancel('Axios is being canceled');
-  } 
-
-  async componentDidMount() {
-    try {
-      const { postID } = this.props.match.params;
-      const res = await axios.get('/posts/view-post/' + postID, {
-        cancelToken: this.signal.token,
-      });
-      this.setState({
-        post: res.data
-      });
-    } catch(err) {
-      if (axios.isCancel(err)) {
-        console.log(err.message); // => prints: Api is being canceled
-      }    
-    }
-  }
 
   render() {
-    if(!this.state.post) {
-      return (
-        <div>
-          Loading ... 
-        </div>
-      );
-    }
     function formatDate(date) {
       var monthNames = [
         "January", "February", "March",
@@ -57,7 +21,7 @@ export default class PostDetail extends Component {
     function info(){
       return 'posted by '.concat(authorID.username, ' on '.concat(formatDate(new Date(Date.parse(createDate)))));
     }
-    const { title, createDate, content, authorID } = this.state.post;
+    const { title, createDate, content, authorID } = this.props.post;
     return (
       <div className="post-detail">
        <h2>{ title }</h2>
