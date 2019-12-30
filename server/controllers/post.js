@@ -52,8 +52,17 @@ module.exports = {
         ]);
         result = await Post.aggregate(q2);
       }
-      console.log(result);
+      // console.log(result);
       res.json(result);
+    } catch(err) {
+      next(err);
+    }
+  },
+  viewPost: async (req, res, next) => {
+    try {
+      const { postID } = req.params;
+      const post = await Post.findById(postID);        
+      res.json(post);
     } catch(err) {
       next(err);
     }

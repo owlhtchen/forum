@@ -4,5 +4,6 @@ const router = express.Router();
 
 router.post('/make-post', PostController.makePost);
 router.post('/filter-sorted-posts', PostController.filterSortedPosts)
+router.get('/view-post?:postID', PostController.viewPost);
 
 module.exports = router; 

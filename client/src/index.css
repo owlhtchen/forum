@@ -12,25 +12,25 @@ code {
     monospace;
 }
 
-#post-summary a.collapsed:after {
+#post-content-summary a.collapsed:after {
   content: '+ Show More';
 }
 
-#post-summary a:not(.collapsed):after {
+#post-content-summary a:not(.collapsed):after {
   content: '- Show Less';
 }
 
-#post-summary .post-content.collapse:not(.show) {
+#post-content-summary .post-content.collapse:not(.show) {
   display: block;
   /* height = lineheight * no of lines to display */
   height: 2.5em;
   overflow: hidden;
 }
-#post-summary .post-content.collapse.show {
+#post-content-summary .post-content.collapse.show {
   display: block;
   min-height: 2.5em;
   /* height = lineheight * no of lines to display */
 }
-#post-summary .post-content.collapsing {
+#post-content-summary .post-content.collapsing {
   height: 2.5em;
 }
