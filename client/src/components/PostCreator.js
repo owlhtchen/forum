@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 
 const mdeID = "mdeID";
 
-class Post extends Component {
+class PostCreator extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -52,7 +52,7 @@ class Post extends Component {
           <fieldset className="mb-2">
             <select name="postType" id="postType" className="form-control">
               <option>-- select a type --</option>
-              <option value="post">Post</option>
+              <option value="post">PostCreator</option>
               <option value="comment">Comment</option>
               <option value="timeline">Timeline</option>
               <option value="column">Column</option>
@@ -82,4 +82,4 @@ const mapStateToProps = (state) =>  {
   }
 }
 
-export default connect(mapStateToProps, null)(Post);
+export default connect(mapStateToProps, null)(PostCreator);

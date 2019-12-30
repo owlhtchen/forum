@@ -5,7 +5,7 @@ import Navbar from './Navbar';
 import Signup from './Signup';
 import Dashboard from './Dashboard';
 import Signin from './Signin';
-import Post from './Post';
+import Post from './PostCreator';
 import Homepage from './Homepage';
 import authGuard from './authGuard';
 import PostDetail from './PostDetail';
