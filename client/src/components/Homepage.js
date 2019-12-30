@@ -62,17 +62,18 @@ export default class Homepage extends Component {
   render() { 
     return (
       <div className="mt-3">
-        <h2 className="mb-3">Homepage</h2>
+        <h2 className="mb-3" id="homepage">Homepage</h2>
         {
           this.state.posts.map((post, index) => {
             return (
-              <div className="card m-2" key={index}>
+              <div id="post-summary" className="card m-2" key={index}>
                 <div className="card-header h4">
                   {post.title}
                 </div>
                 <div className="card-body">
                   <p className="h6 card-subtitle text-muted">{post.author[0].username}</p>
-                  <p className="card-text">{post.content}</p>
+                  <p className="card-text collapse" id={"post-content-" + index}>{post.content}</p>
+                  <a className="collapsed" data-toggle="collapse" href={"#post-content-" + index}></a>
                 </div>
               </div>
             );

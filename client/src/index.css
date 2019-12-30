@@ -11,3 +11,22 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+#post-summary a.collapsed:after {
+  content: '+ Show More';
+}
+
+#post-summary a:not(.collapsed):after {
+  content: '- Show Less';
+}
+
+#post-summary #collapseExample.collapse:not(.show) {
+  display: block;
+  /* height = lineheight * no of lines to display */
+  height: 8.5em;
+  overflow: hidden;
+}
+
+#post-summary #collapseExample.collapsing {
+  height: 8.5em;
+}
