@@ -62,13 +62,18 @@ export default class Homepage extends Component {
   render() { 
     return (
       <div className="mt-3">
-        <h2>Homepage</h2>
+        <h2 className="mb-3">Homepage</h2>
         {
           this.state.posts.map((post, index) => {
             return (
-              <div key={index}>
-                <h4>{post.title}</h4>
-                <p>{post.content}</p>
+              <div className="card m-2" key={index}>
+                <div className="card-header h4">
+                  {post.title}
+                </div>
+                <div className="card-body">
+                  <p className="h6 card-subtitle text-muted">{post.author[0].username}</p>
+                  <p className="card-text">{post.content}</p>
+                </div>
               </div>
             );
           })

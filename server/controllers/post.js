@@ -26,7 +26,16 @@ module.exports = {
           ] }
         },
        
-    }, {"$sort":{"score":-1}}
+    }, 
+    {"$sort":{"score":-1}},
+    {
+      $lookup: {
+      from: "users",
+      localField: "authorID",
+      foreignField: "_id",
+      as: "author"
+      }
+    },    
     ];
     try {
       if(!lastPost) {
@@ -43,6 +52,7 @@ module.exports = {
         ]);
         result = await Post.aggregate(q2);
       }
+      console.log(result);
       res.json(result);
     } catch(err) {
       next(err);
