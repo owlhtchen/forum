@@ -3,6 +3,8 @@ import axios from 'axios'
 const ReactMarkdown = require('react-markdown')
 
 export default class PostDetail extends Component {
+  signal = axios.CancelToken.source();
+
   constructor(props) {
     super(props);
     this.state = {
@@ -10,12 +12,24 @@ export default class PostDetail extends Component {
     }
   }
 
+  componentWillUnmount() {
+    this.signal.cancel('Axios is being canceled');
+  } 
+
   async componentDidMount() {
+    try {
       const { postID } = this.props.match.params;
-      const res = await axios.get('/posts/view-post/' + postID);
+      const res = await axios.get('/posts/view-post/' + postID, {
+        cancelToken: this.signal.token,
+      });
       this.setState({
         post: res.data
       });
+    } catch(err) {
+      if (axios.isCancel(err)) {
+        console.log(err.message); // => prints: Api is being canceled
+      }    
+    }
   }
 
   render() {
