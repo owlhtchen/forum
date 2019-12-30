@@ -11,5 +11,42 @@ module.exports = {
     } catch(err){
       next(err);
     }
+  },
+  filterSortedPosts: async (req, res, next) => {
+    const baseScore = 50;
+    const upvoteDecrease = 1000 * 60 * 60 * 8;
+    const { lastPost } = req.body;
+    let result;
+    let query = [
+      { '$addFields' : { 
+        'score': {"$add" : [
+          { '$size': '$likedBy' },  // op1
+          baseScore,  // op2
+          {"$subtract": [0,{"$divide": [{"$subtract":[ new Date(),"$createDate" ]}, upvoteDecrease] }]} //op3
+          ] }
+        }
+    }
+    ];
+    try {
+      if(!lastPost) {
+        let q1 = query.concat([{
+          "$limit": 80
+        }]);
+        result = await Post.aggregate(q1);
+      } else {
+        const lastPostScore = lastPost.likedBy.length + baseScore - 
+        (new Date().getTime() - Date.parse(lastPost.createDate)) / upvoteDecrease;
+        console.log(lastPost);
+        console.log(lastPostScore);
+        let q2 = query.concat([
+          {"$match":{"score" : {"$lt": lastPostScore}}},
+          {"$limit": 50}
+        ]);
+        result = await Post.aggregate(q2);
+      }
+      res.json(result);
+    } catch(err) {
+      next(err);
+    }
   }
 }

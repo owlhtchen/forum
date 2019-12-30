@@ -22,7 +22,7 @@ class App extends Component {
               <Route exact path="/dashboard" component={ authGuard(Dashboard) } />
               <Route exact path="/users/signup" component={ Signup } />
               <Route exact path="/users/signin" component={ Signin } />
-              <Route exact path="/posts/makepost" component={authGuard(Post)} />
+              <Route exact path="/posts/make-post" component={authGuard(Post)} />
             </Switch>
           </div>
         </BrowserRouter>

@@ -27,7 +27,7 @@ class Navbar extends Component {
             <ul className="navbar-nav ml-auto">
               { this.props.isAuthed ? [
                 <li className="nav-item" key="makepost">
-                  <NavLink className="nav-link" to="/posts/makepost">Make Post</NavLink>
+                  <NavLink className="nav-link" to="/posts/make-post">Make Post</NavLink>
                 </li>,              
                 <li className="nav-item" key="signout">
                   <NavLink className="nav-link" to="/users/signout" onClick={this.onClick}>Sign Out</NavLink>

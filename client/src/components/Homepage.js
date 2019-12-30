@@ -6,28 +6,33 @@ export default class Homepage extends Component {
     super(props);
 
     this.state = {
-      error: false,
       hasMore: true,
       isLoading: false,
-      users: [],
+      posts: []
     };
+
+    getMorePost = async (posts) => {
+      let filter;
+      if(posts.length === 0) {
+        filter = {};
+      } else {
+        filter = {
+          lastPost: posts[posts.length - 1]
+        }
+      }
+      const res = await axios.post('/posts/filter-sorted-posts', filter);
+    }
 
     // Binds our scroll event handler
     window.onscroll = debounce(() => {
+      const { hasMore, isLoading, posts } = this.state
+      if (isLoading || !hasMore) return;
 
-      // Returns early if:
-      // * there's an error
-      // * it's already loading
-      // * there's nothing left to load
-      // if (error || isLoading || !hasMore) return;
-
-      // Checks that the page has scrolled to the bottom
       if (
         window.innerHeight + document.documentElement.scrollTop
         >= document.documentElement.offsetHeight * 0.9
       ) {
-        const text = document.getElementById("random-text").innerHTML;
-        document.getElementById("random-text").innerHTML = text + text;
+        
       }
     }, 100);
   }

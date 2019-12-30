@@ -26,7 +26,7 @@ class Post extends Component {
       e.preventDefault();
       const title = document.getElementById('title').value;
       const postType = document.getElementById('postType').value;
-      await axios.post('http://localhost:5000/posts/makepost', {
+      await axios.post('http://localhost:5000/posts/make-post', {
         title: title,
         content: this.state.mdeValue,
         postType: postType,
