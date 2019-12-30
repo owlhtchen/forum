@@ -1,3 +1,4 @@
+const User = require('../models/user');
 const Post = require('../models/post');
 
 module.exports = {
@@ -61,7 +62,8 @@ module.exports = {
   viewPost: async (req, res, next) => {
     try {
       const { postID } = req.params;
-      const post = await Post.findById(postID);        
+      const post = await Post.findById(postID).populate('authorID'); 
+      // console.log(post.authorID);       
       res.json(post);
     } catch(err) {
       next(err);

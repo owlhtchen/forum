@@ -17,7 +17,7 @@ export default class Homepage extends Component {
       }
     }
     const res = await axios.post('/posts/filter-sorted-posts', filter);
-    console.log(res.data);
+    // console.log(res.data);
     if(res.length === 0) {
       this.setState({
         isLoading: false,
@@ -25,7 +25,7 @@ export default class Homepage extends Component {
       });
     }
     const newPosts = posts.concat(res.data);
-    console.log(newPosts);
+    // console.log(newPosts);
     this.setState({
       isLoading: false,
       posts: newPosts
@@ -69,7 +69,7 @@ export default class Homepage extends Component {
             return (
               <div className="card m-2" key={index}>
                 <div className="card-header h4">
-                  <Link to="/">{ post.title }</Link>
+                  <Link to={"/posts/view-post/" + post._id }>{ post.title }</Link>
                 </div>
                 <div id="post-content-summary" className="card-body">
                   <p className="h6 card-subtitle text-muted">{post.author[0].username}</p>
