@@ -34,3 +34,7 @@ code {
 #post-content-summary .post-content.collapsing {
   height: 2.5em;
 }
+
+.post-detail {
+  font-family: "Times New Roman", Times, serif;
+}

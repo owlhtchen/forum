@@ -26,15 +26,33 @@ export default class PostDetail extends Component {
         </div>
       );
     }
+    function formatDate(date) {
+      var monthNames = [
+        "January", "February", "March",
+        "April", "May", "June", "July",
+        "August", "September", "October",
+        "November", "December"
+      ];
+    
+      var day = date.getDate();
+      var monthIndex = date.getMonth();
+      var year = date.getFullYear();
+    
+      return day + ' ' + monthNames[monthIndex] + ' ' + year;
+    }
+    function info(){
+      return 'posted by '.concat(authorID.username, ' on '.concat(formatDate(new Date(Date.parse(createDate)))));
+    }
     const { title, createDate, content, authorID } = this.state.post;
     return (
-      <div>
-        <h2>{ title }</h2>
-        <p>{ createDate }</p>
-        <p>{ authorID.username }</p>
+      <div className="post-detail">
+       <h2>{ title }</h2>
+        <p>{ info() }</p>
+        <hr></hr>
         <ReactMarkdown 
         source={content}
         linkTarget="_blank"/>
+         <hr></hr>
       </div>
     )
   }
