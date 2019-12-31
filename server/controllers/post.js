@@ -33,10 +33,6 @@ module.exports = {
     const upvoteDecrease = 1000 * 60 * 60 * 8;
     const { lastPost } = req.body;
     let result;
-    await User.aggregate([
-      {"$project":{"password":0}},
-      {"$out":"user-no-password"}
-    ])
     let query = [
       
       { '$addFields' : { 
@@ -51,7 +47,7 @@ module.exports = {
     {"$sort":{"score":-1}},
     {
       $lookup: {
-      from: "user-no-password",
+      from: "users",
       localField: "authorID",
       foreignField: "_id",
       as: "author"

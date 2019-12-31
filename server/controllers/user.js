@@ -1,5 +1,6 @@
 const User = require('../models/user');
 const jwt = require('jsonwebtoken');
+const Password = require('../models/password');
 const {JWT_SECRET} = require('../config/index');
 
 const SignJWTToken = (user) => {
@@ -32,11 +33,18 @@ module.exports = {
           errorMsg: 'email alreadly registered'
         });
       }
+      const password = user.password;
+      user.password = undefined;
       const newUser = new User({
         ...user,
         source: 'local'
       });
+      const pwd = new Password({
+        userID : newUser.id,
+        password:password
+      });
       await newUser.save();
+      await pwd.save();
       const token = SignJWTToken(newUser);
       return res.json({
         token: token,

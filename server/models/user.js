@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-  password: String, // 'local'
   email: String, //'local'
   thirdPartyID: String,  // 'facebook' or 'google'
   username: String, 
