@@ -69,7 +69,9 @@ export default class Homepage extends Component {
             return (
               <div className="card m-2" key={index}>
                 <div className="card-header h4">
-                  <Link to={"/posts/view-post/" + post._id }>{ post.title }</Link>
+                  <Link to={"/posts/view-post/" + post._id } style={{
+                    color: "#000000"
+                  }}>{ post.title }</Link>
                 </div>
                 <div id="post-content-summary" className="card-body">
                   <p className="h6 card-subtitle text-muted">{post.author[0].username}</p>
