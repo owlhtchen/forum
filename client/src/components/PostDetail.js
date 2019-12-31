@@ -19,9 +19,9 @@ export default class PostDetail extends Component {
       return day + ' ' + monthNames[monthIndex] + ' ' + year;
     }
     function info(){
-      return 'posted by '.concat(authorID.username, ' on '.concat(formatDate(new Date(Date.parse(createDate)))));
+      return 'posted by '.concat(author.username, ' on '.concat(formatDate(new Date(Date.parse(createDate)))));
     }
-    const { title, createDate, content, authorID } = this.props.post;
+    const { title, createDate, content, author } = this.props.post;
     return (
       <div className="post-detail">
        <h2>{ title }</h2>

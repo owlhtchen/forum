@@ -24,12 +24,13 @@ class PostCreator extends Component {
   handleSubmit = async (e) => {
     try{
       e.preventDefault();
-      const title = document.getElementById('title').value;
+      let title;
       let postType;
       if(this.props.parentPost) {
         postType = "comment";
       } else {
         postType = document.getElementById('postType').value;
+        title = document.getElementById('title').value;
       }
       await axios.post('http://localhost:5000/posts/make-post', {
         title: title,
@@ -51,10 +52,12 @@ class PostCreator extends Component {
     return (
       <div style={{ width: '50%' }}>
         <form onSubmit={this.handleSubmit} id="post-form">
-          <fieldset className="form-control">
-            <label htmlFor="title">Title&nbsp;</label>
-            <input type="text" id="title"></input>
-          </fieldset>
+          { !this.props.parentPost && 
+            <fieldset className="form-control">
+              <label htmlFor="title">Title&nbsp;</label>
+              <input type="text" id="title"></input>
+            </fieldset>
+          }
           { !this.props.parentPost && 
           <fieldset >
             <select name="postType" id="postType" className="form-control">

@@ -1,10 +1,11 @@
 const User = require('../models/user');
 const Post = require('../models/post');
+var mongoose = require('mongoose');
 
 module.exports = {
   makePost: async (req, res, next) => {
     try{
-      console.log(req.body);
+      // console.log(req.body);
       const { title, content, postType, authorID, parentPost } = req.body;
       const newPost = new Post({
         title,
@@ -14,7 +15,7 @@ module.exports = {
       });
       await newPost.save();      
       if(parentPost) {
-        console.log(parentPost);
+        // console.log(parentPost);
         await Post.update(
           {_id: parentPost},
           { $push: {
@@ -77,10 +78,47 @@ module.exports = {
   viewPost: async (req, res, next) => {
     try {
       const { postID } = req.params;
-      const post = await Post.findById(postID).populate(
-        'authorID', 'username'); 
-      // console.log(post.authorID);       
-      res.json(post);
+      // const post = await Post.findById(postID).populate(
+      //   'authorID', 'username'); 
+      console.log(postID);
+      const post = await Post.aggregate([
+        {
+          "$match": {"_id" : mongoose.Types.ObjectId(postID)}
+        },
+        {
+          "$lookup": {
+            from: 'users',
+            localField: 'authorID',
+            foreignField: '_id',
+            as: 'author'
+          }
+        }, 
+        {
+          "$unwind" : "$author"
+        }, 
+        {
+          "$project": {
+            "likedBy": true,
+            "commentID": true,
+            "title": true, 
+            "content": true,
+            "postType": true,
+            "authorID": true,
+            "createDate": true, 
+            "author.username": true
+          }
+        },
+        {
+          "$graphLookup": {
+            from: 'posts',
+            startWith: "$commentID",
+            connectFromField: "commentID",
+            connectToField: "_id",
+            as: "comment"
+          }
+        }
+      ]);
+      res.json(post[0]);
     } catch(err) {
       next(err);
     }
