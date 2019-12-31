@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import PostDetail from './PostDetail'
+import PostCreator from './PostCreator';
 
 export default class PostView extends Component {
   constructor(props) {
@@ -31,8 +32,12 @@ export default class PostView extends Component {
       );
     }    
     return (
-      <div>
-        <PostDetail post={this.state.post} />
+      <div className="container mb-3">
+        <PostDetail post={this.state.post} isComment={true} />
+        <div>
+        <h5>Comment</h5>
+        <PostCreator parentPost={this.state.post._id} />
+        </div>
       </div>
     )
   }

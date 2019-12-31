@@ -4,10 +4,24 @@ const Post = require('../models/post');
 module.exports = {
   makePost: async (req, res, next) => {
     try{
+      console.log(req.body);
+      const { title, content, postType, authorID, parentPost } = req.body;
       const newPost = new Post({
-        ...req.body
+        title,
+        content,
+        postType,  
+        authorID
       });
       await newPost.save();      
+      if(parentPost) {
+        console.log(parentPost);
+        await Post.update(
+          {_id: parentPost},
+          { $push: {
+             commentID:  newPost.id  
+          }}
+        );
+      }
       res.json({status: "Your post has been submitted"});
     } catch(err){
       next(err);
@@ -36,7 +50,8 @@ module.exports = {
       foreignField: "_id",
       as: "author"
       }
-    },    
+    },   
+    {"$match": {"postType": "post"}},
     ];
     try {
       if(!lastPost) {

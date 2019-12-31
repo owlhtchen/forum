@@ -25,39 +25,46 @@ class PostCreator extends Component {
     try{
       e.preventDefault();
       const title = document.getElementById('title').value;
-      const postType = document.getElementById('postType').value;
+      let postType;
+      if(this.props.parentPost) {
+        postType = "comment";
+      } else {
+        postType = document.getElementById('postType').value;
+      }
       await axios.post('http://localhost:5000/posts/make-post', {
         title: title,
         content: this.state.mdeValue,
         postType: postType,
-        authorID: this.props.userID
+        authorID: this.props.userID,
+        parentPost: this.props.parentPost
       });
       document.getElementById("post-form").reset();
       this.setState({
         mdeValue: ""
       });
     } catch(err) {
-      
+      console.log("axios post error in PostCreator");
     }
   }
 
   render() {
     return (
-      <div className="mt-4 mb-4">
+      <div style={{ width: '50%' }}>
         <form onSubmit={this.handleSubmit} id="post-form">
-          <fieldset>
-            <label htmlFor="title" className="mr-3 mb-2 h3">Title</label>
-            <input type="text" id="title" className="h3"></input>
+          <fieldset className="form-control">
+            <label htmlFor="title">Title&nbsp;</label>
+            <input type="text" id="title"></input>
           </fieldset>
-          <fieldset className="mb-2">
+          { !this.props.parentPost && 
+          <fieldset >
             <select name="postType" id="postType" className="form-control">
               <option>-- select a type --</option>
-              <option value="post">PostCreator</option>
-              <option value="comment">Comment</option>
+              <option value="post">Post</option>
               <option value="timeline">Timeline</option>
               <option value="column">Column</option>
             </select>
           </fieldset>
+          }
           <SimpleMDE id={mdeID}
           value={ this.state.mdeValue } 
           onChange={this.handleChange} 
