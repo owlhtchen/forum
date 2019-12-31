@@ -113,7 +113,6 @@ module.exports = {
             as: 'comment.author'
           }
         },
-       // { "$unwind": "$comment.Author" },
         { "$group": {
           "_id": "$_id",
           "content":{"$first":"$content"},
@@ -121,7 +120,7 @@ module.exports = {
           "title":{"$first":"$title"},
           "likedBy":{"$first":"$likedBy"},
           "comment": { "$push": "$comment" },
-          "author" : {"$push": "$author"}
+          "author" : {"$first": "$author"}
         } }
       ]);
       res.json(post[0]);
