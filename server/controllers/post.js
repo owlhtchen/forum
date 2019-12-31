@@ -96,21 +96,6 @@ module.exports = {
           }
         }, 
         {
-          "$unwind" : "$author"
-        }, 
-        {
-          "$project": {
-            "likedBy": true,
-            "commentID": true,
-            "title": true, 
-            "content": true,
-            "postType": true,
-            "authorID": true,
-            "createDate": true, 
-            "author.username": true
-          }
-        },
-        {
           "$graphLookup": {
             from: 'posts',
             startWith: "$commentID",
@@ -118,7 +103,26 @@ module.exports = {
             connectToField: "_id",
             as: "comment"
           }
-        }
+        },
+        { "$unwind": "$comment"},
+        {
+          "$lookup": {
+            from: 'users',
+            localField: 'comment.authorID',
+            foreignField: '_id',
+            as: 'comment.author'
+          }
+        },
+       // { "$unwind": "$comment.Author" },
+        { "$group": {
+          "_id": "$_id",
+          "content":{"$first":"$content"},
+          "createDate":{"$first":"$createDate"},
+          "title":{"$first":"$title"},
+          "likedBy":{"$first":"$likedBy"},
+          "comment": { "$push": "$comment" },
+          "author" : {"$push": "$author"}
+        } }
       ]);
       res.json(post[0]);
     } catch(err) {

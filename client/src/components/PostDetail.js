@@ -19,10 +19,13 @@ export default class PostDetail extends Component {
       return day + ' ' + monthNames[monthIndex] + ' ' + year;
     }
     function info(){
-      return 'posted by '.concat(author.username, ' on '.concat(formatDate(new Date(Date.parse(createDate)))));
+      return 'posted by '.concat(author[0].username, ' on '.concat(formatDate(new Date(Date.parse(createDate)))));
     }
     const { title, createDate, content, author } = this.props.post;
-    return (
+    
+    console.log(this.props.post);
+
+    const postDetail = (
       <div className="post-detail">
        <h2>{ title }</h2>
         <p>{ info() }</p>
@@ -32,6 +35,20 @@ export default class PostDetail extends Component {
         linkTarget="_blank"/>
          <hr></hr>
       </div>
-    )
+    );
+
+    // const comment = this.props.post.comment.map((entry) => {
+    //   return (
+    //     <div>
+
+    //     </div>
+    //   );
+    // })
+
+    return (
+      <div>
+        {postDetail}
+      </div>
+    );
   }
 }
