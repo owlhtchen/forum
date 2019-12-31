@@ -33,7 +33,12 @@ module.exports = {
     const upvoteDecrease = 1000 * 60 * 60 * 8;
     const { lastPost } = req.body;
     let result;
+    await User.aggregate([
+      {"$project":{"password":0}},
+      {"$out":"user-no-password"}
+    ])
     let query = [
+      
       { '$addFields' : { 
         'score': {"$add" : [
           { '$size': '$likedBy' },  // op1
@@ -46,7 +51,7 @@ module.exports = {
     {"$sort":{"score":-1}},
     {
       $lookup: {
-      from: "users",
+      from: "user-no-password",
       localField: "authorID",
       foreignField: "_id",
       as: "author"
@@ -60,6 +65,7 @@ module.exports = {
           "$limit": 80
         }]);
         result = await Post.aggregate(q1);
+        console.log(result);
       } else {
         const lastPostScore = lastPost.likedBy.length + baseScore - 
         (new Date().getTime() - Date.parse(lastPost.createDate)) / upvoteDecrease;
