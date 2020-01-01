@@ -26,7 +26,7 @@ class PostCreator extends Component {
       e.preventDefault();
       let title;
       let postType;
-      if(this.props.parentPost) {
+      if(this.props.parentID) {
         postType = "comment";
       } else {
         postType = document.getElementById('postType').value;
@@ -37,7 +37,7 @@ class PostCreator extends Component {
         content: this.state.mdeValue,
         postType: postType,
         authorID: this.props.userID,
-        parentPost: this.props.parentPost
+        parentID: this.props.parentID
       });
       document.getElementById("post-form").reset();
       this.setState({
@@ -52,13 +52,13 @@ class PostCreator extends Component {
     return (
       <div style={{ width: '50%' }}>
         <form onSubmit={this.handleSubmit} id="post-form">
-          { !this.props.parentPost && 
+          { !this.props.parentID && 
             <fieldset className="form-control">
               <label htmlFor="title">Title&nbsp;</label>
               <input type="text" id="title"></input>
             </fieldset>
           }
-          { !this.props.parentPost && 
+          { !this.props.parentID && 
           <fieldset >
             <select name="postType" id="postType" className="form-control">
               <option>-- select a type --</option>

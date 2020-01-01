@@ -6,20 +6,20 @@ module.exports = {
   makePost: async (req, res, next) => {
     try{
       // console.log(req.body);
-      const { title, content, postType, authorID, parentPost } = req.body;
+      const { title, content, postType, authorID, parentID } = req.body;
       const newPost = new Post({
         title,
         content,
         postType,  
         authorID,
-        parentID: parentPost
+        parentID: parentID
       });
       console.log(newPost);
       await newPost.save();      
-      if(parentPost) {
-        // console.log(parentPost);
+      if(parentID) {
+        // console.log(parentID);
         await Post.update(
-          {_id: parentPost},
+          {_id: parentID},
           { $push: {
              commentIDs:  newPost.id  
           }}
@@ -126,8 +126,9 @@ module.exports = {
           "title":{"$first":"$title"},
           "likedBy":{"$first":"$likedBy"},
           "comments": { "$push": "$comments" },
-          "commentIDs": { "$push": "$commentIDs" },
-          "author" : {"$first": "$author"}
+          "commentIDs": { "$first": "$commentIDs" },
+          "author" : {"$first": "$author"},
+          "parentID": {"$first": "$parentID"}
         } },
         {
           "$project": {
@@ -144,7 +145,15 @@ module.exports = {
             author:1,
             commentIDs:1
           }
-        },        
+        }, 
+        {
+          "$lookup": {
+            from: 'posts',
+            localField: 'parentID',
+            foreignField: '_id',
+            as: 'parentPost'
+          }
+        }       
       ]);
       console.log(post);
       res.json(post[0]);

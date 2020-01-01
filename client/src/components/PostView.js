@@ -36,7 +36,7 @@ export default class PostView extends Component {
         <PostDetail post={this.state.post} isComment={true} />
         <div>
         <h5>Comment</h5>
-        <PostCreator parentPost={this.state.post._id} />
+        <PostCreator parentID={this.state.post._id} />
         </div>
       </div>
     )
