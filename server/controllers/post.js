@@ -118,6 +118,7 @@ module.exports = {
             as: 'comments.author'
           }
         },
+      
         { "$group": {
           "_id": "$_id",
           "content":{"$first":"$content"},
@@ -127,7 +128,24 @@ module.exports = {
           "comments": { "$push": "$comments" },
           "commentIDs": { "$push": "$commentIDs" },
           "author" : {"$first": "$author"}
-        } }
+        } },
+        {
+          "$project": {
+            _id: 0,
+            "comments" : { $cond : [
+              { $eq: [{$type: {"$arrayElemAt": ["$comments.content",0]}}, "missing"] },
+              [],
+              "$comments"
+            ] },
+            "debug" : {"$arrayElemAt": ["$comments",0]},
+            "content":1,
+            createDate:1,
+            title:1,
+            likedBy:1,
+            author:1,
+            commentIDs:1
+          }
+        },        
       ]);
       console.log(post);
       res.json(post[0]);
