@@ -37,7 +37,7 @@ export default class PostDetail extends Component {
       </div>
     );
 
-    // const comment = this.props.post.comment.map((entry) => {
+    // const comments = this.props.post.comments.map((entry) => {
     //   return (
     //     <div>
 

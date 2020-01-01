@@ -11,15 +11,17 @@ module.exports = {
         title,
         content,
         postType,  
-        authorID
+        authorID,
+        parentID: parentPost
       });
+      console.log(newPost);
       await newPost.save();      
       if(parentPost) {
         // console.log(parentPost);
         await Post.update(
           {_id: parentPost},
           { $push: {
-             commentID:  newPost.id  
+             commentIDs:  newPost.id  
           }}
         );
       }
@@ -61,7 +63,7 @@ module.exports = {
           "$limit": 80
         }]);
         result = await Post.aggregate(q1);
-        console.log(result);
+        // console.log(result);
       } else {
         const lastPostScore = lastPost.likedBy.length + baseScore - 
         (new Date().getTime() - Date.parse(lastPost.createDate)) / upvoteDecrease;
@@ -82,7 +84,7 @@ module.exports = {
       const { postID } = req.params;
       // const post = await Post.findById(postID).populate(
       //   'authorID', 'username'); 
-      console.log(postID);
+      // console.log(postID);
       const post = await Post.aggregate([
         {
           "$match": {"_id" : mongoose.Types.ObjectId(postID)}
@@ -98,19 +100,22 @@ module.exports = {
         {
           "$graphLookup": {
             from: 'posts',
-            startWith: "$commentID",
-            connectFromField: "commentID",
+            startWith: "$commentIDs",
+            connectFromField: "commentIDs",
             connectToField: "_id",
-            as: "comment"
+            as: "comments"
           }
-        },
-        { "$unwind": "$comment"},
+        }, 
+        { "$unwind": {
+          path: "$comments",
+          preserveNullAndEmptyArrays: true
+        }},
         {
           "$lookup": {
             from: 'users',
-            localField: 'comment.authorID',
+            localField: 'comments.authorID',
             foreignField: '_id',
-            as: 'comment.author'
+            as: 'comments.author'
           }
         },
         { "$group": {
@@ -119,10 +124,12 @@ module.exports = {
           "createDate":{"$first":"$createDate"},
           "title":{"$first":"$title"},
           "likedBy":{"$first":"$likedBy"},
-          "comment": { "$push": "$comment" },
+          "comments": { "$push": "$comments" },
+          "commentIDs": { "$push": "$commentIDs" },
           "author" : {"$first": "$author"}
         } }
       ]);
+      console.log(post);
       res.json(post[0]);
     } catch(err) {
       next(err);

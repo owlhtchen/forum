@@ -13,17 +13,20 @@ const postSchema = new Schema({
     enum: ['column', 'timeline', 'post', 'comment']
   },
   authorID: {
-    type: Schema.Types.ObjectID,
+    type: Schema.Types.ObjectId,
     ref: 'User'
   },
   likedBy: [{
-    type: Schema.Types.ObjectID,
+    type: Schema.Types.ObjectId,
     ref: 'User'
   }],
-  commentID: [{
+  commentIDs: [{
     type: Schema.Types.ObjectId,
     ref: 'Post'
-  }]
+  }],
+  parentID: {
+    type: Schema.Types.ObjectId
+  }
 })
 
 const Post = mongoose.model('Post', postSchema);
