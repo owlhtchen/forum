@@ -118,7 +118,18 @@ module.exports = {
             as: 'comments.author'
           }
         },
-      
+        {
+          "$lookup" : {
+            from: 'posts',
+            localField: 'comments.parentID',
+            foreignField: '_id',
+            as: 'comments.parentPost'
+          }
+        },
+        { "$unwind": {
+          path: "$comments.parentPost",
+          preserveNullAndEmptyArrays: true
+        }},        
         { "$group": {
           "_id": "$_id",
           "content":{"$first":"$content"},
@@ -128,7 +139,8 @@ module.exports = {
           "comments": { "$push": "$comments" },
           "commentIDs": { "$first": "$commentIDs" },
           "author" : {"$first": "$author"},
-          "parentID": {"$first": "$parentID"}
+          "parentID": {"$first": "$parentID"},
+          "parentPost": {"$first": "$parentPost"}
         } },
         {
           "$project": {
@@ -145,15 +157,7 @@ module.exports = {
             author:1,
             commentIDs:1
           }
-        }, 
-        {
-          "$lookup": {
-            from: 'posts',
-            localField: 'parentID',
-            foreignField: '_id',
-            as: 'parentPost'
-          }
-        }       
+        }      
       ]);
       console.log(post);
       res.json(post[0]);
