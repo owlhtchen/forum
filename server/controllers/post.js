@@ -131,7 +131,6 @@ module.exports = {
         } },
         {
           "$project": {
-            _id: 0,
             "comments" : { $cond : [
               { $eq: [{$type: {"$arrayElemAt": ["$comments.content",0]}}, "missing"] },
               [],
