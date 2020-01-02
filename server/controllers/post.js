@@ -91,21 +91,12 @@ module.exports = {
   upvotePost: async (req, res, next) => {
     try {
       const { userID, postID } = req.body;
-      const foundUpvote = await Post.updateOne(
+      await Post.updateOne(
         {_id : postID},
         { $addToSet : {
           likedBy: userID
         } }
       );
-      if(foundUpvote) {
-        res.json({
-          upvoted: true
-        });
-      } else {
-        res.json({
-          upvoted: false
-        });
-      }
     } catch(err) {
       next(err);
     }
@@ -126,10 +117,19 @@ module.exports = {
   checkUpvote: async (req, res, next) => {
     try {
       const { userID, postID } = req.body;
-      await Post.find({"$and": [
+      const foundUpvote = await Post.find({"$and": [
         {_id : postID},
         {likedBy : { $elemMatch : {$eq: userID} }}
       ]})
+      if(foundUpvote) {
+        res.json({
+          upvoted: true
+        });
+      } else {
+        res.json({
+          upvoted: false
+        });
+      }
     } catch(err) {
       next(err);
     }
