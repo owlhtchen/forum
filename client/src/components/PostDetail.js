@@ -35,9 +35,6 @@ export default class PostDetail extends Component {
         <ReactMarkdown 
         source={content}
         linkTarget="_blank"/>
-        {comments.map((comment) => {
-          return <PostDetail post={comment} />;
-        })}
          <hr></hr>
       </div>
     );
@@ -48,3 +45,4 @@ export default class PostDetail extends Component {
       </div>
     );
   }
+}

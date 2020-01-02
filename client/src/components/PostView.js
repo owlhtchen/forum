@@ -7,20 +7,7 @@ export default class PostView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      post: null,
       showAddComment: false
-    }
-  }
-
-  async componentDidMount() {
-    try {
-      const { postID } = this.props.match.params;
-      const res = await axios.get('/posts/view-post/' + postID);
-      this.setState({
-        post: res.data
-      });
-    } catch(err) {
-      console.log("axios exception in PostDetail");   
     }
   }
 
@@ -31,20 +18,19 @@ export default class PostView extends Component {
     });
   }
 
-  render() {
-    if(!this.state.post) {
-      return (
-        <div>
-          Loading ... 
-        </div>
-      );
-    }    
+  render() {   
+    const { post } = this.props;
     return (
       <div className="container mb-3">
-        <PostDetail post={this.state.post} />
+        <PostDetail post={post} />
+        <button onClick={this.addComment}>Reply</button>
+        { this.state.showAddComment && <PostCreator parentID={post._id} /> }        
         <div>
-        <button onClick={this.addComment}>Add Comment</button>
-        { this.state.showAddComment && <PostCreator parentID={this.state.post._id} /> }
+          {
+            post.comments.map((comment, index) => {
+              return <PostView post={comment} key={index} />;
+            })
+          }
         </div>
       </div>
     );

@@ -8,7 +8,7 @@ import Signin from './Signin';
 import Post from './PostCreator';
 import Homepage from './Homepage';
 import authGuard from './authGuard';
-import PostView from './PostView';
+import PostLoader from './PostLoader';
 
 class App extends Component {
   state = {  }
@@ -24,7 +24,7 @@ class App extends Component {
               <Route exact path="/users/signup" component={ Signup } />
               <Route exact path="/users/signin" component={ Signin } />
               <Route exact path="/posts/make-post" component={authGuard(Post)} />
-              <Route exact path="/posts/view-post/:postID" component={PostView} />
+              <Route exact path="/posts/view-post/:postID" component={PostLoader} />
             </Switch>
           </div>
         </BrowserRouter>
