@@ -82,87 +82,35 @@ module.exports = {
   viewPost: async (req, res, next) => {
     try {
       const { postID } = req.params;
-      // const post = await Post.findById(postID).populate(
-      //   'authorID', 'username'); 
-      // console.log(postID);
-      const post = await Post.aggregate([
-        {
-          "$match": {"_id" : mongoose.Types.ObjectId(postID)}
-        },
-        {
-          "$lookup": {
-            from: 'users',
-            localField: 'authorID',
-            foreignField: '_id',
-            as: 'author'
-          }
-        }, 
-        {
-          "$graphLookup": {
-            from: 'posts',
-            startWith: "$commentIDs",
-            connectFromField: "commentIDs",
-            connectToField: "_id",
-            as: "comments"
-          }
-        }, 
-        { "$unwind": {
-          path: "$comments",
-          preserveNullAndEmptyArrays: true
-        }},
-        {
-          "$lookup": {
-            from: 'users',
-            localField: 'comments.authorID',
-            foreignField: '_id',
-            as: 'comments.author'
-          }
-        },
-        {
-          "$lookup" : {
-            from: 'posts',
-            localField: 'comments.parentID',
-            foreignField: '_id',
-            as: 'comments.parentPost'
-          }
-        },
-        { "$unwind": {
-          path: "$comments.parentPost",
-          preserveNullAndEmptyArrays: true
-        }},        
-        { "$group": {
-          "_id": "$_id",
-          "content":{"$first":"$content"},
-          "createDate":{"$first":"$createDate"},
-          "title":{"$first":"$title"},
-          "likedBy":{"$first":"$likedBy"},
-          "comments": { "$push": "$comments" },
-          "commentIDs": { "$first": "$commentIDs" },
-          "author" : {"$first": "$author"},
-          "parentID": {"$first": "$parentID"},
-          "parentPost": {"$first": "$parentPost"}
-        } },
-        {
-          "$project": {
-            "comments" : { $cond : [
-              { $eq: [{$type: {"$arrayElemAt": ["$comments.content",0]}}, "missing"] },
-              [],
-              "$comments"
-            ] },
-            "debug" : {"$arrayElemAt": ["$comments",0]},
-            "content":1,
-            createDate:1,
-            title:1,
-            likedBy:1,
-            author:1,
-            commentIDs:1
-          }
-        }      
-      ]);
-      console.log(post);
-      res.json(post[0]);
+      const post = await expandPost(postID);
+      res.json(post);
     } catch(err) {
       next(err);
     }
   }
+}
+
+const expandPost = async (postID) => {
+  const postList = await Post.aggregate([
+    {
+      "$match": {"_id": mongoose.Types.ObjectId(postID)}
+    },
+    {
+      "$lookup": {
+        from: "users",
+        localField: "authorID",
+        foreignField: "_id",
+        as: "author"
+      }
+    }
+  ]);
+  const post = postList[0];
+  post.comments = [];
+  // console.log(post);
+  if(post.commentIDs.length > 0) {
+    await Promise.all(post.commentIDs.map(async (commentID) => {
+      post.comments.push(await expandPost(commentID));
+    }))
+  }
+  return post;
 }

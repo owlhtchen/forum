@@ -15,6 +15,7 @@ export default class PostView extends Component {
     try {
       const { postID } = this.props.match.params;
       const res = await axios.get('/posts/view-post/' + postID);
+      console.log(res.data);
       this.setState({
         post: res.data
       });
@@ -33,7 +34,7 @@ export default class PostView extends Component {
     }    
     return (
       <div className="container mb-3">
-        <PostDetail post={this.state.post} isComment={true} />
+        <PostDetail post={this.state.post} />
         <div>
         <h5>Comment</h5>
         <PostCreator parentID={this.state.post._id} />

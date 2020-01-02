@@ -1,7 +1,14 @@
 import React, { Component } from 'react'
+import axios from 'axios';
 const ReactMarkdown = require('react-markdown')
 
 export default class PostDetail extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      comments: null
+    }
+  }
 
   render() {
     function formatDate(date) {
@@ -21,8 +28,9 @@ export default class PostDetail extends Component {
     function info(){
       return 'posted by '.concat(author[0].username, ' on '.concat(formatDate(new Date(Date.parse(createDate)))));
     }
-    const { title, createDate, content, author } = this.props.post;
+    const { title, createDate, content, author, comments } = this.props.post;
     
+    console.log("post");
     console.log(this.props.post);
 
     const postDetail = (
@@ -33,17 +41,12 @@ export default class PostDetail extends Component {
         <ReactMarkdown 
         source={content}
         linkTarget="_blank"/>
+        {comments.map((comment) => {
+          return <PostDetail post={comment} />;
+        })}
          <hr></hr>
       </div>
     );
-
-    // const comments = this.props.post.comments.map((entry) => {
-    //   return (
-    //     <div>
-
-    //     </div>
-    //   );
-    // })
 
     return (
       <div>
