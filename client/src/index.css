@@ -40,27 +40,27 @@ code {
 }
 
 /* popup */
-.modal {
-  font-size: 12px;
+.react-js-modal {
+  /*font-size: 12px;*/
 }
-.modal > .header {
+.react-js-modal > .header {
   width: 100%;
   border-bottom: 1px solid gray;
   font-size: 18px;
   text-align: center;
   padding: 5px;
 }
-.modal > .content {
+.react-js-modal > .content {
   width: 100%;
   padding: 10px 5px;
 }
-.modal > .actions {
+.react-js-modal > .actions {
   width: 100%;
   padding: 10px 5px;
   margin: auto;
   text-align: center;
 }
-.modal > .close {
+.react-js-modal > .close {
   cursor: pointer;
   position: absolute;
   display: block;

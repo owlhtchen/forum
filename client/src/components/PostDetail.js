@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import MessagePopup from './MessagePopup'
-const ReactMarkdown = require('react-markdown')
+const ReactMarkdown = require('react-markdown');
 
 export default class PostDetail extends Component {
   constructor(props) {
@@ -36,7 +36,7 @@ export default class PostDetail extends Component {
     const postDetail = (
       <div className="post-detail">
        <h2>{ title }</h2>
-        <p>{ info() } <MessagePopup></MessagePopup></p>
+        <div>{ info() } <MessagePopup/></div>
         <hr></hr>
         <ReactMarkdown 
         source={content}

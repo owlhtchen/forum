@@ -6,7 +6,7 @@ export default class MessagePopup extends Component {
     return (
     <Popup trigger={<button className="button"> Open Modal </button>} modal>
       {close => (
-        <div className="modal">
+        <div className="react-js-modal">
           <a className="close" onClick={close}>
             &times;
           </a>
