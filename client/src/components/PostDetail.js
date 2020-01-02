@@ -1,8 +1,14 @@
 import React, { Component } from 'react'
-import axios from 'axios';
+import MessagePopup from './MessagePopup'
 const ReactMarkdown = require('react-markdown')
 
 export default class PostDetail extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      showMessagePopup: false
+    };
+  }
 
   render() {
     function formatDate(date) {
@@ -30,7 +36,7 @@ export default class PostDetail extends Component {
     const postDetail = (
       <div className="post-detail">
        <h2>{ title }</h2>
-        <p>{ info() }</p>
+        <p>{ info() } <MessagePopup></MessagePopup></p>
         <hr></hr>
         <ReactMarkdown 
         source={content}

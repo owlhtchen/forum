@@ -121,7 +121,7 @@ module.exports = {
         {_id : postID},
         {likedBy : { $elemMatch : {$eq: userID} }}
       ]})
-      if(foundUpvote) {
+      if(foundUpvote && foundUpvote.length > 0) {
         res.json({
           upvoted: true
         });

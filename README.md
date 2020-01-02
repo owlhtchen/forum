@@ -12,7 +12,7 @@
   - Block
   - Column
   - DM
-  - OAuth ??
+  - OAuth    ok
   - Password recovery
   - Timeline
   - History
@@ -21,13 +21,13 @@
 - Posts 
   - Like/Dislike
   - Pinned
-  - Markdown editing
+  - Markdown editing  ok
   - Comments (notification)
   - @username
   - Follow, email notification, feed
   - Daily highlight
   - Share via QR code
-  - Vote
+  - Vote ok
 - Admin
   - Add/Delete themes
   - Add/Delete post
