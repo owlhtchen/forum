@@ -43,6 +43,8 @@ class PostCreator extends Component {
       this.setState({
         mdeValue: ""
       });
+      // refresh page to see new post/comment
+      window.location.reload();
     } catch(err) {
       console.log("axios post error in PostCreator");
     }

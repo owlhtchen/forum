@@ -87,6 +87,32 @@ module.exports = {
     } catch(err) {
       next(err);
     }
+  },
+  upvotePost: async (req, res, next) => {
+    try {
+      const { userID, postID } = req.body;
+      await Post.updateOne(
+        {_id : postID},
+        { $push : {
+          likedBy: userID
+        } }
+      );
+    } catch(err) {
+      next(err);
+    }
+  },
+  cancelUpvotePost: async (req, res, next) => {
+    try {
+      const { userID, postID } = req.body;
+      await Post.updateOne(
+        { _id : postID },
+        { $pull : {
+          likedBy: userID
+        } }
+      )
+    } catch(err) {
+      next(err);
+    }
   }
 }
 

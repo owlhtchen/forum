@@ -22,7 +22,7 @@ export default class PostDetail extends Component {
     function info(){
       return 'posted by '.concat(author[0].username, ' on '.concat(formatDate(new Date(Date.parse(createDate)))));
     }
-    const { title, createDate, content, author, comments } = this.props.post;
+    const { title, createDate, content, author } = this.props.post;
     
     console.log("post");
     console.log(this.props.post);
