@@ -18,7 +18,7 @@ module.exports = {
       await newPost.save();      
       if(parentID) {
         // console.log(parentID);
-        await Post.update(
+        await Post.updateOne(
           {_id: parentID},
           { $push: {
              commentIDs:  newPost.id  

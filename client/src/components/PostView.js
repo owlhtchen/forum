@@ -7,7 +7,8 @@ export default class PostView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      post: null 
+      post: null,
+      showAddComment: false
     }
   }
 
@@ -15,13 +16,19 @@ export default class PostView extends Component {
     try {
       const { postID } = this.props.match.params;
       const res = await axios.get('/posts/view-post/' + postID);
-      console.log(res.data);
       this.setState({
         post: res.data
       });
     } catch(err) {
       console.log("axios exception in PostDetail");   
     }
+  }
+
+  addComment = () => {
+    const { showAddComment } = this.state;
+    this.setState({
+      showAddComment: !showAddComment
+    });
   }
 
   render() {
@@ -36,10 +43,10 @@ export default class PostView extends Component {
       <div className="container mb-3">
         <PostDetail post={this.state.post} />
         <div>
-        <h5>Comment</h5>
-        <PostCreator parentID={this.state.post._id} />
+        <button onClick={this.addComment}>Add Comment</button>
+        { this.state.showAddComment && <PostCreator parentID={this.state.post._id} /> }
         </div>
       </div>
-    )
+    );
   }
 }

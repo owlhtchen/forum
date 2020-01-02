@@ -3,12 +3,6 @@ import axios from 'axios';
 const ReactMarkdown = require('react-markdown')
 
 export default class PostDetail extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      comments: null
-    }
-  }
 
   render() {
     function formatDate(date) {
@@ -54,4 +48,3 @@ export default class PostDetail extends Component {
       </div>
     );
   }
-}
