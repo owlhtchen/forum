@@ -4,13 +4,13 @@ import io from 'socket.io-client';
 
 export default class MessagePopup extends Component {
   
-  componentDidMount() {
+  onClick() {
     var socket = io();
   }
 
   render() {
     return (
-    <Popup trigger={<button className="button"> Open Modal </button>} modal>
+    <Popup trigger={<button className="button" onClick={this.onClick}> Open Modal </button>} modal>
       {close => (
         <div className="react-js-modal">
           <a className="close" onClick={close}>
