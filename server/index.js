@@ -26,6 +26,10 @@ db.once('open', function() {
     // Serve the static files from the React app
     app.use(express.static(path.join(__dirname, 'client/build')));
 
+    var http = require('http').createServer(app);
+    var io = require('socket.io')(http);
+    require('./socket')(io);
+
     app.use('/users', users);
     app.use('/posts', posts);
 
@@ -36,6 +40,10 @@ db.once('open', function() {
     });
 
     const port = process.env.PORT || 5000;
-    app.listen(port);
-    console.log('App is listening on port ' + port); 
+    // app.listen(port);
+    // console.log('App is listening on port ' + port); 
+
+    http.listen(port, function() {
+      console.log('socket.io is listening on ' + port);
+    })
 });
