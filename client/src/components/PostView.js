@@ -19,7 +19,7 @@ class PostView extends Component {
       userID: this.props.userID
     };
     const res = await axios.post('/posts/checkUpvote', body);
-    console.log(res.data);
+    // console.log(res.data);
     this.setState({
       upvoted: res.data.upvoted
     })
@@ -33,7 +33,7 @@ class PostView extends Component {
   }
 
   upvote = async () => {
-    console.log(this.props);
+    // console.log(this.props);
     const prevUpvoted = this.state.upvoted;
     const body = {
       postID: this.props.post._id,
@@ -42,7 +42,7 @@ class PostView extends Component {
     this.setState({
       upvoted: !prevUpvoted
     });
-    console.log(body);
+    // console.log(body);
     if(prevUpvoted) {
       await axios.post('/posts/cancelUpvote', body);
     } else {
@@ -72,8 +72,6 @@ class PostView extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  console.log("state");
-   console.log(state);
   return {
     ...ownProps,
     userID: state.user.userID

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import MessagePopup from './MessagePopup'
+import io from 'socket.io-client';
 const ReactMarkdown = require('react-markdown');
 
 export default class PostDetail extends Component {
@@ -36,7 +37,9 @@ export default class PostDetail extends Component {
     const postDetail = (
       <div className="post-detail">
        <h2>{ title }</h2>
-        <div>{ info() } <MessagePopup/></div>
+        <div onClick={() => {console.log("div"); var socket = io();}}>{ info() } 
+          <MessagePopup onClick={() => {console.log("Message Popup");}}/>
+        </div>
         <hr></hr>
         <ReactMarkdown 
         source={content}
