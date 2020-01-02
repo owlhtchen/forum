@@ -14,7 +14,7 @@ module.exports = {
         authorID,
         parentID: parentID
       });
-      console.log(newPost);
+      // console.log(newPost);
       await newPost.save();      
       if(parentID) {
         // console.log(parentID);
@@ -91,12 +91,21 @@ module.exports = {
   upvotePost: async (req, res, next) => {
     try {
       const { userID, postID } = req.body;
-      await Post.updateOne(
+      const foundUpvote = await Post.updateOne(
         {_id : postID},
-        { $push : {
+        { $addToSet : {
           likedBy: userID
         } }
       );
+      if(foundUpvote) {
+        res.json({
+          upvoted: true
+        });
+      } else {
+        res.json({
+          upvoted: false
+        });
+      }
     } catch(err) {
       next(err);
     }
@@ -110,6 +119,17 @@ module.exports = {
           likedBy: userID
         } }
       )
+    } catch(err) {
+      next(err);
+    }
+  },
+  checkUpvote: async (req, res, next) => {
+    try {
+      const { userID, postID } = req.body;
+      await Post.find({"$and": [
+        {_id : postID},
+        {likedBy : { $elemMatch : {$eq: userID} }}
+      ]})
     } catch(err) {
       next(err);
     }

@@ -13,6 +13,18 @@ class PostView extends Component {
     }
   }
 
+  async componentDidMount() {
+    const body = {
+      postID: this.props.post._id,
+      userID: this.props.userID
+    };
+    const res = await axios.post('/posts/checkUpvote', body);
+    console.log(res.data);
+    this.setState({
+      upvoted: res.data.upvoted
+    })
+  }
+
   addComment = () => {
     const { showAddComment } = this.state;
     this.setState({
@@ -21,6 +33,7 @@ class PostView extends Component {
   }
 
   upvote = async () => {
+    console.log(this.props);
     const prevUpvoted = this.state.upvoted;
     const body = {
       postID: this.props.post._id,
@@ -49,7 +62,7 @@ class PostView extends Component {
         <div>
           {
             post.comments.map((comment, index) => {
-              return <PostView post={comment} key={index} />;
+              return <PostView post={comment} key={index} userID={this.props.userID}/>;
             })
           }
         </div>
@@ -58,10 +71,13 @@ class PostView extends Component {
   }
 }
 
-const mapStateToProps = (store) => {
+const mapStateToProps = (state, ownProps) => {
+  console.log("state");
+   console.log(state);
   return {
-    userID: store.user.userID
+    ...ownProps,
+    userID: state.user.userID
   }
 }
 
-export default connect(mapStateToProps, null)(PostView);
+export default connect(mapStateToProps)(PostView);

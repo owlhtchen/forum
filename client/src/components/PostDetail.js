@@ -24,8 +24,8 @@ export default class PostDetail extends Component {
     }
     const { title, createDate, content, author } = this.props.post;
     
-    console.log("post");
-    console.log(this.props.post);
+    // console.log("post");
+    // console.log(this.props.post);
 
     const postDetail = (
       <div className="post-detail">
