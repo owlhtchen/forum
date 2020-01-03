@@ -38,7 +38,11 @@ export default class PostDetail extends Component {
     const postDetail = (
       <div className="post-detail">
        <h2>{ title }</h2>
-        <div>{ info() }  <MessagePopup receiver={author[0]._id}/> </div>
+        <div>{ info() }  
+          <MessagePopup 
+          receiver={author[0]._id}
+          /> 
+        </div>
         <hr></hr>
         <ReactMarkdown 
         source={content}
