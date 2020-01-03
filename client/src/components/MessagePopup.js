@@ -25,6 +25,7 @@ class MessagePopup extends Component {
     }
     socket.on("new message", (data) => {
       console.log(data);
+      // console.log(this.state.messages);
       // const messages = this.state.messages.concat([data]);
       // this.setState({
       //   messages: messages
@@ -70,9 +71,9 @@ class MessagePopup extends Component {
                 &times;
               </a>
               <div id="message-history">
-                {this.state.messages.map(message => {
+                {this.state.messages.map((message, index) => {
                   return (
-                    <div>
+                    <div key={index}>
                       {message.sender}:{message.content}
                     </div>
                   );
