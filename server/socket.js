@@ -52,6 +52,7 @@ module.exports = (io) => {
       };  // database ends
 
       socket.broadcast.to(first).emit('new message', data);
+      socket.emit('new message', data);
     })
   })
 

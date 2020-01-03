@@ -25,11 +25,11 @@ class MessagePopup extends Component {
     }
     socket.on("new message", (data) => {
       console.log(data);
-      // console.log(this.state.messages);
-      // const messages = this.state.messages.concat([data]);
-      // this.setState({
-      //   messages: messages
-      // });
+      console.log(this.state.messages);
+      const messages = this.state.messages.concat([data]);
+      this.setState({
+        messages: messages
+      });
     })
     this.setState({ 
       open: true,
@@ -37,7 +37,12 @@ class MessagePopup extends Component {
     });
   }
   closeModal() {
-    this.setState({ open: false });
+    if(this.state.socket)
+      this.state.socket.close();
+    this.setState({ 
+      open: false,
+      socket: null
+     });
   }
 
   handleSend = () => {
