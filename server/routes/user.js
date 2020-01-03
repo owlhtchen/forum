@@ -10,5 +10,7 @@ router.post('/oauth/google', UserController.googleOauth);
 router.get('/get-user/:userID', UserController.getUserByID);
 router.post('/check-follow-user', UserController.checkFollowUser);
 router.post('/follow-user', UserController.followUser);
+router.get('/get-user-followers/:userID', UserController.getUserFollowers);
+router.post('/notify-followers', UserController.notifyFollowers);
 
 module.exports = router; 

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import MessagePopup from './MessagePopup'
 import { connect } from 'react-redux'
+import { getUserByID } from '../utils/index'
 
 class Profile extends Component {
   constructor(props) {
@@ -32,14 +33,14 @@ class Profile extends Component {
   async componentDidMount() {
     try {
       const { userID } = this.props.match.params;
-      const resProfile = await axios.get('/users/get-user/' + userID);
+      const profileUser = await getUserByID(userID);
       const resFollwing = await axios.post('/users/check-follow-user', {
-        user: resProfile.data,
+        user: profileUser,
         follower: this.props.userID
       });
-      console.log(resFollwing);
+      // console.log(resFollwing);
       this.setState({
-        profileUser: resProfile.data,
+        profileUser: profileUser,
         following: resFollwing.data.following
       });
     } catch(err) {

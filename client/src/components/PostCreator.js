@@ -3,6 +3,7 @@ import SimpleMDE from "react-simplemde-editor";
 import "easymde/dist/easymde.min.css";
 import axios from 'axios';
 import { connect } from 'react-redux';
+import { getUserByID, getUserFollowers, notifyFollowers } from '../utils/index';
 
 const mdeID = "mdeID";
 
@@ -26,6 +27,7 @@ class PostCreator extends Component {
       e.preventDefault();
       let title;
       let postType;
+      let content = this.state.mdeValue;
       if(this.props.parentID) {
         postType = "comment";
       } else {
@@ -34,11 +36,19 @@ class PostCreator extends Component {
       }
       await axios.post('http://localhost:5000/posts/make-post', {
         title: title,
-        content: this.state.mdeValue,
+        content: content,
         postType: postType,
         authorID: this.props.userID,
         parentID: this.props.parentID
       });
+
+      //notification
+      const user = await getUserByID(this.props.userID);
+      const message = user.username + " made a " + postType + 
+                  ((postType === "comment") ? ": " + content.slice(0, 7) + "(...)" : " with title: " + title);
+      const followers = await getUserFollowers(user._id);
+      await notifyFollowers(followers, message);
+
       document.getElementById("post-form").reset();
       this.setState({
         mdeValue: ""

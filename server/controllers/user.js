@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const Password = require('../models/password');
 const {JWT_SECRET} = require('../config/index');
 const Followuser = require('../models/followuser');
+const Notification = require('../models/notification');
 
 const SignJWTToken = (user) => {
   // the claim names are only three characters long as JWT is meant to be compact.
@@ -117,18 +118,57 @@ module.exports = {
   },
   followUser: async (req, res, next) => {
     const { user, follower, startFollowing } = req.body;
-    if(startFollowing) {
-      let newFollowuser = new Followuser({
-        user,
-        follower 
-      });
-      // console.log(newFollowuser);
-      await newFollowuser.save();
-    } else {
-      await Followuser.deleteMany({
-        user,
-        follower
-      });
+    try {
+      if(startFollowing) {
+        let newFollowuser = new Followuser({
+          user,
+          follower 
+        });
+        await newFollowuser.save();
+      } else {
+        await Followuser.deleteMany({
+          user,
+          follower
+        });
+      }
+      res.end();      
+    } catch(err) {
+      next(err);
+    }
+  },
+  getUserFollowers: async (req, res, next) => {
+    const { userID } = req.params;
+    let userFollowers = await Followuser.find(
+      {user: userID}
+    );
+    console.log(userFollowers);
+    res.json(userFollowers);
+  },
+  notifyFollowers: async (req, res, next) => {
+    const { followers, message } = req.body;
+    try {
+      await Promise.all(followers.map(async (entry) => {
+        const receiver = entry.follower;
+        let foundNotification = await Notification.findOne({
+          receiver: receiver
+        });
+        if(!foundNotification) {
+          let newNotification = new Notification({
+            receiver: receiver,
+            messages: [message]
+          });
+          await newNotification.save();
+        } else {
+          await Notification.updateMany(
+            {receiver : receiver},
+            {"$push": {"messages": message}}
+          )
+        }
+      }));
+      console.log("done");
+      res.end();   
+    } catch(err) {
+      next(err);
     }
   }
 }

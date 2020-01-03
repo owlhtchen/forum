@@ -3,6 +3,7 @@ import Popup from 'reactjs-popup'
 import io from 'socket.io-client'
 import { connect } from 'react-redux';
 import axios from 'axios';
+import { getUserByID } from '../utils/index'
 
 class MessagePopup extends Component {
   constructor(props) {
@@ -19,9 +20,9 @@ class MessagePopup extends Component {
 
   async componentDidMount() {
     const { userID } = this.props;
-    let res = await axios.get("/users/get-user/" + userID);
+    let user = await getUserByID(userID);
     this.setState({
-      user: res.data
+      user: user
     });
   }
 
