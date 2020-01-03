@@ -7,35 +7,35 @@
   - Followed users/posts
 
 - Users 
-  - Profile
-  - Friends (Following, Follower)
-  - Block
-  - Column
-  - DM
-  - OAuth    ok
-  - Password recovery
-  - Timeline
-  - History
-  - Reputation
-  - Favorites
+  - [ ] Profile
+  - [ ] Friends (Following, Follower)
+  - [ ] Block
+  - [ ] Column
+  - [ ] DM
+  - [ ] OAuth
+  - [ ] Password recovery
+  - [ ] Timeline
+  - [ ] History
+  - [ ] Reputation
+  - [ ] Favorites
 - Posts 
-  - Like/Dislike
-  - Pinned
-  - Markdown editing  ok
-  - Comments (notification)
-  - @username
-  - Follow, email notification, feed
-  - Daily highlight
-  - Share via QR code
-  - Vote ok
+  - [x] Like/Dislike
+  - [ ] Pinned
+  - [x] Markdown editing  
+  - [ ] Comments (notification)
+  - [ ] @username
+  - [ ] Follow, email notification, feed
+  - [ ] Daily highlight
+  - [ ] Share via QR code
+  - [ ] Vote ok
 - Admin
-  - Add/Delete themes
-  - Add/Delete post
+  - [ ] Add/Delete themes
+  - [ ] Add/Delete post
   - ~~Suspend accounts~~
 - Category
-  - Join
+  - [ ] Join
 - Search
-  - Advance filter (time, theme)
+  - [ ] Advance filter (time, theme)
 - Sort
-  - By new
-  - By top of (all time, within ...)
+  - [ ] By new
+  - [ ] By top of (all time, within ...)
