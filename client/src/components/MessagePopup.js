@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Popup from 'reactjs-popup'
 import io from 'socket.io-client'
 import { connect } from 'react-redux';
+import axios from 'axios';
 
 class MessagePopup extends Component {
   constructor(props) {
@@ -9,11 +10,21 @@ class MessagePopup extends Component {
     this.state = { 
       open: false,
       socket: null,
-      messages: []
+      messages: [],
+      user: null
     };
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
   }
+
+  async componentDidMount() {
+    const { userID } = this.props;
+    let res = await axios.get("/users/getUser/" + userID);
+    this.setState({
+      user: res.data
+    });
+  }
+
   openModal() {
     var socket = io('ws://localhost:5000');
     const sender = this.props.userID;
@@ -24,8 +35,8 @@ class MessagePopup extends Component {
       socket.emit("room", receiver);
     }
     socket.on("new message", (data) => {
-      console.log(data);
-      console.log(this.state.messages);
+      // console.log(data);
+      // console.log(this.state.messages);
       const messages = this.state.messages.concat([data]);
       this.setState({
         messages: messages
@@ -47,14 +58,15 @@ class MessagePopup extends Component {
 
   handleSend = () => {
     // console.log("sent");
-    const { socket } = this.state;
+    const { socket, user } = this.state;
     const sender = this.props.userID;
     const receiver = this.props.receiver;
     const message = document.querySelector('#message-box').value;
     socket.emit('new message', {
       content: message,
       sender: sender,
-      receiver: receiver
+      receiver: receiver,
+      senderUsername: this.state.user.username
     })
     document.querySelector('#message-box').value = "";
   }
@@ -75,11 +87,11 @@ class MessagePopup extends Component {
               <a className="close" onClick={this.closeModal}>
                 &times;
               </a>
-              <div id="message-history">
+              <div>
                 {this.state.messages.map((message, index) => {
                   return (
                     <div key={index}>
-                      {message.sender}:{message.content}
+                      {message.senderUsername}:{message.content}
                     </div>
                   );
                 })}

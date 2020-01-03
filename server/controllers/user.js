@@ -88,5 +88,14 @@ module.exports = {
       token: token,
       userID: foundUser.id
     });
+  },
+  getUserByID: async (req, res, next) => {
+    try {
+      const { userID } = req.params;
+      const user = await User.findById(userID);
+      res.json(user);
+    } catch(err) {
+      next(err);
+    }
   }
 }
