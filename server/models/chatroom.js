@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Types.Schema;
+const Schema = mongoose.Schema;
 
 const chatroomSchema = new Schema({
   first: {
@@ -10,7 +10,16 @@ const chatroomSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'User'
   },
-  
+  history: [{
+    sender: {
+      type: Schema.Types.ObjectId,
+      ref: 'User'
+    },
+    content: String,
+    time: {
+      type: Date
+    }
+  }]
 });
 
 const Chatroom = mongoose.model('Chatroom', chatroomSchema);

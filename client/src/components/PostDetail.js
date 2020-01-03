@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import MessagePopup from './MessagePopup'
-import io from 'socket.io-client';
 const ReactMarkdown = require('react-markdown');
 
 export default class PostDetail extends Component {
@@ -33,13 +32,13 @@ export default class PostDetail extends Component {
     
     // console.log("post");
     // console.log(this.props.post);
+    // console.log("author");
+    // console.log(author[0]._id);
 
     const postDetail = (
       <div className="post-detail">
        <h2>{ title }</h2>
-        <div onClick={() => {console.log("div"); var socket = io();}}>{ info() } 
-          <MessagePopup onClick={() => {console.log("Message Popup");}}/>
-        </div>
+        <div>{ info() }  <MessagePopup receiver={author[0]._id}/> </div>
         <hr></hr>
         <ReactMarkdown 
         source={content}
