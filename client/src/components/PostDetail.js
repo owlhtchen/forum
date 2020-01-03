@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import MessagePopup from './MessagePopup'
 const ReactMarkdown = require('react-markdown');
 
@@ -25,8 +26,8 @@ export default class PostDetail extends Component {
     
       return day + ' ' + monthNames[monthIndex] + ' ' + year;
     }
-    function info(){
-      return 'posted by '.concat(author[0].username, ' on '.concat(formatDate(new Date(Date.parse(createDate)))));
+    function dateInfo(){
+      return ' on '.concat(formatDate(new Date(Date.parse(createDate))));
     }
     const { title, createDate, content, author } = this.props.post;
     
@@ -38,7 +39,10 @@ export default class PostDetail extends Component {
     const postDetail = (
       <div className="post-detail">
        <h2>{ title }</h2>
-        <div>{ info() }  
+        <div>
+          <span>Posted by </span>
+          <Link to={'/users/profile/' + author[0]._id}>{author[0].username}</Link>
+          { dateInfo() }  
           <MessagePopup 
           receiver={author[0]._id}
           /> 

@@ -9,6 +9,7 @@ import Post from './PostCreator';
 import Homepage from './Homepage';
 import authGuard from './authGuard';
 import PostLoader from './PostLoader';
+import Profile from './Profile';
 
 class App extends Component {
   state = {  }
@@ -25,6 +26,7 @@ class App extends Component {
               <Route exact path="/users/signin" component={ Signin } />
               <Route exact path="/posts/make-post" component={authGuard(Post)} />
               <Route exact path="/posts/view-post/:postID" component={PostLoader} />
+              <Route exact path="/users/profile/:userID" component={Profile} />
             </Switch>
           </div>
         </BrowserRouter>

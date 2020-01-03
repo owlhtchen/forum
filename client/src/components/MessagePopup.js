@@ -19,7 +19,7 @@ class MessagePopup extends Component {
 
   async componentDidMount() {
     const { userID } = this.props;
-    let res = await axios.get("/users/getUser/" + userID);
+    let res = await axios.get("/users/get-user/" + userID);
     this.setState({
       user: res.data
     });
@@ -58,7 +58,7 @@ class MessagePopup extends Component {
 
   handleSend = () => {
     // console.log("sent");
-    const { socket, user } = this.state;
+    const { socket } = this.state;
     const sender = this.props.userID;
     const receiver = this.props.receiver;
     const message = document.querySelector('#message-box').value;
@@ -75,7 +75,7 @@ class MessagePopup extends Component {
     return (
       <div>
         <button className="button" onClick={this.openModal}>
-          Controlled Popup
+          Send Message
         </button>
         <Popup
           open={this.state.open}

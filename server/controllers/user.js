@@ -2,6 +2,7 @@ const User = require('../models/user');
 const jwt = require('jsonwebtoken');
 const Password = require('../models/password');
 const {JWT_SECRET} = require('../config/index');
+const Followuser = require('../models/followuser');
 
 const SignJWTToken = (user) => {
   // the claim names are only three characters long as JWT is meant to be compact.
@@ -96,6 +97,38 @@ module.exports = {
       res.json(user);
     } catch(err) {
       next(err);
+    }
+  },
+  checkFollowUser: async (req, res, next) => {
+    try {
+      const followUser = await Followuser.findOne(req.body);
+      if(followUser) {
+        return res.json({
+          following: true
+        });
+      } else {
+        return res.json({
+          following: false
+        });
+      }
+    } catch(err){
+      next(err);
+    }
+  },
+  followUser: async (req, res, next) => {
+    const { user, follower, startFollowing } = req.body;
+    if(startFollowing) {
+      let newFollowuser = new Followuser({
+        user,
+        follower 
+      });
+      // console.log(newFollowuser);
+      await newFollowuser.save();
+    } else {
+      await Followuser.deleteMany({
+        user,
+        follower
+      });
     }
   }
 }

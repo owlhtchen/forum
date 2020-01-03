@@ -27,7 +27,7 @@
   - [ ] Follow, email notification, feed
   - [ ] Daily highlight
   - [ ] Share via QR code
-  - [ ] Vote ok
+  - [ ] Vote 
 - Admin
   - [ ] Add/Delete themes
   - [ ] Add/Delete post
