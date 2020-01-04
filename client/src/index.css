@@ -74,16 +74,7 @@ code {
   border: 1px solid #cfcece;
 }
 
-/* dropdown */
-.dropdown-menu {
-  /* width: 200px !important; */
-  white-space: normal;
-  /* height: 400px !important; */
-  /* word-wrap: break-word !important; */
-}
 
 .dropdown-item {
-  /* width: 200px !important; */
-  /* height: 400px !important; */
-  /* word-wrap: break-word !important; */
+  white-space: normal;
 }

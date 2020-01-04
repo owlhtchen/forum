@@ -63,7 +63,7 @@ export default class NotificationDropdown extends Component {
     const { userID } = this.props;
     let res = await axios.get('/users/get-notifications/' + userID);
     this.setState({
-      notifications: res.data
+      notifications: res.data.reverse()
     });
   }
 
