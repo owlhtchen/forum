@@ -47,6 +47,7 @@ class PostCreator extends Component {
       const message = user.username + " made a " + postType + 
                   ((postType === "comment") ? ": " + content.slice(0, 7) + "(...)" : " with title: " + title);
       const followers = await getUserFollowers(user._id);
+      console.log(res.data);
       await notifyFollowers(followers, message, res.data);
 
       document.getElementById("post-form").reset();

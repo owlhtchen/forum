@@ -11,9 +11,10 @@ export const getUserFollowers = async (userID) => {
 }
 
 export const notifyFollowers = async (followers, message, postID) => {
+  // console.log(postID);
   await axios.post('/users/notify-followers', {
     followers,
     message,
-    postID
+    postID: postID
   });
 }

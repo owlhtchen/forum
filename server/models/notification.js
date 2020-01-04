@@ -9,7 +9,7 @@ const notificationSchema = new Schema({
   messages: [{
     content: String,
     time: Date,
-    postID: {
+    post: {
       type: Schema.Types.ObjectId,
       ref: 'Post'
     }

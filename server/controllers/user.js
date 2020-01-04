@@ -146,6 +146,10 @@ module.exports = {
   },
   notifyFollowers: async (req, res, next) => {
     const { followers, message, postID } = req.body;
+    console.log("body");
+    console.log(req.body);
+    console.log("postID");
+    console.log(postID);
     try {
       await Promise.all(followers.map(async (entry) => {
         const receiver = entry.follower;
@@ -169,7 +173,7 @@ module.exports = {
               'messages': {
                 content: message,
                 time: new Date(),
-                postID: postID
+                post: postID
               }
             }}
           )
