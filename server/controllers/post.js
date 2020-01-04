@@ -22,7 +22,7 @@ module.exports = {
           }}
         );
       }
-      res.json({status: "Your post has been submitted"});
+      res.json(newPost._id);
     } catch(err){
       next(err);
     }

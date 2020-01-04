@@ -1,6 +1,5 @@
 import React, { Component, useState } from 'react'
 import Dropdown from 'react-bootstrap/Dropdown';
-import FormControl from 'react-bootstrap/FormControl';
 import axios from 'axios';
 
 // The forwardRef is important!!
@@ -59,7 +58,7 @@ export default class NotificationDropdown extends Component {
   }
 
   getNotifications = async () => {
-    console.log("shit");
+    // console.log("shit");
     const { userID } = this.props;
     let res = await axios.get('/users/get-notifications/' + userID);
     this.setState({

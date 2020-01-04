@@ -37,10 +37,8 @@ export default class PostDetail extends Component {
           <span>Posted by </span>
           <Link to={'/users/profile/' + author[0]._id}>{author[0].username}</Link>
           { dateInfo() }  
-          {/* <MessagePopup 
-          receiver={author[0]._id}
-          />  */}
         </div>
+        <button>Follow</button>
         <hr></hr>
         <ReactMarkdown 
         source={content}

@@ -145,7 +145,7 @@ module.exports = {
     res.json(userFollowers);
   },
   notifyFollowers: async (req, res, next) => {
-    const { followers, message } = req.body;
+    const { followers, message, postID } = req.body;
     try {
       await Promise.all(followers.map(async (entry) => {
         const receiver = entry.follower;
@@ -157,7 +157,8 @@ module.exports = {
             receiver: receiver,
             messages: [{
               content: message,
-              time: new Date()
+              time: new Date(),
+              post: postID
             }]
           });
           await newNotification.save();
@@ -167,7 +168,8 @@ module.exports = {
             {"$push": {
               'messages': {
                 content: message,
-                time: new Date()
+                time: new Date(),
+                postID: postID
               }
             }}
           )

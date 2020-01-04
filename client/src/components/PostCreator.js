@@ -34,7 +34,7 @@ class PostCreator extends Component {
         postType = document.getElementById('postType').value;
         title = document.getElementById('title').value;
       }
-      await axios.post('http://localhost:5000/posts/make-post', {
+      let res = await axios.post('http://localhost:5000/posts/make-post', {
         title: title,
         content: content,
         postType: postType,
@@ -47,7 +47,7 @@ class PostCreator extends Component {
       const message = user.username + " made a " + postType + 
                   ((postType === "comment") ? ": " + content.slice(0, 7) + "(...)" : " with title: " + title);
       const followers = await getUserFollowers(user._id);
-      await notifyFollowers(followers, message);
+      await notifyFollowers(followers, message, res.data);
 
       document.getElementById("post-form").reset();
       this.setState({

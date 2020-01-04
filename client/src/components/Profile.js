@@ -65,7 +65,7 @@ class Profile extends Component {
           String(profileUser._id) !== this.props.userID && 
           <button 
           onClick={this.handleFollow}
-          >{this.state.following ? "Following" : "Follow Me"}</button>
+          >{following ? "Following" : "Follow Me"}</button>
         }
       </div>
     )

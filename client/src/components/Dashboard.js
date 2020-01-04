@@ -4,7 +4,11 @@ import { connect } from 'react-redux';
 
 class Dashboard extends Component {
   async componentDidMount() {
-    await this.props.getSecret();
+    try {
+      await this.props.getSecret();
+    } catch(err) {
+      console.log('error: axios in Dashboard mount');
+    }
   }
 
   render() {
