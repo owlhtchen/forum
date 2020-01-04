@@ -1,8 +1,8 @@
-import React, { Component, useState } from 'react'
+import React, {Component, useState} from 'react'
 import Dropdown from 'react-bootstrap/Dropdown';
 import axios from 'axios';
-import { dateInfo, getParentPost } from '../utils/index'
-import { withRouter } from 'react-router';
+import {dateInfo, getParentPost} from '../utils/index'
+import {withRouter} from 'react-router';
 
 // The forwardRef is important!!
 // Dropdown needs access to the DOM node in order to position the Menu
@@ -55,17 +55,24 @@ class NotificationDropdown extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      notifications: []
+      notifications: [],
+        redirectURLs: []
     }
   }
 
   getNotifications = async () => {
     const { userID } = this.props;
     let res = await axios.get('/users/get-notifications/' + userID);
+    let notification = res.data.reverse();
+    let redirectURLs =  await Promise.all(notification.map(async (notification, index)=>{
+        return this.getRedirectUrl(notification.postID);
+    }));
+
     this.setState({
-      notifications: res.data.reverse()
+      notifications: notification,
+        redirectURLs: redirectURLs
     });
-  }
+  };
 
   redirectToPost = async (postID) => {
     const parentID = await getParentPost(postID);
@@ -75,7 +82,7 @@ class NotificationDropdown extends Component {
       newUrl += '#' + postID
     }
     this.props.history.push(newUrl);
-  }
+  };
 
   getRedirectUrl = async (postID) => {
     const parentID = await getParentPost(postID);
@@ -85,9 +92,9 @@ class NotificationDropdown extends Component {
       newUrl += '#' + postID
     }    
     return newUrl;
-  }
+  };
 
-  async render() {
+   render() {
     return (
       <Dropdown onClick={this.getNotifications}>
         <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components">
@@ -96,8 +103,9 @@ class NotificationDropdown extends Component {
     
         <Dropdown.Menu as={CustomMenu}>
           {
-            await Promise.all(this.state.notifications.map(async (notification, index) => {
-              const url = await this.getRedirectUrl(notification.postID);
+            (this.state.redirectURLs.map((url, index) => {
+                let notification = this.state.notifications[index];
+
               return (
                 <Dropdown.Item 
                 // onClick={() => { this.redirectToPost(notification.postID); }}
