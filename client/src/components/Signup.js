@@ -9,7 +9,6 @@ import * as actions from '../actions';
 class Signup extends Component {
   onSubmit = async (formData) => {
     // data: {email: "email@email.com", username: "user", password: "aaa", sex: "male"}
-    // console.log(formData);
     await this.props.signUp(formData);
 
     if(this.props.errorMsg === '') {

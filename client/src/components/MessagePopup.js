@@ -36,8 +36,6 @@ class MessagePopup extends Component {
       socket.emit("room", receiver);
     }
     socket.on("new message", (data) => {
-      // console.log(data);
-      // console.log(this.state.messages);
       const messages = this.state.messages.concat([data]);
       this.setState({
         messages: messages
@@ -58,7 +56,6 @@ class MessagePopup extends Component {
   }
 
   handleSend = () => {
-    // console.log("sent");
     const { socket } = this.state;
     const sender = this.props.userID;
     const receiver = this.props.receiver;

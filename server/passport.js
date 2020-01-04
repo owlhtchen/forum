@@ -39,7 +39,6 @@ passport.use(new LocalStrategy({
       const user_pwd = await Password.findOne({
         userID : user.id
       });
-      console.log(user_pwd);
      if(!user_pwd || user_pwd.password !== password){
        return done(null, false);
      }

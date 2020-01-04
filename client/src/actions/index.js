@@ -91,7 +91,6 @@ export const signUp = (formData) => {
   return async (dispatch, getState) => {
     try {
       const res = await axios.post("http://localhost:5000/users/signup", formData);
-      // console.log(res);
       /*
       data: {token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmb…zc5fQ.SToYM5V88ieefcoEzBcZnIIkpIFvX-jpcXqyypPioSo"}
       status: 200

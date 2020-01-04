@@ -5,7 +5,6 @@ var mongoose = require('mongoose');
 module.exports = {
   makePost: async (req, res, next) => {
     try{
-      // console.log(req.body);
       const { title, content, postType, authorID, parentID } = req.body;
       const newPost = new Post({
         title,
@@ -14,10 +13,8 @@ module.exports = {
         authorID,
         parentID: parentID
       });
-      // console.log(newPost);
       await newPost.save();      
       if(parentID) {
-        // console.log(parentID);
         await Post.updateOne(
           {_id: parentID},
           { $push: {
@@ -63,7 +60,6 @@ module.exports = {
           "$limit": 80
         }]);
         result = await Post.aggregate(q1);
-        // console.log(result);
       } else {
         const lastPostScore = lastPost.likedBy.length + baseScore - 
         (new Date().getTime() - Date.parse(lastPost.createDate)) / upvoteDecrease;
@@ -73,7 +69,6 @@ module.exports = {
         ]);
         result = await Post.aggregate(q2);
       }
-      // console.log(result);
       res.json(result);
     } catch(err) {
       next(err);
@@ -152,7 +147,6 @@ const expandPost = async (postID) => {
   ]);
   const post = postList[0];
   post.comments = [];
-  // console.log(post);
   if(post.commentIDs.length > 0) {
     await Promise.all(post.commentIDs.map(async (commentID) => {
       post.comments.push(await expandPost(commentID));

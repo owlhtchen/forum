@@ -6,7 +6,10 @@ const notificationSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'User'
   },
-  messages: [String]
+  messages: [{
+    content: String,
+    time: Date
+  }]
 })
 
 const Notification = mongoose.model('Notification', notificationSchema);

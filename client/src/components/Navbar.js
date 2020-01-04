@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import {Link, NavLink} from 'react-router-dom';
 import { connect } from 'react-redux';
+import NotificationDropdown from './NotificationDropdown'
 
 import * as actions from '../actions';
 
@@ -26,6 +27,9 @@ class Navbar extends Component {
 
             <ul className="navbar-nav ml-auto">
               { this.props.isAuthed ? [
+                <li className="nav-item" key="notification">
+                  <NotificationDropdown userID={this.props.userID}/>
+                </li>,                     
                 <li className="nav-item" key="makepost">
                   <NavLink className="nav-link" to="/posts/make-post">Make Post</NavLink>
                 </li>,              
@@ -49,7 +53,8 @@ class Navbar extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    isAuthed: state.user.isAuthed
+    isAuthed: state.user.isAuthed,
+    userID: state.user.userID
   }
 }
 

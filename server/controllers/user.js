@@ -141,7 +141,7 @@ module.exports = {
     let userFollowers = await Followuser.find(
       {user: userID}
     );
-    console.log(userFollowers);
+    // console.log(userFollowers);
     res.json(userFollowers);
   },
   notifyFollowers: async (req, res, next) => {
@@ -155,20 +155,34 @@ module.exports = {
         if(!foundNotification) {
           let newNotification = new Notification({
             receiver: receiver,
-            messages: [message]
+            messages: [{
+              content: message,
+              time: new Date()
+            }]
           });
           await newNotification.save();
         } else {
           await Notification.updateMany(
             {receiver : receiver},
-            {"$push": {"messages": message}}
+            {"$push": {
+              'messages': {
+                content: message,
+                time: new Date()
+              }
+            }}
           )
         }
       }));
-      console.log("done");
       res.end();   
     } catch(err) {
       next(err);
     }
+  },
+  getNotifications: async (req, res, next) => {
+    const { userID } = req.params;
+    let notification = await Notification.findOne({
+      receiver: userID
+    });
+    res.json(notification.messages);
   }
 }

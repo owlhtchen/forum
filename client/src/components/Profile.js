@@ -38,7 +38,7 @@ class Profile extends Component {
         user: profileUser,
         follower: this.props.userID
       });
-      // console.log(resFollwing);
+
       this.setState({
         profileUser: profileUser,
         following: resFollwing.data.following

@@ -12,5 +12,6 @@ router.post('/check-follow-user', UserController.checkFollowUser);
 router.post('/follow-user', UserController.followUser);
 router.get('/get-user-followers/:userID', UserController.getUserFollowers);
 router.post('/notify-followers', UserController.notifyFollowers);
+router.get('/get-notifications/:userID', UserController.getNotifications);
 
 module.exports = router; 

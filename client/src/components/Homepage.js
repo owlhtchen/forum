@@ -17,7 +17,6 @@ export default class Homepage extends Component {
       }
     }
     const res = await axios.post('/posts/filter-sorted-posts', filter);
-    // console.log(res.data);
     if(res.length === 0) {
       this.setState({
         isLoading: false,
@@ -25,7 +24,6 @@ export default class Homepage extends Component {
       });
     }
     const newPosts = posts.concat(res.data);
-    // console.log(newPosts);
     this.setState({
       isLoading: false,
       posts: newPosts
