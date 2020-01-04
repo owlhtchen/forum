@@ -56,32 +56,22 @@ class NotificationDropdown extends Component {
     super(props);
     this.state = {
       notifications: [],
-        redirectURLs: []
+      redirectURLs: []
     }
   }
 
   getNotifications = async () => {
     const { userID } = this.props;
     let res = await axios.get('/users/get-notifications/' + userID);
-    let notification = res.data.reverse();
-    let redirectURLs =  await Promise.all(notification.map(async (notification, index)=>{
-        return this.getRedirectUrl(notification.postID);
+    let notifications = res.data.reverse();
+    let redirectURLs =  await Promise.all(notifications.map(async (notification, index)=>{
+        return await this.getRedirectUrl(notification.postID);
     }));
 
     this.setState({
-      notifications: notification,
+      notifications: notifications,
         redirectURLs: redirectURLs
     });
-  };
-
-  redirectToPost = async (postID) => {
-    const parentID = await getParentPost(postID);
-    console.log(parentID);
-    let newUrl = '/posts/view-post/' + parentID;
-    if(parentID !== postID) {
-      newUrl += '#' + postID
-    }
-    this.props.history.push(newUrl);
   };
 
   getRedirectUrl = async (postID) => {
@@ -108,7 +98,6 @@ class NotificationDropdown extends Component {
 
               return (
                 <Dropdown.Item 
-                // onClick={() => { this.redirectToPost(notification.postID); }}
                 href={url}
                 key={index}>
                   {notification.content + dateInfo(notification.time)}

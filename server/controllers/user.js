@@ -189,6 +189,10 @@ module.exports = {
     let notification = await Notification.findOne({
       receiver: userID
     });
-    res.json(notification.messages);
+    if(notification) {
+      res.json(notification.messages);
+    } else {
+      res.json([]);
+    }
   }
 }

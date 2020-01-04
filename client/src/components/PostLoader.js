@@ -26,11 +26,11 @@ export default class PostLoader extends Component {
     }
   } 
 
-  async componentDidUpdate(prevProps) {
-    if (this.props.match.params.postID !== prevProps.match.params.postID) {
-      await this.getPostOnUrlChange();
-    }
-  }
+  // async componentDidUpdate(prevProps) {
+  //   if (this.props.match.params.postID !== prevProps.match.params.postID) {
+  //     await this.getPostOnUrlChange();
+  //   }
+  // }
 
   render() {
     if(!this.state.post) {
