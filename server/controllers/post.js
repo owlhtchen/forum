@@ -128,6 +128,25 @@ module.exports = {
     } catch(err) {
       next(err);
     }
+  },
+  getParentPost: async (req, res, next) => {
+    const { postID } = req.params;
+    let currentPost;
+    let currentID, parentID;
+    currentID = postID
+    parentID = postID;
+    try {
+      while(parentID) {
+        currentID = parentID;
+        currentPost = await Post.findOne({
+          _id: currentID
+        });        
+        parentID = currentPost.parentID;
+      }
+      res.json(currentID);
+    } catch(err) {
+      next(err);
+    }
   }
 }
 

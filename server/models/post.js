@@ -25,7 +25,8 @@ const postSchema = new Schema({
     ref: 'Post'
   }],
   parentID: {
-    type: Schema.Types.ObjectId
+    type: Schema.Types.ObjectId,
+    ref: 'Post'
   }
 })
 

@@ -162,7 +162,7 @@ module.exports = {
             messages: [{
               content: message,
               time: new Date(),
-              post: postID
+              postID: postID
             }]
           });
           await newNotification.save();
@@ -173,7 +173,7 @@ module.exports = {
               'messages': {
                 content: message,
                 time: new Date(),
-                post: postID
+                postID: postID
               }
             }}
           )

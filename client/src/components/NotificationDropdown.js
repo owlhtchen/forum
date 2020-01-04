@@ -1,6 +1,8 @@
 import React, { Component, useState } from 'react'
 import Dropdown from 'react-bootstrap/Dropdown';
 import axios from 'axios';
+import { dateInfo, getParentPost } from '../utils/index'
+import { withRouter } from 'react-router';
 
 // The forwardRef is important!!
 // Dropdown needs access to the DOM node in order to position the Menu
@@ -49,7 +51,7 @@ const CustomMenu = React.forwardRef(
   },
 );
 
-export default class NotificationDropdown extends Component {
+class NotificationDropdown extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -58,12 +60,17 @@ export default class NotificationDropdown extends Component {
   }
 
   getNotifications = async () => {
-    // console.log("shit");
     const { userID } = this.props;
     let res = await axios.get('/users/get-notifications/' + userID);
     this.setState({
       notifications: res.data.reverse()
     });
+  }
+
+  redirectToPost = async (postID) => {
+    const parentID = await getParentPost(postID);
+    console.log(parentID);
+    this.props.history.push('/posts/view-post/' + parentID);
   }
 
   render() {
@@ -77,9 +84,9 @@ export default class NotificationDropdown extends Component {
           {
             this.state.notifications.map((notification, index) => {
               return (
-                <Dropdown.Item 
+                <Dropdown.Item onClick={() => { this.redirectToPost(notification.postID); }}
                 href={"#/action-" + index} key={index}>
-                  {notification.content}
+                  {notification.content + dateInfo(notification.time)}
                 </Dropdown.Item>
               );
             })
@@ -89,3 +96,5 @@ export default class NotificationDropdown extends Component {
     )
   }
 }
+
+export default withRouter(NotificationDropdown);

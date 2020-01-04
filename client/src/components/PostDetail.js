@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import { dateInfo } from '../utils/index'
 const ReactMarkdown = require('react-markdown');
 
 export default class PostDetail extends Component {
@@ -11,23 +12,6 @@ export default class PostDetail extends Component {
   }
 
   render() {
-    function formatDate(date) {
-      var monthNames = [
-        "January", "February", "March",
-        "April", "May", "June", "July",
-        "August", "September", "October",
-        "November", "December"
-      ];
-    
-      var day = date.getDate();
-      var monthIndex = date.getMonth();
-      var year = date.getFullYear();
-    
-      return day + ' ' + monthNames[monthIndex] + ' ' + year;
-    }
-    function dateInfo(){
-      return ' on '.concat(formatDate(new Date(Date.parse(createDate))));
-    }
     const { title, createDate, content, author } = this.props.post;
 
     const postDetail = (
@@ -36,9 +20,9 @@ export default class PostDetail extends Component {
         <div>
           <span>Posted by </span>
           <Link to={'/users/profile/' + author[0]._id}>{author[0].username}</Link>
-          { dateInfo() }  
+          { dateInfo(createDate) }  
         </div>
-        <button>Follow</button>
+        <button>Follow Post</button>
         <hr></hr>
         <ReactMarkdown 
         source={content}

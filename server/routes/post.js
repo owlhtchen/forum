@@ -8,5 +8,6 @@ router.get('/view-post/:postID', PostController.viewPost);
 router.post('/upvote', PostController.upvotePost);
 router.post('/cancelUpvote', PostController.cancelUpvotePost);
 router.post('/checkUpvote', PostController.checkUpvote);
+router.get('/get-parent-post/:postID', PostController.getParentPost);
 
 module.exports = router; 
