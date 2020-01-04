@@ -70,10 +70,24 @@ class NotificationDropdown extends Component {
   redirectToPost = async (postID) => {
     const parentID = await getParentPost(postID);
     console.log(parentID);
-    this.props.history.push('/posts/view-post/' + parentID);
+    let newUrl = '/posts/view-post/' + parentID;
+    if(parentID !== postID) {
+      newUrl += '#' + postID
+    }
+    this.props.history.push(newUrl);
   }
 
-  render() {
+  getRedirectUrl = async (postID) => {
+    const parentID = await getParentPost(postID);
+    console.log(parentID);
+    let newUrl = '/posts/view-post/' + parentID;
+    if(parentID !== postID) {
+      newUrl += '#' + postID
+    }    
+    return newUrl;
+  }
+
+  async render() {
     return (
       <Dropdown onClick={this.getNotifications}>
         <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components">
@@ -82,14 +96,17 @@ class NotificationDropdown extends Component {
     
         <Dropdown.Menu as={CustomMenu}>
           {
-            this.state.notifications.map((notification, index) => {
+            await Promise.all(this.state.notifications.map(async (notification, index) => {
+              const url = await this.getRedirectUrl(notification.postID);
               return (
-                <Dropdown.Item onClick={() => { this.redirectToPost(notification.postID); }}
-                href={"#/action-" + index} key={index}>
+                <Dropdown.Item 
+                // onClick={() => { this.redirectToPost(notification.postID); }}
+                href={url}
+                key={index}>
                   {notification.content + dateInfo(notification.time)}
                 </Dropdown.Item>
               );
-            })
+            }))
           }
         </Dropdown.Menu>
       </Dropdown>

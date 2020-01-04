@@ -16,7 +16,8 @@ class App extends Component {
   render() { 
     return (   
       <div className="App">
-        <BrowserRouter forceRefresh={true}>
+        {/* <BrowserRouter forceRefresh={true}> */}
+        <BrowserRouter >
           <Navbar />
           <div className="container">
             <Switch>

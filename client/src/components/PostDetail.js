@@ -15,14 +15,14 @@ export default class PostDetail extends Component {
     const { title, createDate, content, author } = this.props.post;
 
     const postDetail = (
-      <div className="post-detail">
+      <div className="post-detail" id={this.props.post._id}>
        <h2>{ title }</h2>
         <div>
           <span>Posted by </span>
           <Link to={'/users/profile/' + author[0]._id}>{author[0].username}</Link>
           { dateInfo(createDate) }  
         </div>
-        <button>Follow Post</button>
+        <button>Follow This</button>
         <hr></hr>
         <ReactMarkdown 
         source={content}
