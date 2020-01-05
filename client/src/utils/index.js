@@ -21,7 +21,6 @@ export const getPostFollowers = async (postID) => {
 }
 
 export const notifyFollowers = async (followers, message, postID) => {
-  // console.log(postID);
   await axios.post('/users/notify-followers', {
     followers,
     message,
@@ -49,8 +48,6 @@ export const dateInfo = (date) => {
 }
 
 export const getParentPost = async (postID) => {
-  console.log("pp hi");
   let res = await axios.get('/posts/get-parent-post/' + postID);
-  console.log("p hi");
   return res.data;
 }

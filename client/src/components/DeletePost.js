@@ -4,20 +4,21 @@ import axios from 'axios'
 
 class DeletePost extends Component {
   deletePost = async () => {
-    const { post, userID } = this.props;
-    await axios.post('/posts/delete-post', {
-      post: post,
-      userID: userID
-    })
+    try {
+      const { post, userID } = this.props;
+      await axios.post('/posts/delete-post', {
+        post: post,
+        userID: userID
+      });
+      window.location.reload();
+    } catch(err) {
+      alert("unauthorized");
+    }
   }
 
   render() {
     const { isAdmin, userID, post } = this.props;
     const isAuthor = (post.authorID === userID);
-    console.log("isAuthor");
-    console.log(isAuthor);
-    console.log("isAdmin");
-    console.log(isAdmin);
     if(!isAuthor && !isAdmin) {
       return <span></span>;
     }

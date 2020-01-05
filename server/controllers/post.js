@@ -201,9 +201,7 @@ module.exports = {
   getPostByID: async (req, res, next) => {
     try {
       const { postID } = req.params;
-      console.log(postID);
       const post = await Post.findById(postID);
-      console.log(post);
       res.json(post);
     } catch(err) {
       next(err);
@@ -214,13 +212,13 @@ module.exports = {
     try {
       const user = await User.findById(userID);
       if(!user.isAdmin && (userID !== post.authorID)) {
-        res.status(401).end();
+        return res.status(401).end();
       }
       await Post.updateMany(
         { _id: post._id },
         { isDeleted: true }
       )
-      res.end()      
+      return res.end()      
     } catch(err) {
       next(err);
     }

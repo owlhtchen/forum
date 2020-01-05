@@ -53,8 +53,6 @@ class PostCreator extends Component {
       // parent Post followers
       const parentID = await getParentPost(newPostID);
       const postFollowers = await getPostFollowers(parentID);
-      console.log("postFollowers");
-      console.log(postFollowers);
       const parentPost = await getPostByID(parentID);
       const postMessage = parentPost.title + " has a follow up";
       await notifyFollowers(postFollowers, postMessage, parentID);
