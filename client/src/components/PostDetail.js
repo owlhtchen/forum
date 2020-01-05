@@ -1,28 +1,66 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { dateInfo } from '../utils/index'
+import { connect } from 'react-redux'
+import axios from 'axios'
 const ReactMarkdown = require('react-markdown');
 
-export default class PostDetail extends Component {
+class PostDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showMessagePopup: false
+      following: false
     };
   }
 
+  async componentDidMount() {
+    try {
+      const post = this.props.post._id;  //postID
+      const resFollowing = await axios.post('/posts/check-follow-post', {
+        post: post,
+        follower: this.props.userID
+      });
+
+      this.setState({
+        following: resFollowing.data.following
+      });
+    } catch(err) {
+      console.log("axios exception in PostDetail Mount");   
+    }
+  }
+
+  handleFollow = async () => {
+    const { following } = this.state;
+    try {
+      await axios.post('/posts/follow-post', {
+        post: this.props.post._id,
+        follower: this.props.userID,
+        startFollowing: !following
+      });
+      this.setState({
+        following: !following
+      })
+    } catch(err) {
+      console.log("axios exception in PostDetail handle follow");  
+    }
+  }
+
   render() {
-    const { title, createDate, content, author } = this.props.post;
+    const { following } = this.state;
+    const { title, createDate, content, author, parentID } = this.props.post;
 
     const postDetail = (
       <div className="post-detail" id={this.props.post._id}>
-       <h2>{ title }</h2>
-        <div>
+       <h2 style={{display:"inline-block"}}>{ title }</h2>
+        <div style={{display:"inline-block"}}>
           <span>Posted by </span>
           <Link to={'/users/profile/' + author[0]._id}>{author[0].username}</Link>
-          { dateInfo(createDate) }  
+          { dateInfo(createDate) }  &nbsp;
         </div>
-        <button>Follow This</button>
+        {
+          !parentID &&
+          <button onClick={this.handleFollow}>{following ? "Unfollow" : "Follow"}</button>
+        }
         <hr></hr>
         <ReactMarkdown 
         source={content}
@@ -38,3 +76,11 @@ export default class PostDetail extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    userID: state.user.userID
+  };
+}
+
+export default connect(mapStateToProps)(PostDetail)

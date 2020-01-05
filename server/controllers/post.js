@@ -1,5 +1,6 @@
 const User = require('../models/user');
 const Post = require('../models/post');
+const Followpost = require('../models/followpost');
 var mongoose = require('mongoose');
 
 module.exports = {
@@ -147,6 +148,64 @@ module.exports = {
     } catch(err) {
       next(err);
     }
+  },
+  followPost: async (req, res, next) => {
+    const { post, follower, startFollowing } = req.body;
+    try {
+      if(startFollowing) {
+        let newFollowpost = new Followpost({
+          post,
+          follower 
+        });
+        await newFollowpost.save();
+      } else {
+        await Followpost.deleteMany({
+          post,
+          follower
+        });
+      }
+      res.end();      
+    } catch(err) {
+      next(err);
+    }
+  },
+  checkFollowPost: async (req, res, next) => {
+    try {
+      const followPost = await Followpost.findOne(req.body);
+      if(followPost) {
+        return res.json({
+          following: true
+        });
+      } else {
+        return res.json({
+          following: false
+        });
+      }
+    } catch(err){
+      next(err);
+    }    
+  },
+  getPostFollowers: async (req, res, next) => {
+    try {
+      const { postID } = req.params;
+      let postFollowers = await Followpost.find(
+        {post: postID}
+      );
+      res.json(postFollowers);      
+    } catch(err) {
+      next(err);
+    }
+  },
+  getPostByID: async (req, res, next) => {
+    try {
+      const { postID } = req.params;
+      console.log(postID);
+      const post = await Post.findById(postID);
+      console.log(post);
+      res.json(post);
+    } catch(err) {
+      next(err);
+    }    
   }
 }
 

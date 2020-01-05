@@ -137,12 +137,15 @@ module.exports = {
     }
   },
   getUserFollowers: async (req, res, next) => {
-    const { userID } = req.params;
-    let userFollowers = await Followuser.find(
-      {user: userID}
-    );
-    // console.log(userFollowers);
-    res.json(userFollowers);
+    try {
+      const { userID } = req.params;
+      let userFollowers = await Followuser.find(
+        {user: userID}
+      );
+      res.json(userFollowers);
+    } catch(err) {
+      next(err);
+    }
   },
   notifyFollowers: async (req, res, next) => {
     const { followers, message, postID } = req.body;

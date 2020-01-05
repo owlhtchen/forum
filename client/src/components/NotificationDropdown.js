@@ -76,7 +76,6 @@ class NotificationDropdown extends Component {
 
   getRedirectUrl = async (postID) => {
     const parentID = await getParentPost(postID);
-    console.log(parentID);
     let newUrl = '/posts/view-post/' + parentID;
     if(parentID !== postID) {
       newUrl += '#' + postID

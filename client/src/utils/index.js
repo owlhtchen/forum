@@ -5,8 +5,18 @@ export const getUserByID = async (userID) => {
   return res.data;
 }
 
+export const getPostByID = async (postID) => {
+  let res = await axios.get("/posts/get-post/" + postID);
+  return res.data;
+}
+
 export const getUserFollowers = async (userID) => {
   let res = await axios.get("/users/get-user-followers/" + userID);
+  return res.data;
+}
+
+export const getPostFollowers = async (postID) => {
+  let res = await axios.get("/posts/get-posts-followers/" + postID);
   return res.data;
 }
 
@@ -39,6 +49,8 @@ export const dateInfo = (date) => {
 }
 
 export const getParentPost = async (postID) => {
+  console.log("pp hi");
   let res = await axios.get('/posts/get-parent-post/' + postID);
+  console.log("p hi");
   return res.data;
 }

@@ -3,7 +3,7 @@ import SimpleMDE from "react-simplemde-editor";
 import "easymde/dist/easymde.min.css";
 import axios from 'axios';
 import { connect } from 'react-redux';
-import { getUserByID, getUserFollowers, notifyFollowers } from '../utils/index';
+import { getUserByID, getUserFollowers, notifyFollowers, getPostFollowers, getParentPost, getPostByID } from '../utils/index';
 
 const mdeID = "mdeID";
 
@@ -41,14 +41,26 @@ class PostCreator extends Component {
         authorID: this.props.userID,
         parentID: this.props.parentID
       });
+      let newPostID = res.data;
 
       //notification
       const user = await getUserByID(this.props.userID);
-      const message = user.username + " made a " + postType + 
+      const userMessage = user.username + " made a " + postType + 
                   ((postType === "comment") ? ": " + content.slice(0, 7) + "(...)" : " with title: " + title);
-      const followers = await getUserFollowers(user._id);
-      console.log(res.data);
-      await notifyFollowers(followers, message, res.data);
+      // user followers
+      const userFollowers = await getUserFollowers(user._id);
+      await notifyFollowers(userFollowers, userMessage, newPostID);
+      // parent Post followers
+      const parentID = await getParentPost(newPostID);
+      // console.log("parent post id");
+      // console.log(parentID);
+      const postFollowers = await getPostFollowers(parentID);
+      console.log("postFollowers");
+      console.log(postFollowers);
+      const parentPost = await getPostByID(parentID);
+      // console.log(parentPost);
+      const postMessage = parentPost.title + " has a follow up";
+      await notifyFollowers(postFollowers, postMessage, parentID);
 
       document.getElementById("post-form").reset();
       this.setState({
@@ -58,6 +70,7 @@ class PostCreator extends Component {
       window.location.reload();
     } catch(err) {
       console.log("axios post error in PostCreator");
+      console.log(err.message);
     }
   }
 

@@ -9,5 +9,9 @@ router.post('/upvote', PostController.upvotePost);
 router.post('/cancelUpvote', PostController.cancelUpvotePost);
 router.post('/checkUpvote', PostController.checkUpvote);
 router.get('/get-parent-post/:postID', PostController.getParentPost);
+router.post('/follow-post', PostController.followPost);
+router.post('/check-follow-post', PostController.checkFollowPost);
+router.get('/get-posts-followers/:postID', PostController.getPostFollowers);
+router.get('/get-post/:postID', PostController.getPostByID);
 
 module.exports = router; 
