@@ -34,14 +34,16 @@ module.exports = {
     const { lastPost } = req.body;
     let result;
     let query = [
-      
-      { '$addFields' : { 
-        'score': {"$add" : [
-          { '$size': '$likedBy' },  // op1
-          baseScore,  // op2
-          {"$subtract": [0,{"$divide": [{"$subtract":[ new Date(),"$createDate" ]}, upvoteDecrease] }]} //op3
-          ] }
-        },
+    {
+      '$match' : { isDeleted: { '$eq': false } }
+    },  
+    { '$addFields' : { 
+      'score': {"$add" : [
+        { '$size': '$likedBy' },  // op1
+        baseScore,  // op2
+        {"$subtract": [0,{"$divide": [{"$subtract":[ new Date(),"$createDate" ]}, upvoteDecrease] }]} //op3
+        ] }
+      },
        
     }, 
     {"$sort":{"score":-1}},
@@ -206,6 +208,22 @@ module.exports = {
     } catch(err) {
       next(err);
     }    
+  },
+  deletePost: async (req, res, next) => {
+    const { post, userID } = req.body;
+    try {
+      const user = await User.findById(userID);
+      if(!user.isAdmin && (userID !== post.authorID)) {
+        res.status(401).end();
+      }
+      await Post.updateMany(
+        { _id: post._id },
+        { isDeleted: true }
+      )
+      res.end()      
+    } catch(err) {
+      next(err);
+    }
   }
 }
 

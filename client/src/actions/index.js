@@ -6,12 +6,14 @@ const { SIGN_UP, SIGN_ERROR, GET_SECRET, SIGN_OUT, SIGN_IN } = require("./types"
 const setSignInStatus = (res) => {
   localStorage.setItem('token', res.data.token);
   localStorage.setItem('userID', res.data.userID);
+  localStorage.setItem('isAdmin', res.data.isAdmin);
   axios.defaults.headers.common['authorization'] = res.data.token;
 }
 
 const setSignOutStatus = () => {
   localStorage.removeItem('token');
   localStorage.removeItem('userID');
+  localStorage.removeItem('isAdmin');
   axios.defaults.headers.common['authorization'] = "";
 }
 
@@ -25,7 +27,8 @@ export const signIn = (formData) => {
      dispatch({
        type: SIGN_IN,
        token: res.data.token,
-       userID: res.data.userID
+       userID: res.data.userID,
+       isAdmin: res.data.isAdmin
      });
      setSignInStatus(res);
     } catch(err) {
@@ -48,6 +51,7 @@ export const googleOauth = (response) => {
      dispatch({
        type: SIGN_IN,
        token: res.data.token,
+       isAdmin: res.data.isAdmin,
        userID: res.data.userID
      });
      setSignInStatus(res);
@@ -106,7 +110,8 @@ export const signUp = (formData) => {
      dispatch({
        type: SIGN_UP,
        token: res.data.token,
-       userID: res.data.userID
+       userID: res.data.userID,
+       isAdmin: res.data.isAdmin
      });
      setSignInStatus(res);
     } catch(err) {

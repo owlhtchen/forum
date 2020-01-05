@@ -47,7 +47,7 @@ class PostDetail extends Component {
 
   render() {
     const { following } = this.state;
-    const { title, createDate, content, author, parentID } = this.props.post;
+    const { title, createDate, content, author, parentID, isDeleted } = this.props.post;
 
     const postDetail = (
       <div className="post-detail" id={this.props.post._id}>
@@ -68,6 +68,10 @@ class PostDetail extends Component {
          <hr></hr>
       </div>
     );
+
+    if(isDeleted) {
+      return <div>[Deleted]</div>
+    }
 
     return (
       <div>

@@ -20,7 +20,8 @@ module.exports = {
     const token = SignJWTToken(req.user);
     return res.json({
       token: token,
-      userID: req.user.id
+      userID: req.user.id,
+      isAdmin: req.user.isAdmin
     });
   },
   signUp: async (req, res, next) => {
@@ -50,7 +51,8 @@ module.exports = {
       const token = SignJWTToken(newUser);
       return res.json({
         token: token,
-        userID: newUser.id
+        userID: newUser.id,
+        isAdmin: newUser.isAdmin
       })
     } catch(err) {
       next(err);
@@ -88,7 +90,8 @@ module.exports = {
     const token = SignJWTToken(foundUser);
     return res.json({
       token: token,
-      userID: foundUser.id
+      userID: foundUser.id,
+      isAdmin: foundUser.isAdmin
     });
   },
   getUserByID: async (req, res, next) => {

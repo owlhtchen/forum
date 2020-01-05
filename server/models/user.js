@@ -35,7 +35,11 @@ const userSchema = new Schema({
   favorite: [{
     type: Schema.Types.ObjectId,
     ref: 'Post'
-  }]
+  }],
+  isAdmin: {
+    type: Boolean,
+    default: false
+  }
 });
 
 // Create a model

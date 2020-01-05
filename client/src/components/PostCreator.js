@@ -52,13 +52,10 @@ class PostCreator extends Component {
       await notifyFollowers(userFollowers, userMessage, newPostID);
       // parent Post followers
       const parentID = await getParentPost(newPostID);
-      // console.log("parent post id");
-      // console.log(parentID);
       const postFollowers = await getPostFollowers(parentID);
       console.log("postFollowers");
       console.log(postFollowers);
       const parentPost = await getPostByID(parentID);
-      // console.log(parentPost);
       const postMessage = parentPost.title + " has a follow up";
       await notifyFollowers(postFollowers, postMessage, parentID);
 
@@ -66,6 +63,7 @@ class PostCreator extends Component {
       this.setState({
         mdeValue: ""
       });
+      localStorage.removeItem(`smde_${mdeID}`)
       // refresh page to see new post/comment
       window.location.reload();
     } catch(err) {

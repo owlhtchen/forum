@@ -9,6 +9,7 @@ import './index.css';
 import App from './components/App';
 import rootReducer from './reducers/index';
 
+const isAdmin = (localStorage.getItem('isAdmin') == 'true');
 const token = localStorage.getItem('token');
 const userID = localStorage.getItem('userID');
 axios.defaults.headers.common['authorization'] = token;
@@ -19,6 +20,7 @@ const store = createStore(rootReducer, {
     token: token,
     userID: userID, 
     isAuthed: (token !== null && userID !== null && token !== "" && userID !== "") ? true: false,
+    isAdmin: isAdmin,
     errorMsg: ""
   }
 }, composeEnhancers(applyMiddleware(reduxThunk)) );

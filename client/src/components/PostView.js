@@ -3,6 +3,7 @@ import axios from 'axios'
 import PostDetail from './PostDetail'
 import PostCreator from './PostCreator';
 import { connect } from 'react-redux';
+import DeletePost from './DeletePost';
 
 class PostView extends Component {
   constructor(props) {
@@ -56,6 +57,8 @@ class PostView extends Component {
         <PostDetail post={post} />
         <button className="btn" onClick={this.addComment}>Reply</button>
         <button className={upvoted ? "btn btn-primary": "btn"} onClick={this.upvote}>Upvote</button>
+        <DeletePost 
+        post={post}></DeletePost>
         { this.state.showAddComment && <PostCreator parentID={post._id} /> }        
         <div>
           {

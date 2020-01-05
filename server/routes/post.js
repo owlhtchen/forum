@@ -13,5 +13,6 @@ router.post('/follow-post', PostController.followPost);
 router.post('/check-follow-post', PostController.checkFollowPost);
 router.get('/get-posts-followers/:postID', PostController.getPostFollowers);
 router.get('/get-post/:postID', PostController.getPostByID);
+router.post('/delete-post', PostController.deletePost);
 
 module.exports = router; 

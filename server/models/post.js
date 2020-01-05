@@ -27,6 +27,10 @@ const postSchema = new Schema({
   parentID: {
     type: Schema.Types.ObjectId,
     ref: 'Post'
+  },
+  isDeleted: {
+    type: Boolean,
+    default: false
   }
 })
 

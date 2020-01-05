@@ -3,29 +3,28 @@
 ## Features
 
 - Homepage
-  - Trending
   - Followed users/posts
-
+  
 - Users 
-  - [ ] Profile
-  - [ ] Friends (Following, Follower)
+  - [x] Profile
+  - [x] Following, Follower
   - [ ] Block
   - [ ] Column
-  - [ ] DM
-  - [ ] OAuth
+  - [x] DM
+  - [x] OAuth
   - [ ] Password recovery
   - [ ] Timeline
   - [ ] History
   - [ ] Reputation
   - [ ] Favorites
 - Posts 
-  - [x] Like/Dislike
+  - [x] Like/Dislike (upvotes)
   - [ ] Pinned
   - [x] Markdown editing  
-  - [ ] Comments (notification)
+  - [x] Comments (notification if you follow the post and the post gets new comments)
   - [ ] @username
   - [ ] Follow, email notification, feed
-  - [ ] Daily highlight
+  - [x] Daily highlight (homepage, more upvotes & more recent creation date => rank earlier)
   - [ ] Share via QR code
   - [ ] Vote 
 - Admin
