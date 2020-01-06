@@ -10,6 +10,7 @@ import Homepage from './Homepage';
 import authGuard from './authGuard';
 import PostLoader from './PostLoader';
 import Profile from './Profile';
+import Category from './Category';
 
 class App extends Component {
   state = {  }
@@ -28,6 +29,7 @@ class App extends Component {
               <Route exact path="/posts/make-post" component={authGuard(Post)} />
               <Route exact path="/posts/view-post/:postID" component={PostLoader} />
               <Route exact path="/users/profile/:userID" component={Profile} />
+              <Route exact path="/categories/edit-category" component={Category} />
             </Switch>
           </div>
         </BrowserRouter>

@@ -26,6 +26,8 @@ class Navbar extends Component {
             </ul>
 
             <ul className="navbar-nav ml-auto">
+              { this.props.isAdmin && 
+              <NavLink className="nav-link" to="/categories/edit-category">Edit Category</NavLink>}
               { this.props.isAuthed ? [
                 <li className="nav-item" key="notification">
                   <NotificationDropdown userID={this.props.userID}/>
@@ -54,7 +56,8 @@ class Navbar extends Component {
 const mapStateToProps = (state) => {
   return {
     isAuthed: state.user.isAuthed,
-    userID: state.user.userID
+    userID: state.user.userID,
+    isAdmin: state.user.isAdmin
   }
 }
 

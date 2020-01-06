@@ -2,10 +2,13 @@ const express = require('express');
 const path = require('path');
 const cors = require('cors');
 var mongoose = require('mongoose');
-var bodyParser = require('body-parser')
+var bodyParser = require('body-parser');
 
 const users = require('./routes/user');
 const posts = require('./routes/post');
+const categories = require('./routes/category');
+
+const Category = require('./models/category');
 
 mongoose.connect('mongodb://localhost/forum', {useNewUrlParser: true});
 var db = mongoose.connection;
@@ -13,6 +16,16 @@ db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
   // we're connected!
   console.log("connected to mongod");
+  mongoose.connection.db.listCollections({name: 'categories'})
+    .next(async function(err, collinfo) {
+        if (!collinfo) {
+            console.log("rootCategory created");
+            const rootCategory = new Category({
+              name: "Root Category"
+            });
+            await rootCategory.save();
+        }
+    });
  
     const app = express();
 
@@ -32,6 +45,7 @@ db.once('open', function() {
 
     app.use('/users', users);
     app.use('/posts', posts);
+    app.use('/categories', categories);
 
     // Handles any requests that don't match the ones above
     app.get('*', (req,res) =>{
