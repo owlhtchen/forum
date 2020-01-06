@@ -13,7 +13,7 @@ const SignJWTToken = (user) => {
     iat: new Date().getTime(),
     exp: new Date().setDate(new Date().getDate() + 1)
   }, JWT_SECRET);
-}
+};
 
 module.exports = {
   signIn: (req, res, next) => {
@@ -197,4 +197,4 @@ module.exports = {
       res.json([]);
     }
   }
-}
+};

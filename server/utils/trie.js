@@ -37,19 +37,19 @@ class Trie {
 }
 
 buildCategoryTrie = async () => {
-  t = new Trie();
+  let t = new Trie();
   const allCategories = await Category.find();
   allCategories.forEach((category) => {
     t.insertWord(category);
-  })
+  });
   return t;
-}
+};
 
-var categorySingleton = (function() {
-  var instance;
+let categorySingleton = (function() {
+  let instance;
 
   async function createInstance() {
-    object = await buildCategoryTrie();
+    let object = await buildCategoryTrie();
     setTimeout(buildCategoryTrie,
       1000 * 60 * 60 * 24);
     return object;

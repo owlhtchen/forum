@@ -11,7 +11,7 @@ const categories = require('./routes/category');
 const Category = require('./models/category');
 
 mongoose.connect('mongodb://localhost/forum', {useNewUrlParser: true});
-var db = mongoose.connection;
+let db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
   // we're connected!
@@ -39,8 +39,8 @@ db.once('open', function() {
     // Serve the static files from the React app
     app.use(express.static(path.join(__dirname, 'client/build')));
 
-    var http = require('http').createServer(app);
-    var io = require('socket.io')(http);
+    let http = require('http').createServer(app);
+    let io = require('socket.io')(http);
     require('./socket')(io);
 
     app.use('/users', users);

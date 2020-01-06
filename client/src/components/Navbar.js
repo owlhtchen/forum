@@ -8,7 +8,7 @@ import * as actions from '../actions';
 class Navbar extends Component {
   onClick = () => {
     this.props.signOut();
-  }
+  };
 
   render() {
     return (
@@ -59,6 +59,6 @@ const mapStateToProps = (state) => {
     userID: state.user.userID,
     isAdmin: state.user.isAdmin
   }
-}
+};
 
 export default connect(mapStateToProps, actions)(Navbar);

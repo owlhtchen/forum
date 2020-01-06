@@ -1,4 +1,4 @@
-const categorySingleton = require('../utils/trie')
+const categorySingleton = require('../utils/trie');
 
 module.exports = {
   getCategoryWithPrefix: async (req, res, next) => {
@@ -10,4 +10,4 @@ module.exports = {
       next(err);
     }
   }
-}
+};
