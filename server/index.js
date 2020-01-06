@@ -16,17 +16,18 @@ db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
   // we're connected!
   console.log("connected to mongod");
+
   mongoose.connection.db.listCollections({name: 'categories'})
-    .next(async function(err, collinfo) {
-        if (!collinfo) {
-            console.log("rootCategory created");
-            const rootCategory = new Category({
-              name: "Root Category"
-            });
-            await rootCategory.save();
-        }
-    });
- 
+  .next(async function(err, collinfo) {
+      if (!collinfo) {
+          console.log("Root Category created");
+          const rootCategory = new Category({
+            name: "Root Category"
+          });
+          await rootCategory.save();
+      }
+  });
+  
     const app = express();
 
     app.use(bodyParser.urlencoded({ extended: false }));
