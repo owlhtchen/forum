@@ -22,9 +22,10 @@ export default class SearchCategory extends Component {
 
   render() {
     const { categories } = this.state;
+    const { id } = this.props;
     return (
       <div>
-        <select size="10" id="parentCategory">
+        <select size="10" id={id}>
           {
             categories.map((category, index) => {
               return <option value={category._id} key={index}>{category.name}</option>

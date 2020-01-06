@@ -25,7 +25,7 @@ export default class Category extends Component {
         </fieldset>
         <fieldset>
           <label htmlFor="parentCategory">Parent Category&nbsp;</label>
-          <SearchCategory />
+          <SearchCategory id={"parentCategory"} />
         </fieldset>
         <button>Add</button>
       </form>

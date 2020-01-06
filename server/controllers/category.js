@@ -22,9 +22,6 @@ module.exports = {
   addCategory: async (req, res, next) => {
     try {
       const { name, parentID } = req.body;
-      console.log("category");
-      console.log(name);
-      console.log(parentID);
       const newCategory = new Category({
         name: name,
         parentID: parentID

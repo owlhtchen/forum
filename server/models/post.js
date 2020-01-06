@@ -31,6 +31,10 @@ const postSchema = new Schema({
   isDeleted: {
     type: Boolean,
     default: false
+  },
+  category: {
+    type: Schema.Types.ObjectId,
+    ref: 'Category'
   }
 })
 

@@ -4,6 +4,7 @@ import "easymde/dist/easymde.min.css";
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { getUserByID, getUserFollowers, notifyFollowers, getPostFollowers, getParentPost, getPostByID } from '../utils/index';
+import SearchCategory from './SearchCategory';
 
 const mdeID = "mdeID";
 
@@ -28,18 +29,21 @@ class PostCreator extends Component {
       let title;
       let postType;
       let content = this.state.mdeValue;
+      let category;
       if(this.props.parentID) {
         postType = "comment";
       } else {
         postType = document.getElementById('postType').value;
         title = document.getElementById('title').value;
+        category = document.getElementById('category').value;
       }
       let res = await axios.post('http://localhost:5000/posts/make-post', {
         title: title,
         content: content,
         postType: postType,
         authorID: this.props.userID,
-        parentID: this.props.parentID
+        parentID: this.props.parentID,
+        category: category
       });
       let newPostID = res.data;
 
@@ -88,6 +92,12 @@ class PostCreator extends Component {
               <option value="timeline">Timeline</option>
               <option value="column">Column</option>
             </select>
+          </fieldset>
+          }
+          { !this.props.parentID && 
+          <fieldset >
+            <label htmlFor="category">Category</label>
+            <SearchCategory id={"category"}/>
           </fieldset>
           }
           <SimpleMDE id={mdeID}
