@@ -6,13 +6,14 @@ var mongoose = require('mongoose');
 module.exports = {
   makePost: async (req, res, next) => {
     try{
-      const { title, content, postType, authorID, parentID } = req.body;
+      const { title, content, postType, authorID, parentID, category } = req.body;
       const newPost = new Post({
         title,
         content,
         postType,  
         authorID,
-        parentID: parentID
+        parentID,
+        category
       });
       await newPost.save();      
       if(parentID) {

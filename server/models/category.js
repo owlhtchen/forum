@@ -3,6 +3,10 @@ const Schema = mongoose.Schema;
 
 const categorySchema = new Schema({
   name: String,
+  parentID: {
+    type: Schema.Types.ObjectId,
+    ref: 'Category',
+  },
   postIDs: [{
     type: Schema.Types.ObjectId,
     ref: 'Post'

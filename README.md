@@ -17,6 +17,7 @@
   - [ ] History
   - [ ] Reputation
   - [ ] Favorites
+  - [ ] Avator
 - Posts 
   - [x] Like/Dislike (upvotes)
   - [ ] Pinned
