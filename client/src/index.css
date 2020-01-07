@@ -92,3 +92,7 @@ code {
 .dropdown-item {
   white-space: normal;
 }
+
+.wrap-text{
+  word-wrap: break-word;
+}

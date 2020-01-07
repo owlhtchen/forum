@@ -132,7 +132,7 @@ class PostCreator extends Component {
                 />
                 <input type="submit" className="btn btn-primary" />
               </div>
-              <div className="col-1">
+              <div className="col-1 wrap-text">
                 KKKKKKKKKKKKKKKK kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk
               </div>
             </div>
