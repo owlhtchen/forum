@@ -4,6 +4,7 @@ import PostDetail from './PostDetail'
 import PostCreator from './PostCreator';
 import { connect } from 'react-redux';
 import DeletePost from './DeletePost';
+import QRDropdown from './QRDropdown';
 
 class PostView extends Component {
   constructor(props) {
@@ -56,6 +57,7 @@ class PostView extends Component {
       <div className="container mb-3">
         <PostDetail post={post} />
         <button className="btn" onClick={this.addComment}>Reply</button>
+        <QRDropdown post={post}></QRDropdown>
         <button className={upvoted ? "btn btn-primary": "btn"} onClick={this.upvote}>Upvote</button>
         <DeletePost 
         post={post}></DeletePost>
