@@ -42,6 +42,16 @@ code {
 /* popup */
 .react-js-modal {
   /*font-size: 12px;*/
+  height: 400px;
+  overflow: scroll;
+}
+
+.message-box{
+  position: absolute;
+  bottom: 10px;
+}
+.message-box-input {
+  width: 500px;
 }
 .react-js-modal > .header {
   width: 100%;
@@ -49,10 +59,13 @@ code {
   font-size: 18px;
   text-align: center;
   padding: 5px;
+
 }
 .react-js-modal > .content {
   width: 100%;
   padding: 10px 5px;
+
+
 }
 .react-js-modal > .actions {
   width: 100%;
@@ -72,6 +85,7 @@ code {
   background: #ffffff;
   border-radius: 18px;
   border: 1px solid #cfcece;
+
 }
 
 

@@ -95,8 +95,8 @@ class MessagePopup extends Component {
                 })}
               </div>
             </div>
-            <div>
-              <input id="message-box" type="text"></input>
+            <div className="message-box">
+              <input id="message-box" type="text" className="message-box-input" ></input>
               <button onClick={this.handleSend}>Send</button>
             </div>
           </div>
