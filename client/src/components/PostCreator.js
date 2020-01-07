@@ -76,78 +76,67 @@ class PostCreator extends Component {
 
   render() {
     return (
-      <div style={{ width: '50%' }}>
-        <form onSubmit={this.handleSubmit} id="post-form">
-          { !this.props.parentID && 
-            <fieldset className="form-control">
-              <label htmlFor="title">Title&nbsp;</label>
-              <input type="text" id="title"></input>
-            </fieldset>
-          }
-          { !this.props.parentID && 
-          <fieldset >
-            <select name="postType" id="postType" className="form-control">
-              <option>-- select a type --</option>
-              <option value="post">Post</option>
-              <option value="timeline">Timeline</option>
-              <option value="column">Column</option>
-            </select>
-          </fieldset>
-          }
-          { !this.props.parentID && 
-          <fieldset >
-            <label htmlFor="category">Category</label>
-            <SearchCategory id={"category"}/>
-          </fieldset>
-          }
-          <SimpleMDE id={mdeID}
-          value={ this.state.mdeValue } 
-          onChange={this.handleChange} 
-          options = {{
-            spellChecker: false,
-            autosave: {
-              enabled: true, 
-              uniqueId: mdeID,
-              delay: 1000
-            }
-          }}
-          events={{'change':(e, change)=>{
-          //   {from: Pos, to: Pos, text: Array(1), removed: Array(1), origin: "+input"}
-          //   from: Pos
-          //   line: 0
-          //   ch: 58
-          //   sticky: null
-          //   __proto__:
-          //       constructor: ƒ Pos(line, ch, sticky)
-          //   __proto__: Object
-          //   to: Pos
-          //   line: 0
-          //   ch: 58
-          //   sticky: null
-          //   __proto__: Object
-          //   text: Array(1)
-          //   0: "d"
-          //   length: 1
-          //   __proto__: Array(0)
-          //   removed: Array(1)
-          //   0: ""
-          //   length: 1
-          //   __proto__: Array(0)
-          //   origin: "+input"
-          //   __proto__: Object
-            if(change.origin == '+input'){
-              console.log("added ".concat(change.text[0]));
-              console.log('mdevalue : '.concat(this.state.mdeValue));
-              let ch = change.text[0];
-              if(ch === "@"){
-                alert('fuck');
-              }
-            }
-          }}}
-          />
-          <input type="submit" className="btn btn-primary" />
-        </form>
-      </div>
+      
+        
+          <form onSubmit={this.handleSubmit} id="post-form">
+            <div className="row">
+              <div className="col-6">
+                { !this.props.parentID && 
+                  <fieldset className="form-control">
+                    <label htmlFor="title">Title&nbsp;</label>
+                    <input type="text" id="title"></input>
+                  </fieldset>
+                }
+                { !this.props.parentID && 
+                <fieldset >
+                  <select name="postType" id="postType" className="form-control">
+                    <option>-- select a type --</option>
+                    <option value="post">Post</option>
+                    <option value="timeline">Timeline</option>
+                    <option value="column">Column</option>
+                  </select>
+                </fieldset>
+                }
+                { !this.props.parentID && 
+                <fieldset >
+                  <label htmlFor="category">Category</label>
+                  <SearchCategory id={"category"}/>
+                </fieldset>
+                }
+              </div>
+            </div>
+
+            <div className="row">
+              <div className="col-6">            
+                <SimpleMDE id={mdeID}
+                value={ this.state.mdeValue } 
+                onChange={this.handleChange} 
+                options = {{
+                  spellChecker: false,
+                  autosave: {
+                    enabled: true, 
+                    uniqueId: mdeID,
+                    delay: 1000
+                  }
+                }}
+                events={{'change':(instance, change)=>{
+                  if(change.origin == '+input'){
+                    console.log("added ".concat(change.text[0]));
+                    console.log('mdevalue : '.concat(this.state.mdeValue));
+                    let ch = change.text[0];
+                    if(ch === "@"){
+                      alert('fuck');
+                    }
+                  }
+                }}}
+                />
+                <input type="submit" className="btn btn-primary" />
+              </div>
+              <div className="col-1">
+                KKKKKKKKKKKKKKKK kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk
+              </div>
+            </div>
+          </form>
     )
   }
 }
