@@ -100,7 +100,41 @@ class PostCreator extends Component {
               uniqueId: mdeID,
               delay: 1000
             }
-          }} />
+          }}
+          events={{'change':(e, change)=>{
+          //   {from: Pos, to: Pos, text: Array(1), removed: Array(1), origin: "+input"}
+          //   from: Pos
+          //   line: 0
+          //   ch: 58
+          //   sticky: null
+          //   __proto__:
+          //       constructor: ƒ Pos(line, ch, sticky)
+          //   __proto__: Object
+          //   to: Pos
+          //   line: 0
+          //   ch: 58
+          //   sticky: null
+          //   __proto__: Object
+          //   text: Array(1)
+          //   0: "d"
+          //   length: 1
+          //   __proto__: Array(0)
+          //   removed: Array(1)
+          //   0: ""
+          //   length: 1
+          //   __proto__: Array(0)
+          //   origin: "+input"
+          //   __proto__: Object
+            if(change.origin == '+input'){
+              console.log("added ".concat(change.text[0]));
+              console.log('mdevalue : '.concat(this.state.mdeValue));
+              let ch = change.text[0];
+              if(ch === "@"){
+                alert('fuck');
+              }
+            }
+          }}}
+          />
           <input type="submit" className="btn btn-primary" />
         </form>
       </div>
