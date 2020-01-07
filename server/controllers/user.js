@@ -4,6 +4,7 @@ const Password = require('../models/password');
 const {JWT_SECRET} = require('../config/index');
 const Followuser = require('../models/followuser');
 const Notification = require('../models/notification');
+const usernameSingleton = require('../utils/trie');
 
 const SignJWTToken = (user) => {
   // the claim names are only three characters long as JWT is meant to be compact.
@@ -195,6 +196,17 @@ module.exports = {
       res.json(notification.messages);
     } else {
       res.json([]);
+    }
+  },
+  getUsernameWithPrefix: async (req, res, next) => {
+    try {
+      const { prefix } = req.params;
+      const decodedPrefix = decodeURI(prefix);
+      const usernameTrie = await usernameSingleton.getInstance();
+      let userObjects = usernameTrie.getTrie(decodedPrefix);
+      res.json(userObjects);
+    } catch(err) {
+      next(err);
     }
   }
 };

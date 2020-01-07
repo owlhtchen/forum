@@ -5,6 +5,7 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import { getUserByID, getUserFollowers, notifyFollowers, getPostFollowers, getParentPost, getPostByID } from '../utils/index';
 import SearchCategory from './SearchCategory';
+import MentionUser from './MentionUser';
 
 const mdeID = "mdeID";
 
@@ -132,8 +133,8 @@ class PostCreator extends Component {
                 />
                 <input type="submit" className="btn btn-primary" />
               </div>
-              <div className="col-1 wrap-text">
-                KKKKKKKKKKKKKKKK kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk
+              <div className="col-3 wrap-text">
+                <MentionUser id={"userID"}/>
               </div>
             </div>
           </form>

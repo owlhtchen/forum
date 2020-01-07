@@ -1,28 +1,28 @@
-const Category = require('../models/category');
+const User = require('../models/user');
 
 class Trie {
   constructor() {
     this.subtrie = {};
-    this.words = [];
+    this.objects = [];
   }
 
-  insertWord(word, depth = 0) {
-    if(word.length === depth) {
-      this.words = this.words.concat(word)
+  insertWord(key, object) {
+    if(key.length === 0) {
+      this.objects = this.objects.concat(object);
       return;
     } 
-    const first = word.charAt(depth);
+    const first = key.charAt(0);
     if(!(first in this.subtrie)) {
       let newtrie = new Trie();
       this.subtrie[first] = newtrie;
     }
-    this.subtrie[first].insertWord(word, depth + 1);
+    this.subtrie[first].insertWord(key.slice(1), object);
   }
 
   getTrie(prefix) {
     let res = [];
     if(prefix.length === 0) {
-      res = this.words.slice();
+      res = this.objects.slice();
 
       for (let key in this.subtrie) {
         res = res.concat(this.subtrie[key].getTrie(''));
@@ -36,22 +36,20 @@ class Trie {
   }
 }
 
-buildCategoryTrie = async () => {
+buildUsernameTrie = async () => {
   let t = new Trie();
-  const allCategories = await Category.find();
-  allCategories.forEach((category) => {
-    t.insertWord(category);
+  const allUsers = await User.find();
+  allUsers.forEach((user) => {
+    t.insertWord(user.username, user);
   });
   return t;
 };
 
-let categorySingleton = (function() {
+let usernameSingleton = (function() {
   let instance;
 
   async function createInstance() {
-    let object = await buildCategoryTrie();
-    setTimeout(buildCategoryTrie,
-      1000 * 60 * 60 * 24);
+    let object = await buildUsernameTrie();
     return object;
   }
 
@@ -65,16 +63,4 @@ let categorySingleton = (function() {
   }
 })();
 
-module.exports = categorySingleton;
-
-// t = new Trie()
-// t.insertWord('abcd')
-// t.insertWord('abc')
-// console.log("1")
-// console.log(t.getTrie('abc'))
-
-// s = new Trie()
-// s.insertWord('abcd')
-// s.insertWord('def')
-// console.log("2")
-// console.log(s.getTrie('d'))
+module.exports = usernameSingleton;
