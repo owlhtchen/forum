@@ -7,7 +7,7 @@
   
 - Users 
   - [x] Profile
-  - [x] Bio
+  - [ ] Bio
   - [x] Following, Follower
   - [ ] Block
   - [ ] Column
@@ -27,7 +27,7 @@
   - [x] @username
   - [ ] Follow, email notification, feed
   - [x] Daily highlight (homepage, more upvotes & more recent creation date => rank earlier)
-  - [ ] Share via QR code
+  - [x] Share via QR code
   - [ ] Vote 
 - Admin
   - [ ] Add/Delete themes
