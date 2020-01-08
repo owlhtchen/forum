@@ -20,28 +20,37 @@ export default class MentionUser extends Component {
     let res = await axios.get('/users/get-username-with-prefix/' + encodeURI(prefix));
     if(res.data) {
       document.getElementById(id).classList.remove("d-none");
+      document.getElementById(id).size = res.data.length;
       this.setState({
         users: res.data
       });      
     }
   }
 
+  handleClickUsername = () => {
+    const { setUser, id } = this.props;
+    const userInfo = document.getElementById(id).value;
+    setUser(userInfo);
+  }
+
   render() {
     const { id } = this.props;
     const { users } = this.state;
-    console.log(users);
     return (
       <div>
         <label htmlFor="username-input">input username:&nbsp;</label>
         <input id="username-input" type="text" 
         onChange={this.getUsernameWithPrefix}></input>
-        <select id={id} className="d-none">
+        <select id={id} className="d-none" onClick={this.handleClickUsername}>
           {
             users.map((user) => {
+              const userInfo = {'userID': user._id, "username": user.username};
               return (
                 <option 
                 key={user._id}
-                value={user._id}>{user.username}</option>
+                value={JSON.stringify(userInfo)}>
+                  {user.username}
+                </option>
               );
             })
           }

@@ -49,6 +49,8 @@ module.exports = {
       });
       await newUser.save();
       await pwd.save();
+      const trie = await usernameSingleton.getInstance();
+      trie.insertWord(newUser.username, newUser);
       const token = SignJWTToken(newUser);
       return res.json({
         token: token,

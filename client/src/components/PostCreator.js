@@ -13,8 +13,22 @@ class PostCreator extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      mdeValue: localStorage.getItem(`smde_${mdeID}`) || ''
+      mdeValue: localStorage.getItem(`smde_${mdeID}`) || '',
+      showMentionUser: false,
+      chosenUserID: null,
+      chosenUsername: ''
     }
+  }
+  
+  setUser = (userInfoString) => {
+    console.log(userInfoString);
+    let userInfo = JSON.parse(userInfoString);
+    console.log(userInfo);
+    this.setState({
+      showMentionUser: false,
+      chosenUserID: userInfo.userID,
+      chosenUsername: userInfo.username
+    })
   }
 
   handleChange = value => {
@@ -75,10 +89,21 @@ class PostCreator extends Component {
     }
   }
 
+  handleAt = async (instance, changeObj) => {
+    console.log(changeObj);
+    if(changeObj.origin === '+input') {
+      if(changeObj.text[0].charAt(0) === '@') {
+        console.log("detect @");
+        this.setState({
+          showMentionUser: true
+        });
+      }
+    }
+  }
+
   render() {
+    const { showMentionUser } = this.state
     return (
-      
-        
           <form onSubmit={this.handleSubmit} id="post-form">
             <div className="row">
               <div className="col-6">
@@ -101,7 +126,7 @@ class PostCreator extends Component {
                 { !this.props.parentID && 
                 <fieldset >
                   <label htmlFor="category">Category</label>
-                  <SearchCategory id={"category"}/>
+                  <SearchCategory />
                 </fieldset>
                 }
               </div>
@@ -120,21 +145,17 @@ class PostCreator extends Component {
                     delay: 1000
                   }
                 }}
-                events={{'change':(instance, change)=>{
-                  if(change.origin == '+input'){
-                    console.log("added ".concat(change.text[0]));
-                    console.log('mdevalue : '.concat(this.state.mdeValue));
-                    let ch = change.text[0];
-                    if(ch === "@"){
-                      alert('fuck');
-                    }
-                  }
-                }}}
+                events={{'change': this.handleAt}}
                 />
                 <input type="submit" className="btn btn-primary" />
               </div>
               <div className="col-3 wrap-text">
-                <MentionUser id={"userID"}/>
+                {
+                  showMentionUser &&
+                  <MentionUser 
+                  setUser={this.setUser}
+                  id={"userID"} />
+                }
               </div>
             </div>
           </form>
