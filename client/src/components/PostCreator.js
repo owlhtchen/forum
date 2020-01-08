@@ -73,8 +73,7 @@ class PostCreator extends Component {
       // refresh page to see new post/comment
       window.location.reload();
     } catch(err) {
-      console.log("axios post error in PostCreator");
-      console.log(err.message);
+      console.log(err);
     }
   }
 
@@ -134,7 +133,7 @@ class PostCreator extends Component {
                 { !this.props.parentID && 
                 <fieldset >
                   <label htmlFor="category">Category</label>
-                  <SearchCategory />
+                  <SearchCategory id={"category"}/>
                 </fieldset>
                 }
               </div>
