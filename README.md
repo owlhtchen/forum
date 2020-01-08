@@ -24,7 +24,7 @@
   - [ ] Pinned
   - [x] Markdown editing  
   - [x] Comments (notification if you follow the post and the post gets new comments)
-  - [ ] @username
+  - [x] @username
   - [ ] Follow, email notification, feed
   - [x] Daily highlight (homepage, more upvotes & more recent creation date => rank earlier)
   - [ ] Share via QR code

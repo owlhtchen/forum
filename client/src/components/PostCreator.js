@@ -15,22 +15,11 @@ class PostCreator extends Component {
     this.state = {
       mdeValue: localStorage.getItem(`smde_${mdeID}`) || '',
       showMentionUser: false,
-      chosenUserID: null,
-      chosenUsername: ''
+      cursorRow: 0,
+      cursorCol: 0
     }
   }
   
-  setUser = (userInfoString) => {
-    console.log(userInfoString);
-    let userInfo = JSON.parse(userInfoString);
-    console.log(userInfo);
-    this.setState({
-      showMentionUser: false,
-      chosenUserID: userInfo.userID,
-      chosenUsername: userInfo.username
-    })
-  }
-
   handleChange = value => {
     this.setState({ 
       mdeValue: value
@@ -90,15 +79,34 @@ class PostCreator extends Component {
   }
 
   handleAt = async (instance, changeObj) => {
-    console.log(changeObj);
+    const { showMentionUser } = this.state;
+    // console.log(changeObj);
+    if(showMentionUser) {
+      changeObj.cancel();
+    }
     if(changeObj.origin === '+input') {
       if(changeObj.text[0].charAt(0) === '@') {
-        console.log("detect @");
+        let { line, ch } = changeObj.from;
         this.setState({
-          showMentionUser: true
+          showMentionUser: true,
+          cursorRow: line,
+          cursorCol: ch
         });
       }
     }
+  }
+
+  setUser = (userInfoString) => {
+    let { userID, username } = JSON.parse(userInfoString);
+    const { mdeValue, cursorRow, cursorCol } = this.state;
+    let mdeArray = mdeValue.split('\n');
+    let link = '[' + username + ']' + '(/users/profile/' + userID + ')';
+    mdeArray[cursorRow] = mdeArray[cursorRow].slice(0, cursorCol) + link;
+    let newMdeValue = mdeArray.join('\n');
+    this.setState({
+      showMentionUser: false,
+      mdeValue: newMdeValue
+    })
   }
 
   render() {
@@ -145,7 +153,9 @@ class PostCreator extends Component {
                     delay: 1000
                   }
                 }}
-                events={{'change': this.handleAt}}
+                events={{
+                  'beforeChange': this.handleAt
+              }}
                 />
                 <input type="submit" className="btn btn-primary" />
               </div>
