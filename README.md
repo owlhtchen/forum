@@ -7,6 +7,7 @@
   
 - Users 
   - [x] Profile
+  - [x] Bio
   - [x] Following, Follower
   - [ ] Block
   - [ ] Column
