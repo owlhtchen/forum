@@ -39,7 +39,7 @@ db.once('open', function() {
     require('./passport');
 
     // Serve the static files from the React app
-    app.use(express.static(path.join(__dirname, 'client/build')));
+    app.use(express.static(path.join(__dirname, 'public/avatars')));
 
     let http = require('http').createServer(app);
     let io = require('socket.io')(http);

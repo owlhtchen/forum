@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const path = require('path');
 const uuidv4 = require('uuid/v4');
+const User = require('../models/user');
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -16,11 +17,11 @@ var storage = multer.diskStorage({
 
 var upload = multer({ storage: storage });
 
-router.post('/avatar', upload.single('userAvatar'), function (req, res, next) {
+router.post('/avatar', upload.single('userAvatar'), async (req, res, next) => {
   // req.file is the `avatar` file
   // req.body will hold the text fields, if there were any
-  console.log(req.file);
-  console.log(req.file.name);
+  // console.log(req.file.filename);
+  
 })
 
 

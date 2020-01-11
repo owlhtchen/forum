@@ -60,6 +60,7 @@ class Profile extends Component {
     }
     return (
       <div>
+        <img src={"/" + profileUser.avatarFile} />
         <h3>{profileUser.username}</h3>
         <UploadImage></UploadImage>
         <MessagePopup />
