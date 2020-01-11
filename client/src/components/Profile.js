@@ -4,6 +4,7 @@ import MessagePopup from './MessagePopup'
 import { connect } from 'react-redux'
 import { getUserByID } from '../utils/index'
 import UploadImage from './UploadImage';
+import EditBio from './EditBio';
 
 class Profile extends Component {
   constructor(props) {
@@ -62,17 +63,20 @@ class Profile extends Component {
       <div>
         <img src={"/" + profileUser.avatarFile} className="rounded-circle" width="100" height="100"/>
         <h3>{profileUser.username}</h3>
+        <p className="h5">Bio: {profileUser.bio}</p>
         {
-          String(profileUser._id) === this.props.userID && 
-          <UploadImage></UploadImage>
+          String(profileUser._id) === this.props.userID && [
+          <UploadImage key="upload-image"></UploadImage>,
+          <EditBio key="edit-bio"></EditBio>
+          ]
         }
-        <MessagePopup />
         {
-          String(profileUser._id) !== this.props.userID && 
-          <button 
+          String(profileUser._id) !== this.props.userID && [
+          <MessagePopup key="message-popup" />,
+          <button key="follow-button"
           onClick={this.handleFollow}
           >{following ? "Following" : "Follow Me"}</button>
-        }
+        ]}
       </div>
     )
   }

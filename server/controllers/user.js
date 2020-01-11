@@ -210,5 +210,13 @@ module.exports = {
     } catch(err) {
       next(err);
     }
+  },
+  editBio: async (req, res, next) => {
+    const { userID, bio } = req.body;
+    await User.updateOne(
+      {_id : userID},
+      { bio: bio }
+    );
+    res.end();
   }
 };

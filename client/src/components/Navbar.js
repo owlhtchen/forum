@@ -21,10 +21,10 @@ class Navbar extends Component {
             <ul className="navbar-nav mr-auto">
               
                 { this.props.isAuthed ? [
-                <li className="nav-item">
+                <li className="nav-item" key="profile">
                   <NavLink className="nav-link" to={"/users/profile/" + userID}>Profile</NavLink> 
                 </li>,
-                <li className="nav-item">
+                <li className="nav-item" key="dashboard">
                   <NavLink className="nav-link" to="/dadshboar">Dashboard</NavLink> 
                 </li>,                
                 ] :

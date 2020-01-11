@@ -14,5 +14,6 @@ router.get('/get-user-followers/:userID', UserController.getUserFollowers);
 router.post('/notify-followers', UserController.notifyFollowers);
 router.get('/get-notifications/:userID', UserController.getNotifications);
 router.get('/get-username-with-prefix/:prefix', UserController.getUsernameWithPrefix);
+router.post('/edit-bio', UserController.editBio);
 
 module.exports = router; 
