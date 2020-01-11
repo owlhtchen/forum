@@ -5,45 +5,24 @@ import { connect } from 'react-redux'
 import { getUserByID } from '../utils/index'
 import UploadImage from './UploadImage';
 import EditBio from './EditBio';
+import FollowUser from './FollowUser';
+import Block from './Block';
 
 class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      profileUser: null,
-      following: false
+      profileUser: null
     };
-  }
-
-  handleFollow = async () => {
-    const follower = this.props.userID;
-    const { profileUser, following } = this.state;
-    try {
-      await axios.post('/users/follow-user', {
-        user: profileUser,
-        follower: follower,
-        startFollowing: !following
-      });
-      this.setState({
-        following: !following
-      });      
-    } catch(err) {
-      console.log("axios exception in Profile handle follow");  
-    }
   }
 
   async componentDidMount() {
     try {
       const { userID } = this.props.match.params;
       const profileUser = await getUserByID(userID);
-      const resFollwing = await axios.post('/users/check-follow-user', {
-        user: profileUser,
-        follower: this.props.userID
-      });
 
       this.setState({
-        profileUser: profileUser,
-        following: resFollwing.data.following
+        profileUser: profileUser
       });
     } catch(err) {
       console.log("axios exception in Profile Mount");   
@@ -51,7 +30,7 @@ class Profile extends Component {
   }
 
   render() {
-    const { profileUser, following } = this.state;
+    const { profileUser } = this.state;
     if(!profileUser) {
       return (
         <div>
@@ -73,9 +52,8 @@ class Profile extends Component {
         {
           String(profileUser._id) !== this.props.userID && [
           <MessagePopup key="message-popup" />,
-          <button key="follow-button"
-          onClick={this.handleFollow}
-          >{following ? "Following" : "Follow Me"}</button>
+          <FollowUser key="follow-user" profileUser={profileUser}></FollowUser>,
+          <Block key="block-user" profileUser={profileUser}></Block>
         ]}
       </div>
     )

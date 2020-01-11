@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const Password = require('../models/password');
 const {JWT_SECRET} = require('../config/index');
 const Followuser = require('../models/followuser');
+const Block =  require('../models/block');
 const Notification = require('../models/notification');
 const usernameSingleton = require('../utils/trie');
 
@@ -108,15 +109,15 @@ module.exports = {
   },
   checkFollowUser: async (req, res, next) => {
     try {
-      const followUser = await Followuser.findOne(req.body);
+      const { user, follower } = req.body;
+      const followUser = await Followuser.findOne({
+        user: user,
+        follower: follower
+      });
       if(followUser) {
-        return res.json({
-          following: true
-        });
+        return res.json(true);
       } else {
-        return res.json({
-          following: false
-        });
+        return res.json(false);
       }
     } catch(err){
       next(err);
@@ -218,5 +219,45 @@ module.exports = {
       { bio: bio }
     );
     res.end();
-  }
+  },
+  checkBlockUser: async (req, res, next) => {
+    const { user, victim } = req.body;
+    try {
+      const block = await Block.findOne({
+        user: user,
+        victim: victim
+      });
+      if(block) {
+        res.json(true);
+      } else {
+        res.json(false);
+      }
+    } catch(err) {
+      next(err);
+    }
+  },
+  blockUser: async (req, res, next) => {
+    const { user, victim, startBlocking } = req.body;
+    try {
+      if(startBlocking) {
+        let block = new Block({
+          user: user,
+          victim: victim
+        });
+        await block.save();
+        await Followuser.deleteMany({
+          user: victim,
+          follower: user 
+        });     
+      } else {
+        await Block.deleteMany({
+          user: user,
+          victim: victim
+        });   
+      }
+      res.end();
+    } catch(err) {
+      next(err);
+    }
+  }  
 };
