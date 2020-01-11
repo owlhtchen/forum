@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 const users = require('./routes/user');
 const posts = require('./routes/post');
 const categories = require('./routes/category');
+const uploads = require('./routes/multer');
 
 const Category = require('./models/category');
 
@@ -47,6 +48,7 @@ db.once('open', function() {
     app.use('/users', users);
     app.use('/posts', posts);
     app.use('/categories', categories);
+    app.use('/upload', uploads);
 
     // Handles any requests that don't match the ones above
     app.get('*', (req,res) =>{

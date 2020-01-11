@@ -3,6 +3,7 @@ import axios from 'axios'
 import MessagePopup from './MessagePopup'
 import { connect } from 'react-redux'
 import { getUserByID } from '../utils/index'
+import UploadImage from './UploadImage';
 
 class Profile extends Component {
   constructor(props) {
@@ -60,6 +61,7 @@ class Profile extends Component {
     return (
       <div>
         <h3>{profileUser.username}</h3>
+        <UploadImage></UploadImage>
         <MessagePopup />
         {
           String(profileUser._id) !== this.props.userID && 
