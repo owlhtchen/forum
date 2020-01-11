@@ -31,7 +31,7 @@ db.once('open', function() {
   
     const app = express();
 
-    app.use(bodyParser.urlencoded({ extended: false }));
+    app.use(bodyParser.urlencoded({ extended: true })); 
     app.use(bodyParser.json());
 
     app.use(cors());
@@ -39,7 +39,7 @@ db.once('open', function() {
     require('./passport');
 
     // Serve the static files from the React app
-    app.use(express.static(path.join(__dirname, 'public/avatars')));
+    app.use(express.static(path.join(__dirname, '../public/avatars')));
 
     let http = require('http').createServer(app);
     let io = require('socket.io')(http);

@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import { connect } from 'react-redux'
 
-export default class UploadImage extends Component {
+class UploadImage extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -10,7 +11,12 @@ export default class UploadImage extends Component {
 	}
 
 	handleSubmit = async (e) => {
+		const { userID } = this.props;
 		let formData = new FormData();
+		if(!userID || !this.state.file) {
+			return;
+		}
+		formData.append('userID', userID);
 		formData.append('userAvatar', this.state.file);
 		const config = {
 			'header': {
@@ -40,3 +46,11 @@ export default class UploadImage extends Component {
 		)
 	}
 }
+
+const mapStateToProps = (state) => {
+	return {
+		userID: state.user.userID
+	}
+}
+
+export default connect(mapStateToProps)(UploadImage);

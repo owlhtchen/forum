@@ -10,7 +10,6 @@ var storage = multer.diskStorage({
     cb(null, './public/avatars')
   },
   filename: function (req, file, cb) {
-    console.log(file);
     cb(null, uuidv4() + path.extname(file.originalname))
   }
 })
@@ -21,7 +20,12 @@ router.post('/avatar', upload.single('userAvatar'), async (req, res, next) => {
   // req.file is the `avatar` file
   // req.body will hold the text fields, if there were any
   // console.log(req.file.filename);
-  
+  await User.updateMany({
+    _id: req.body.userID
+  }, {
+    avatarFile: req.file.filename
+  });
+  res.end();
 })
 
 

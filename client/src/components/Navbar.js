@@ -11,6 +11,7 @@ class Navbar extends Component {
   };
 
   render() {
+    const { userID } = this.props;
     return (
         <nav className="navbar navbar-expand navbar-light bg-light">
           <Link className="navbar-brand" to="/">Forum</Link>
@@ -18,11 +19,16 @@ class Navbar extends Component {
           <div className="collapse navbar-collapse">
             
             <ul className="navbar-nav mr-auto">
-              <li className="nav-item">
-                { this.props.isAuthed ? 
-                <NavLink className="nav-link" to="/dashboard">Dashboard</NavLink> :
-                "" }
-              </li>
+              
+                { this.props.isAuthed ? [
+                <li className="nav-item">
+                  <NavLink className="nav-link" to={"/users/profile/" + userID}>Profile</NavLink> 
+                </li>,
+                <li className="nav-item">
+                  <NavLink className="nav-link" to="/dadshboar">Dashboard</NavLink> 
+                </li>,                
+                ] :
+                [ "" ]}
             </ul>
 
             <ul className="navbar-nav ml-auto">

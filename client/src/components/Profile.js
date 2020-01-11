@@ -60,9 +60,12 @@ class Profile extends Component {
     }
     return (
       <div>
-        <img src={"/" + profileUser.avatarFile} />
+        <img src={"/" + profileUser.avatarFile} className="rounded-circle" width="100" height="100"/>
         <h3>{profileUser.username}</h3>
-        <UploadImage></UploadImage>
+        {
+          String(profileUser._id) === this.props.userID && 
+          <UploadImage></UploadImage>
+        }
         <MessagePopup />
         {
           String(profileUser._id) !== this.props.userID && 
