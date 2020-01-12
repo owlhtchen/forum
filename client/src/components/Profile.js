@@ -51,7 +51,7 @@ class Profile extends Component {
         }
         {
           String(profileUser._id) !== this.props.userID && [
-          <MessagePopup key="message-popup" />,
+          <MessagePopup key="message-popup" receiver={profileUser}/>,
           <FollowUser key="follow-user" profileUser={profileUser}></FollowUser>,
           <Block key="block-user" profileUser={profileUser}></Block>
         ]}

@@ -39,7 +39,10 @@ class MessagePopup extends Component {
     // }
     var socket = io('ws://localhost:5000');
     const sender = this.props.userID;
-    const receiver = this.props.receiver;
+    const receiver = this.props.receiver._id;
+    console.log("modal");
+    console.log(sender);
+    console.log(receiver);
     if(sender < receiver){
       socket.emit("room", sender);
     } else {
@@ -99,7 +102,7 @@ class MessagePopup extends Component {
                 {this.state.messages.map((message, index) => {
                   return (
                     <div key={index}>
-                      {message.senderUsername}: &nbsp;{message.content}
+                      {message.senderUsername}: {message.content}
                     </div>
                   );
                 })}
