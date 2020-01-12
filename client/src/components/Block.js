@@ -36,6 +36,7 @@ class Block extends Component {
     this.setState({
       blocked: !blocked
     });
+    window.location.reload();
   }
 
   render() {

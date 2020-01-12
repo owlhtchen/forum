@@ -12,7 +12,8 @@ class MessagePopup extends Component {
       open: false,
       socket: null,
       messages: [],
-      user: null
+      user: null,
+      blocked: false
     };
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
@@ -27,6 +28,15 @@ class MessagePopup extends Component {
   }
 
   openModal() {
+    // if(true) {
+    //   const blockMsg = [{
+    //     'senderUsername': "⚠️🤡",
+    //     'content': 'conversation has been blocked'
+    //   }];
+    //   this.setState({
+    //     messages: blockMsg
+    //   });
+    // }
     var socket = io('ws://localhost:5000');
     const sender = this.props.userID;
     const receiver = this.props.receiver;
@@ -89,7 +99,7 @@ class MessagePopup extends Component {
                 {this.state.messages.map((message, index) => {
                   return (
                     <div key={index}>
-                      {message.senderUsername}:{message.content}
+                      {message.senderUsername}: &nbsp;{message.content}
                     </div>
                   );
                 })}
