@@ -14,15 +14,9 @@ module.exports = (io) => {
       if(data.sender < data.receiver) {
         first = data.sender;
         second = data.receiver;
-        console.log("first");
-        console.log(first);
-        console.log(second);
       } else {
         first = data.receiver;
         second = data.sender;
-        console.log("second");
-        console.log(first);
-        console.log(second);
       }
       let foundUser = await Chatroom.findOne({
         first: first,

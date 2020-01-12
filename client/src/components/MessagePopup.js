@@ -3,7 +3,7 @@ import Popup from 'reactjs-popup'
 import io from 'socket.io-client'
 import { connect } from 'react-redux';
 import axios from 'axios';
-import { getUserByID } from '../utils/index'
+import { getUserByID, checkBlock } from '../utils/index'
 
 class MessagePopup extends Component {
   constructor(props) {
@@ -27,19 +27,30 @@ class MessagePopup extends Component {
     });
   }
 
-  openModal() {
-    // if(true) {
-    //   const blockMsg = [{
-    //     'senderUsername': "⚠️🤡",
-    //     'content': 'conversation has been blocked'
-    //   }];
-    //   this.setState({
-    //     messages: blockMsg
-    //   });
-    // }
+  showBlockMsg = () => {
+    const blockMsg = [{
+      'senderUsername': "⚠️",
+      'content': 'conversation has been blocked 🤡'
+    }];
+    this.setState({
+      messages: blockMsg
+    });
+  }
+
+  openModal = async () => {
+    const sender = this.props.userID;   // id
+    const receiver = this.props.receiver;   // id    
+    const blocked = await checkBlock(sender, receiver);
+    this.setState({
+      open: true, 
+      blocked: blocked
+    });
+    if(blocked) {
+      this.showBlockMsg();
+      return;
+    }
+
     var socket = io('ws://localhost:5000');
-    const sender = this.props.userID;   // ID
-    const receiver = this.props.receiver;   // ID
     if(sender < receiver){
       socket.emit("room", sender);
     } else {
@@ -66,16 +77,21 @@ class MessagePopup extends Component {
   }
 
   handleSend = () => {
-    const { socket } = this.state;
     const sender = this.props.userID;
     const receiver = this.props.receiver;
-    const message = document.querySelector('#message-box').value;
-    socket.emit('new message', {
-      content: message,
-      sender: sender,
-      receiver: receiver,
-      senderUsername: this.state.user.username
-    })
+    const { blocked } = this.state;
+    if(blocked) {
+      this.showBlockMsg();
+    } else {
+      const { socket } = this.state;
+      const message = document.querySelector('#message-box').value;
+      socket.emit('new message', {
+        content: message,
+        sender: sender,
+        receiver: receiver,
+        senderUsername: this.state.user.username
+      })
+    }
     document.querySelector('#message-box').value = "";
   }
 
