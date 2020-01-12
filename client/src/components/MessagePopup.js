@@ -38,11 +38,8 @@ class MessagePopup extends Component {
     //   });
     // }
     var socket = io('ws://localhost:5000');
-    const sender = this.props.userID;
-    const receiver = this.props.receiver._id;
-    console.log("modal");
-    console.log(sender);
-    console.log(receiver);
+    const sender = this.props.userID;   // ID
+    const receiver = this.props.receiver;   // ID
     if(sender < receiver){
       socket.emit("room", sender);
     } else {
