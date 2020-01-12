@@ -19,7 +19,7 @@ class UploadImage extends Component {
 		formData.append('userID', userID);
 		formData.append('userAvatar', this.state.file);
 		const config = {
-			'header': {
+			'headers': {
 				'content-type': "multipart/form-data"
 			}
 		};

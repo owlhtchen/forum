@@ -9,7 +9,7 @@
   - [x] Profile
   - [x] Bio 
   - [x] Following, Follower
-  - [ ] Block X
+  - [x] Block 
   - [ ] Column X
   - [x] DM
   - [x] OAuth
@@ -40,3 +40,5 @@
 - Sort
   - [ ] By new X
   - [ ] By top of (all time, within ...) X?
+
+(please restart the server everytime you drop the database to initiate table)

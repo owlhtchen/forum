@@ -61,7 +61,7 @@ class PostView extends Component {
         <button className={upvoted ? "btn btn-primary": "btn"} onClick={this.upvote}>Upvote</button>
         <DeletePost 
         post={post}></DeletePost>
-        { this.state.showAddComment && <PostCreator parentID={post._id} /> }        
+        { this.state.showAddComment && <PostCreator postType="comment" parentID={post._id} /> }        
         <div>
           {
             post.comments.map((comment, index) => {

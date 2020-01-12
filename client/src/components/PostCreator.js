@@ -37,7 +37,7 @@ class PostCreator extends Component {
       if(this.props.parentID) {
         postType = "comment";
       } else {
-        postType = document.getElementById('postType').value;
+        postType =  this.props.location.state.postType;
         title = document.getElementById('title').value;
         category = document.getElementById('category').value;
       }
@@ -100,7 +100,9 @@ class PostCreator extends Component {
     const { mdeValue, cursorRow, cursorCol } = this.state;
     let mdeArray = mdeValue.split('\n');
     let link = '[' + username + ']' + '(/users/profile/' + userID + ')';
-    mdeArray[cursorRow] = mdeArray[cursorRow].slice(0, cursorCol) + link;
+    mdeArray[cursorRow] = mdeArray[cursorRow].slice(0, cursorCol)
+                        .concat(link)
+                        .concat(mdeArray[cursorRow].slice(cursorCol + 1));
     let newMdeValue = mdeArray.join('\n');
     this.setState({
       showMentionUser: false,
@@ -120,16 +122,16 @@ class PostCreator extends Component {
                     <input type="text" id="title"></input>
                   </fieldset>
                 }
-                { !this.props.parentID && 
+                {/* { !this.props.parentID && 
                 <fieldset >
                   <select name="postType" id="postType" className="form-control">
                     <option>-- select a type --</option>
                     <option value="post">Post</option>
                     <option value="timeline">Timeline</option>
-                    <option value="column">Column</option>
+                    <option value="article">Article</option>
                   </select>
                 </fieldset>
-                }
+                } */}
                 { !this.props.parentID && 
                 <fieldset >
                   <label htmlFor="category">Category</label>

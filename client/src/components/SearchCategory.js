@@ -10,11 +10,13 @@ export default class SearchCategory extends Component {
   }
 
   async componentDidMount() {
+    const { id } = this.props;
     try {
       let res = await axios.get('/categories/all-categories');
       this.setState({
         categories: res.data
-      });      
+      });    
+      document.getElementById(id).size = res.data.length <= 8? res.data.length : 8;  
     } catch(err) {
       console.log(err.message);
     }

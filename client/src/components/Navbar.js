@@ -37,9 +37,18 @@ class Navbar extends Component {
               { this.props.isAuthed ? [
                 <li className="nav-item" key="notification">
                   <NotificationDropdown userID={this.props.userID}/>
-                </li>,                     
+                </li>,        
+                <li className="nav-item" key="makearticle">
+                  <NavLink className="nav-link" to={{
+                  pathname: "/posts/make-post",
+                  state: { "postType" : "article" }
+                }}>Write Article</NavLink>
+                </li>,                               
                 <li className="nav-item" key="makepost">
-                  <NavLink className="nav-link" to="/posts/make-post">Make Post</NavLink>
+                  <NavLink className="nav-link" to={{
+                  pathname: "/posts/make-post",
+                  state: { "postType" : "post" }
+                }}>Make Post</NavLink>
                 </li>,              
                 <li className="nav-item" key="signout">
                   <NavLink className="nav-link" to="/users/signout" onClick={this.onClick}>Sign Out</NavLink>
