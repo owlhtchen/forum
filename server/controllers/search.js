@@ -18,18 +18,24 @@ const getPostsWith = async (keyword) => {
   if(keyword === '') {
     return [];
   }
-  const excluded = `\\[.*\\]\\([^)]*${keyword}+[^)]*\\)`;
+  // const excluded = `\\[.*\\]\\([^)]*${keyword}+[^)]*\\)`;
+  // let postsWithTitleContent = await Post.find({
+  //   "$and" : [
+  //     {
+  //       "$or": [
+  //         {title: {"$regex": keyword, "$options": "$i"}},
+  //         {content: {"$regex": keyword, "$options": "$i"}} ]
+  //     },
+  //     {
+  //       content: {"$not": {"$regex": excluded, "$options": "$i"} }
+  //     }
+  //   ]
+  // });
+  const regex = `${keyword}+`+`(?![^)]*\\))`;
   let postsWithTitleContent = await Post.find({
-    "$and" : [
-      {
-        "$or": [
-          {title: {"$regex": keyword, "$options": "$i"}},
-          {content: {"$regex": keyword, "$options": "$i"}} ]
-      },
-      {
-        content: {"$not": {"$regex": excluded, "$options": "$i"} }
-      }
-    ]
+    "$or": [
+            {title: {"$regex": regex, "$options": "$i"}},
+            {content: {"$regex": regex, "$options": "$i"}} ]
   });
   return postsWithTitleContent;
 }
