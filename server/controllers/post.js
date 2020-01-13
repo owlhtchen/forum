@@ -56,7 +56,10 @@ module.exports = {
       as: "author"
       }
     },   
-    {"$match": {"postType": "post"}},
+    {"$match": {"$or": [
+      {"postType": "post"},
+      {"postType": "article"}
+    ]}},
     ];
     try {
       if(!lastPost) {

@@ -10,7 +10,7 @@
   - [x] Bio 
   - [x] Following, Follower
   - [x] Block 
-  - [ ] Column X
+  - [x] Column (Articles)
   - [x] DM
   - [x] OAuth
   - [ ] Password recovery
