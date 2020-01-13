@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import Popup from 'reactjs-popup'
 import io from 'socket.io-client'
 import { connect } from 'react-redux';
-import axios from 'axios';
 import { getUserByID, checkBlock } from '../utils/index'
 
 class MessagePopup extends Component {

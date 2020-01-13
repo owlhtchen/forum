@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import {Link, NavLink} from 'react-router-dom';
 import { connect } from 'react-redux';
 import NotificationDropdown from './NotificationDropdown'
-
+import SearchBar from './SearchBar'
 import * as actions from '../actions';
 
 class Navbar extends Component {
@@ -32,6 +32,7 @@ class Navbar extends Component {
             </ul>
 
             <ul className="navbar-nav ml-auto">
+              <SearchBar></SearchBar>
               { this.props.isAdmin && 
               <NavLink className="nav-link" to="/categories/edit-category">Edit Category</NavLink>}
               { this.props.isAuthed ? [
