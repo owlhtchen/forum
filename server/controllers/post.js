@@ -239,7 +239,6 @@ module.exports = {
           as: "author"
         }}
       ]);  
-      console.log(result);
       res.json(result);
     } catch(err) {
       next(err);

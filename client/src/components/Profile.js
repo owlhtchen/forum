@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import axios from 'axios'
 import MessagePopup from './MessagePopup'
 import { connect } from 'react-redux'
 import { getUserByID } from '../utils/index'
@@ -8,6 +7,7 @@ import EditBio from './EditBio';
 import FollowUser from './FollowUser';
 import Block from './Block';
 import Collection from './Collection';
+import { Link } from 'react-router-dom'
 
 class Profile extends Component {
   constructor(props) {
@@ -56,6 +56,7 @@ class Profile extends Component {
           <FollowUser key="follow-user" profileUser={profileUser}></FollowUser>,
           <Block key="block-user" profileUser={profileUser}></Block>
         ]}
+        <h5>Articles</h5>
         <Collection profileUser={profileUser}></Collection>
       </div>
     )
