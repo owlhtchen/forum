@@ -223,6 +223,27 @@ module.exports = {
     } catch(err) {
       next(err);
     }
+  },
+  getArticlesByUserID: async (req, res, next) => {
+    const { userID } = req.params;
+    try {
+      let result = await Post.aggregate([
+        { "$match": {"$and": [
+          {"authorID": mongoose.Types.ObjectId(userID)},
+          {"postType": "article"}
+        ]}},
+        { "$lookup": {
+          from: "users",
+          localField: "authorID",
+          foreignField: "_id",
+          as: "author"
+        }}
+      ]);  
+      console.log(result);
+      res.json(result);
+    } catch(err) {
+      next(err);
+    }
   }
 }
 

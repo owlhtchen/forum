@@ -68,3 +68,8 @@ export const checkBlock = async (sender, receiver) => {
     console.log(err);
   }
 }
+
+export const getArticlesByUserID = async (userID) => {
+  let res = await axios.get('/posts/articles-by-userid/' + userID);
+  return res.data;
+}

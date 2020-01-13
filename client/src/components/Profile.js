@@ -7,6 +7,7 @@ import UploadImage from './UploadImage';
 import EditBio from './EditBio';
 import FollowUser from './FollowUser';
 import Block from './Block';
+import Collection from './Collection';
 
 class Profile extends Component {
   constructor(props) {
@@ -55,6 +56,7 @@ class Profile extends Component {
           <FollowUser key="follow-user" profileUser={profileUser}></FollowUser>,
           <Block key="block-user" profileUser={profileUser}></Block>
         ]}
+        <Collection profileUser={profileUser}></Collection>
       </div>
     )
   }
