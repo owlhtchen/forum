@@ -41,6 +41,15 @@ const getPostsWith = async (keyword) => {
       }
     },
     {
+      "$lookup": 
+      {
+        from: 'users',
+        localField: 'authorID',
+        foreignField: '_id',
+        as: 'author'
+      }
+    },    
+    {
       "$match": 
       {
         "$or": [
