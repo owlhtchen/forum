@@ -1,19 +1,19 @@
 const User = require('../models/user');
 const Post = require('../models/post');
+const Category = require('../models/category');
 const Followpost = require('../models/followpost');
 var mongoose = require('mongoose');
 
 module.exports = {
   makePost: async (req, res, next) => {
     try{
-      const { title, content, postType, authorID, parentID, category } = req.body;
+      const { title, content, postType, authorID, parentID, category : categoryID } = req.body;
       const newPost = new Post({
         title,
         content,
         postType,  
         authorID,
-        parentID,
-        category
+        parentID
       });
       await newPost.save();      
       if(parentID) {
@@ -24,6 +24,14 @@ module.exports = {
           }}
         );
       }
+      
+      await Category.updateOne(
+        { _id: categoryID },
+        { "$push": {
+          postIDs: newPost._id
+        } }
+      )
+
       res.json(newPost._id);
     } catch(err){
       next(err);

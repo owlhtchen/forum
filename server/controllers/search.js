@@ -7,12 +7,21 @@ module.exports = {
     const { keyword } = req.params;
     let foundusers = await getUsernameWith(keyword);
     let foundPosts = await getPostsWith(keyword);
+    let foundCategories = await getCategoriesWith(keyword);
     res.json({
       users: foundusers,
-      posts: foundPosts
+      posts: foundPosts,
+      categories: foundCategories
     });
   }
 };
+
+const getCategoriesWith = async (keyword) => {
+  let foundCategories = await Category.find({
+    "name" : { "$regex": keyword, "$options": "$i"}
+  });
+  return foundCategories;
+}
 
 const getPostsWith = async (keyword) => {
   if(keyword === '') {
