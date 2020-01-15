@@ -12,6 +12,7 @@ import PostLoader from './PostLoader';
 import Profile from './Profile';
 import Category from './Category';
 import SearchResult from './SearchResult'
+import CategoryDetail from './CategoryDetail'
 
 class App extends Component {
   state = {  }
@@ -31,6 +32,7 @@ class App extends Component {
               <Route exact path="/posts/view-post/:postID" component={PostLoader} />
               <Route exact path="/users/profile/:userID" component={Profile} />
               <Route exact path="/categories/edit-category" component={Category} />
+              <Route exact path="/categories/category-by-id/:categoryID" component={CategoryDetail} />
               <Route path="/search/:keyword?" component={SearchResult} />
             </Switch>
           </div>

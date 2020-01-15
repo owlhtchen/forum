@@ -73,3 +73,8 @@ export const getArticlesByUserID = async (userID) => {
   let res = await axios.get('/posts/articles-by-userid/' + userID);
   return res.data;
 }
+
+export const getCategoryByID = async (categoryID) => {
+  let res = await axios.get('/categories/category-by-id/' + categoryID);
+  return res.data;
+}

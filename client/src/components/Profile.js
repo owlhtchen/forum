@@ -43,7 +43,10 @@ class Profile extends Component {
       <div>
         <img src={"/" + profileUser.avatarFile} className="rounded-circle" width="100" height="100"/>
         <h3>{profileUser.username}</h3>
-        <p className="h5">Bio: {profileUser.bio}</p>
+        {
+          profileUser.bio.trim() !== "" &&
+          <p className="h5">Bio: {profileUser.bio}</p>
+        }
         {
           String(profileUser._id) === this.props.userID && [
           <UploadImage key="upload-image"></UploadImage>,
