@@ -44,11 +44,28 @@ module.exports = {
             from: 'users',
             localField: "posts.authorID",
             foreignField: '_id',
-            as: "posts.author"
+            as: "posts-author"
+          }
+        },
+        {
+          "$project": {
+            "name" : "1",
+            "posts": {
+              "_id": "1",
+              "likedBy": "1",
+              "commentIDs": "1",
+              "isDeleted": "1",
+              "title": "1",
+              "content": "1",
+              "postType": "1",
+              "authorID": "1",
+              "category": "1",
+              "createDate": "1",
+              "author": "1"
+            }
           }
         }        
       ]);
-      console.log(foundCategory);
       res.json(foundCategory[0]);
     } catch(err) {
       next(err);

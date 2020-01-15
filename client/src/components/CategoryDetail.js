@@ -13,8 +13,6 @@ export default class CategoryDetail extends Component {
   async componentDidMount() {
     const { categoryID } = this.props.match.params;
     let category = await getCategoryByID(categoryID);
-    console.log("detail");
-    console.log(category);
     this.setState({
       category
     });
