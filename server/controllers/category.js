@@ -34,38 +34,25 @@ module.exports = {
         {
           "$lookup": {
             from: 'posts',
-            localField: "postIDs",
-            foreignField: '_id',
+            let: {"postIDs": "$postIDs"},
+            pipeline: [
+              { "$match": { "$expr": { "$in": ["$_id", "$$postIDs" ] } } },
+              {
+                "$lookup": {
+                  from: "users",
+                  let: { "authorID": "$authorID"},
+                  pipeline: [
+                    { "$match": { "$expr" : { "$eq": ["$_id", "$$authorID"] } } }
+                  ],
+                  as: "author"
+                }
+              }
+            ],
             as: "posts"
-          }
-        },
-        {
-          "$lookup": {
-            from: 'users',
-            localField: "posts.authorID",
-            foreignField: '_id',
-            as: "posts-author"
-          }
-        },
-        {
-          "$project": {
-            "name" : 1,
-            "posts": {
-              "_id": 1,
-              "likedBy": 1,
-              "commentIDs": 1,
-              "isDeleted": 1,
-              "title": 1,
-              "content": 1,
-              "postType": 1,
-              "authorID": 1,
-              "category": 1,
-              "createDate": 1,
-              "author": "$posts-author"
-            }
           }
         }        
       ]);
+      console.log(JSON.stringify(foundCategory[0]));
       res.json(foundCategory[0]);
     } catch(err) {
       next(err);
