@@ -49,19 +49,19 @@ module.exports = {
         },
         {
           "$project": {
-            "name" : "1",
+            "name" : 1,
             "posts": {
-              "_id": "1",
-              "likedBy": "1",
-              "commentIDs": "1",
-              "isDeleted": "1",
-              "title": "1",
-              "content": "1",
-              "postType": "1",
-              "authorID": "1",
-              "category": "1",
-              "createDate": "1",
-              "author": "1"
+              "_id": 1,
+              "likedBy": 1,
+              "commentIDs": 1,
+              "isDeleted": 1,
+              "title": 1,
+              "content": 1,
+              "postType": 1,
+              "authorID": 1,
+              "category": 1,
+              "createDate": 1,
+              "author": "$posts-author"
             }
           }
         }        
