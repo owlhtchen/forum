@@ -26,11 +26,8 @@ const userSchema = new Schema({
     default: false
   },
   browserHistory: [{
-    date: Number,
-    contents: [{
       type: Schema.Types.ObjectId,
       ref: 'Post'
-    }]
   }],
   favorite: [{
     type: Schema.Types.ObjectId,

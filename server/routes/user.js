@@ -17,5 +17,6 @@ router.get('/get-username-with-prefix/:prefix', UserController.getUsernameWithPr
 router.post('/edit-bio', UserController.editBio);
 router.post('/check-block-user', UserController.checkBlockUser);
 router.post('/block-user', UserController.blockUser);
+router.get('/browse-history/:userID', UserController.getBrowseHistory);
 
 module.exports = router; 

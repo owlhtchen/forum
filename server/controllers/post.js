@@ -91,7 +91,8 @@ module.exports = {
   },
   viewPost: async (req, res, next) => {
     try {
-      const { postID } = req.params;
+      const { postID, userID } = req.params;
+      await addUserHistory(userID, postID);
       const post = await expandPost(postID);
       res.json(post);
     } catch(err) {
@@ -255,6 +256,21 @@ module.exports = {
       next(err);
     }
   }
+}
+
+const addUserHistory = async (userID, postID) => {
+  const user = await User.findById(userID);
+  if(user.browserHistory.length > 0 && 
+    user.browserHistory[user.browserHistory.length - 1].toString() === postID) {
+    return;
+  } 
+  user.browserHistory.push(postID);
+  const length = user.browserHistory.length;
+  user.browserHistory = user.browserHistory.slice(
+    length - 5 >= 0? length - 5: 0,
+    length
+  );
+  await user.save();
 }
 
 const expandPost = async (postID) => {

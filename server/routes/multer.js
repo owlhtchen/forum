@@ -22,7 +22,6 @@ var upload = multer({ storage: storage });
 router.post('/avatar', upload.single('userAvatar'), async (req, res, next) => {
   // req.file is the `avatar` file
   // req.body will hold the text fields, if there were any
-  // console.log(req.file);
   const avatarName = uuidv4() + path.extname(req.file.originalname);
   await sharp(req.file.path)
     .resize(300, 300)

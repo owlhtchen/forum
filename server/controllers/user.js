@@ -6,6 +6,7 @@ const Followuser = require('../models/followuser');
 const Block =  require('../models/block');
 const Notification = require('../models/notification');
 const usernameSingleton = require('../utils/trie');
+const Post = require('../models/post');
 
 const SignJWTToken = (user) => {
   // the claim names are only three characters long as JWT is meant to be compact.
@@ -256,6 +257,31 @@ module.exports = {
         });   
       }
       res.end();
+    } catch(err) {
+      next(err);
+    }
+  },
+  getBrowseHistory: async (req, res, next) => {
+    try {
+      const { userID } = req.params;
+      const user = await User.findById(userID);
+      const browseHistory = await Promise.all(user.browserHistory.map(async (postID) => {
+        const post = await Post.aggregate([
+          { "$match": {
+            "_id" : postID
+          } },
+          {
+            "$lookup": {
+              from: 'users',
+              localField: 'authorID',
+              foreignField: '_id',
+              as: "author"
+            }
+          }
+        ]);
+        return post[0];
+      }));
+      res.json(browseHistory);      
     } catch(err) {
       next(err);
     }

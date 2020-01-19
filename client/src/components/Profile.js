@@ -50,7 +50,12 @@ class Profile extends Component {
         {
           String(profileUser._id) === this.props.userID && [
           <UploadImage key="upload-image"></UploadImage>,
-          <EditBio key="edit-bio"></EditBio>
+          <EditBio key="edit-bio"></EditBio>,
+          <Link key="browse-history" 
+            className="btn btn-outline-secondary" to={{
+            pathname: "/users/browse-history",
+            userID: profileUser._id
+          }} >Browse History</Link>
           ]
         }
         {

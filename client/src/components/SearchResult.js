@@ -16,10 +16,8 @@ export default class SearchResult extends Component {
 
   async componentDidMount() {
     const { keyword } = this.props.match.params;
-    console.log(keyword)
     let res = await Axios.get('/search/' + keyword);
     const { users, posts, categories } = res.data;
-    console.log(res.data);
     this.setState({
       users,
       posts,
@@ -30,10 +28,8 @@ export default class SearchResult extends Component {
   async componentDidUpdate(prevProps) {
     const { keyword } = this.props.match.params;
     if(keyword !== prevProps.match.params.keyword) {
-      console.log(keyword)
       let res = await Axios.get('/search/' + keyword);
       const { users, posts, categories } = res.data;
-      console.log(res.data);
       this.setState({
         users,
         posts,

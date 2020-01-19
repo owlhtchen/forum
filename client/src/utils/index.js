@@ -78,3 +78,9 @@ export const getCategoryByID = async (categoryID) => {
   let res = await axios.get('/categories/category-by-id/' + categoryID);
   return res.data;
 }
+
+export const getBrowseHistory = async (userID) => {
+  console.log(userID);
+  let res = await axios.get('/users/browse-history/' + userID);
+  return res.data;
+}

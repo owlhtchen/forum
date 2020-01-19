@@ -30,13 +30,13 @@
   - [x] Share via QR code
   - [ ] Vote 
 - Admin
-  - [ ] Add/Delete themes
+  - [ ] Add/Delete categories
   - [x] Add/Delete post
   - ~~Suspend accounts~~
 - Category
   - [ ] Join X
 - Search
-  - [ ] Advance filter (time, theme) X
+  - [ ] Advance Search (time, categories) X
 - Sort
   - [ ] By new X
   - [ ] By top of (all time, within ...) X?

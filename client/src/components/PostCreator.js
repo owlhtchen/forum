@@ -79,7 +79,6 @@ class PostCreator extends Component {
 
   handleAt = async (instance, changeObj) => {
     const { showMentionUser } = this.state;
-    // console.log(changeObj);
     if(showMentionUser) {
       changeObj.cancel();
     }
