@@ -73,7 +73,7 @@ export default class Homepage extends Component {
         {
           this.state.posts.map((post, index) => {
             return (
-              <div className="card m-2" key={index}>
+              <div className="card m-2 card-fade-in" key={index}>
                 <div className="card-header h4">
                   <Link to={"/posts/view-post/" + post._id } style={{
                     color: "#000000"
