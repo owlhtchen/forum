@@ -10,11 +10,13 @@ export default class SearchCategory extends Component {
   }
 
   async componentDidMount() {
+    const { id } = this.props;
     try {
       let res = await axios.get('/categories/all-categories');
       this.setState({
         categories: res.data
-      });      
+      });    
+      document.getElementById(id).size = res.data.length <= 8? res.data.length : 8;  
     } catch(err) {
       console.log(err.message);
     }
@@ -25,7 +27,7 @@ export default class SearchCategory extends Component {
     const { id } = this.props;
     return (
       <div>
-        <select size="10" id={id}>
+        <select id={id}>
           {
             categories.map((category, index) => {
               return <option value={category._id} key={index}>{category.name}</option>

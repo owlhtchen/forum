@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import {Link, NavLink} from 'react-router-dom';
 import { connect } from 'react-redux';
 import NotificationDropdown from './NotificationDropdown'
-
+import SearchBar from './SearchBar'
 import * as actions from '../actions';
 
 class Navbar extends Component {
@@ -11,29 +11,45 @@ class Navbar extends Component {
   };
 
   render() {
+    const { userID } = this.props;
     return (
-        <nav className="navbar navbar-expand navbar-light bg-light">
+        <nav className="navbar navbar-expand bg-light navbar-light">
           <Link className="navbar-brand" to="/">Forum</Link>
 
           <div className="collapse navbar-collapse">
             
             <ul className="navbar-nav mr-auto">
-              <li className="nav-item">
-                { this.props.isAuthed ? 
-                <NavLink className="nav-link" to="/dashboard">Dashboard</NavLink> :
-                "" }
-              </li>
+              
+                { this.props.isAuthed ? [
+                <li className="nav-item" key="profile">
+                  <NavLink className="nav-link" to={"/users/profile/" + userID}>Profile</NavLink> 
+                </li>,
+                <li className="nav-item" key="dashboard">
+                  <NavLink className="nav-link" to="/dashboard">Dashboard</NavLink>
+                </li>,                
+                ] :
+                [ "" ]}
             </ul>
 
             <ul className="navbar-nav ml-auto">
+              <SearchBar></SearchBar>
               { this.props.isAdmin && 
               <NavLink className="nav-link" to="/categories/edit-category">Edit Category</NavLink>}
               { this.props.isAuthed ? [
                 <li className="nav-item" key="notification">
                   <NotificationDropdown userID={this.props.userID}/>
-                </li>,                     
+                </li>,        
+                <li className="nav-item" key="makearticle">
+                  <NavLink className="nav-link" to={{
+                  pathname: "/posts/make-post",
+                  state: { "postType" : "article" }
+                }}>Write Article</NavLink>
+                </li>,                               
                 <li className="nav-item" key="makepost">
-                  <NavLink className="nav-link" to="/posts/make-post">Make Post</NavLink>
+                  <NavLink className="nav-link" to={{
+                  pathname: "/posts/make-post",
+                  state: { "postType" : "post" }
+                }}>Make Post</NavLink>
                 </li>,              
                 <li className="nav-item" key="signout">
                   <NavLink className="nav-link" to="/users/signout" onClick={this.onClick}>Sign Out</NavLink>

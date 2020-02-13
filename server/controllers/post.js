@@ -1,19 +1,20 @@
 const User = require('../models/user');
 const Post = require('../models/post');
+const Category = require('../models/category');
 const Followpost = require('../models/followpost');
 var mongoose = require('mongoose');
 
 module.exports = {
   makePost: async (req, res, next) => {
     try{
-      const { title, content, postType, authorID, parentID, category } = req.body;
+      const { title, content, postType, authorID, parentID, category : categoryID } = req.body;
       const newPost = new Post({
         title,
         content,
         postType,  
         authorID,
         parentID,
-        category
+        categoryID
       });
       await newPost.save();      
       if(parentID) {
@@ -24,6 +25,14 @@ module.exports = {
           }}
         );
       }
+      
+      await Category.updateOne(
+        { _id: categoryID },
+        { "$push": {
+          postIDs: newPost._id
+        } }
+      )
+
       res.json(newPost._id);
     } catch(err){
       next(err);
@@ -55,8 +64,19 @@ module.exports = {
       foreignField: "_id",
       as: "author"
       }
-    },   
-    {"$match": {"postType": "post"}},
+    },
+    {
+      $lookup : {
+        from: 'categories',
+        localField: 'categoryID',
+        foreignField: '_id',
+        as:'category'
+      }
+    },
+    {"$match": {"$or": [
+      {"postType": "post"},
+      {"postType": "article"}
+    ]}},
     ];
     try {
       if(!lastPost) {
@@ -80,7 +100,8 @@ module.exports = {
   },
   viewPost: async (req, res, next) => {
     try {
-      const { postID } = req.params;
+      const { postID, userID } = req.params;
+      await addUserHistory(userID, postID);
       const post = await expandPost(postID);
       res.json(post);
     } catch(err) {
@@ -223,7 +244,42 @@ module.exports = {
     } catch(err) {
       next(err);
     }
+  },
+  getArticlesByUserID: async (req, res, next) => {
+    const { userID } = req.params;
+    try {
+      let result = await Post.aggregate([
+        { "$match": {"$and": [
+          {"authorID": mongoose.Types.ObjectId(userID)},
+          {"postType": "article"}
+        ]}},
+        { "$lookup": {
+          from: "users",
+          localField: "authorID",
+          foreignField: "_id",
+          as: "author"
+        }}
+      ]);  
+      res.json(result);
+    } catch(err) {
+      next(err);
+    }
   }
+}
+
+const addUserHistory = async (userID, postID) => {
+  const user = await User.findById(userID);
+  if(user.browserHistory.length > 0 && 
+    user.browserHistory[user.browserHistory.length - 1].toString() === postID) {
+    return;
+  } 
+  user.browserHistory.push(postID);
+  const length = user.browserHistory.length;
+  user.browserHistory = user.browserHistory.slice(
+    length - 5 >= 0? length - 5: 0,
+    length
+  );
+  await user.save();
 }
 
 const expandPost = async (postID) => {

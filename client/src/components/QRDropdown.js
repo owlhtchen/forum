@@ -8,11 +8,19 @@ export default class QRDropdown extends Component {
     return (
     <Dropdown  className="d-inline">
       <Dropdown.Toggle  className="bg-white text-dark border-0" id="dropdown-basic">
-        Share QR Code
+        Share
       </Dropdown.Toggle>
 
       <Dropdown.Menu >
-        <QRCode value={url} />
+        <Dropdown.Item onClick={()=>{
+
+        }}>
+          Copy Link Address
+        </Dropdown.Item>
+        <Dropdown.Item>
+          Share by QR Code
+          <QRCode value={url} />
+        </Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
     )

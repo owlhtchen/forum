@@ -7,18 +7,18 @@
   
 - Users 
   - [x] Profile
-  - [ ] Bio
+  - [x] Bio 
   - [x] Following, Follower
-  - [ ] Block
-  - [ ] Column
+  - [x] Block 
+  - [x] Column (Articles)
   - [x] DM
   - [x] OAuth
   - [ ] Password recovery
-  - [ ] Timeline
-  - [ ] History
+  - [ ] Timeline X
+  - [ ] History X
   - [ ] Reputation
-  - [ ] Favorites
-  - [ ] Avator
+  - [ ] Favorites X
+  - [x] Avator
 - Posts 
   - [x] Like/Dislike (upvotes)
   - [ ] Pinned
@@ -30,13 +30,15 @@
   - [x] Share via QR code
   - [ ] Vote 
 - Admin
-  - [ ] Add/Delete themes
-  - [ ] Add/Delete post
+  - [ ] Add/Delete categories
+  - [x] Add/Delete post
   - ~~Suspend accounts~~
 - Category
-  - [ ] Join
+  - [ ] Join X
 - Search
-  - [ ] Advance filter (time, theme)
+  - [ ] Advance Search (time, categories) X
 - Sort
-  - [ ] By new
-  - [ ] By top of (all time, within ...)
+  - [ ] By new X
+  - [ ] By top of (all time, within ...) X?
+
+(please restart the server everytime you drop the database to initiate table)

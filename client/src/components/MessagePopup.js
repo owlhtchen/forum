@@ -2,8 +2,7 @@ import React, { Component } from 'react'
 import Popup from 'reactjs-popup'
 import io from 'socket.io-client'
 import { connect } from 'react-redux';
-import axios from 'axios';
-import { getUserByID } from '../utils/index'
+import { getUserByID, checkBlock } from '../utils/index'
 
 class MessagePopup extends Component {
   constructor(props) {
@@ -12,7 +11,8 @@ class MessagePopup extends Component {
       open: false,
       socket: null,
       messages: [],
-      user: null
+      user: null,
+      blocked: false
     };
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
@@ -26,10 +26,30 @@ class MessagePopup extends Component {
     });
   }
 
-  openModal() {
+  showBlockMsg = () => {
+    const blockMsg = [{
+      'senderUsername': "⚠️",
+      'content': 'conversation has been blocked 🤡'
+    }];
+    this.setState({
+      messages: blockMsg
+    });
+  }
+
+  openModal = async () => {
+    const sender = this.props.userID;   // id
+    const receiver = this.props.receiver;   // id    
+    const blocked = await checkBlock(sender, receiver);
+    this.setState({
+      open: true, 
+      blocked: blocked
+    });
+    if(blocked) {
+      this.showBlockMsg();
+      return;
+    }
+
     var socket = io('ws://localhost:5000');
-    const sender = this.props.userID;
-    const receiver = this.props.receiver;
     if(sender < receiver){
       socket.emit("room", sender);
     } else {
@@ -56,16 +76,21 @@ class MessagePopup extends Component {
   }
 
   handleSend = () => {
-    const { socket } = this.state;
     const sender = this.props.userID;
     const receiver = this.props.receiver;
-    const message = document.querySelector('#message-box').value;
-    socket.emit('new message', {
-      content: message,
-      sender: sender,
-      receiver: receiver,
-      senderUsername: this.state.user.username
-    })
+    const { blocked } = this.state;
+    if(blocked) {
+      this.showBlockMsg();
+    } else {
+      const { socket } = this.state;
+      const message = document.querySelector('#message-box').value;
+      socket.emit('new message', {
+        content: message,
+        sender: sender,
+        receiver: receiver,
+        senderUsername: this.state.user.username
+      })
+    }
     document.querySelector('#message-box').value = "";
   }
 
@@ -89,7 +114,7 @@ class MessagePopup extends Component {
                 {this.state.messages.map((message, index) => {
                   return (
                     <div key={index}>
-                      {message.senderUsername}:{message.content}
+                      {message.senderUsername}: {message.content}
                     </div>
                   );
                 })}

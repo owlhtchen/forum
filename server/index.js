@@ -8,6 +8,7 @@ const users = require('./routes/user');
 const posts = require('./routes/post');
 const categories = require('./routes/category');
 const uploads = require('./routes/multer');
+const searchs = require('./routes/search');
 
 const Category = require('./models/category');
 
@@ -31,7 +32,7 @@ db.once('open', function() {
   
     const app = express();
 
-    app.use(bodyParser.urlencoded({ extended: false }));
+    app.use(bodyParser.urlencoded({ extended: true })); 
     app.use(bodyParser.json());
 
     app.use(cors());
@@ -39,7 +40,7 @@ db.once('open', function() {
     require('./passport');
 
     // Serve the static files from the React app
-    app.use(express.static(path.join(__dirname, 'public/avatars')));
+    app.use(express.static(path.join(__dirname, '../public/avatars')));
 
     let http = require('http').createServer(app);
     let io = require('socket.io')(http);
@@ -49,6 +50,7 @@ db.once('open', function() {
     app.use('/posts', posts);
     app.use('/categories', categories);
     app.use('/upload', uploads);
+    app.use('/search', searchs);
 
     // Handles any requests that don't match the ones above
     app.get('*', (req,res) =>{

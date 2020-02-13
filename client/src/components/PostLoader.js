@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import PostView from './PostView'
+import { connect } from 'react-redux';
 
-export default class PostLoader extends Component {
+class PostLoader extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -12,7 +13,12 @@ export default class PostLoader extends Component {
 
   getPostOnUrlChange = async () => {
     const { postID } = this.props.match.params;
-    const res = await axios.get('/posts/view-post/' + postID);
+    const { userID } = this.props;
+    let url = '/posts/view-post/' + postID;
+    if(userID) {
+      url += '/' + userID;
+    }
+    const res = await axios.get(url);
     this.setState({
       post: res.data
     });
@@ -47,3 +53,11 @@ export default class PostLoader extends Component {
     )
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    userID: state.user.userID
+  };
+}
+
+export default connect(mapStateToProps)(PostLoader);

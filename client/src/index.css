@@ -5,11 +5,61 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.App {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(236,240,241);
+}
+.card-fade-in {
+  -webkit-animation: fadein 0.5s; /* Safari, Chrome and Opera > 12.1 */
+  /*-moz-animation: fadein 1s; !* Firefox < 16 *!*/
+  /*-ms-animation: fadein 1s; !* Internet Explorer *!*/
+  /*-o-animation: fadein 1s; !* Opera < 12.1 *!*/
+  /*animation: fadein 1s;*/
+  background-color: rgb(255,255,255);
+  min-height: 80px;
+}
+.post-summary {
+  max-width: 900px;
+
+}
+
+.post-header {
+  display: flex;
+}
+.post-header-post {
+  width: 400px;
+}
+
+.post-header-category {
+  width: 300px;
+}
+
+.post-header-comment {
+  width: 100px;
+  text-align: center;
+}
+
+.post-header-upvotes {
+  width: 100px;
+  text-align: center;
+}
+
+.post-summary .card-header{
+  background-color: rgb(255,255,255);
+  border: none;
+}
+.post-author {
+  float: left;
 }
 
 #post-content-summary a.collapsed:after {
@@ -34,7 +84,34 @@ code {
 #post-content-summary .post-content.collapsing {
   height: 2.5em;
 }
+@keyframes fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
 
+/* Firefox < 16 */
+@-moz-keyframes fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Safari, Chrome and Opera > 12.1 */
+@-webkit-keyframes fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Internet Explorer */
+@-ms-keyframes fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Opera < 12.1 */
+@-o-keyframes fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
 .post-detail {
   font-family: "Times New Roman", Times, serif;
 }

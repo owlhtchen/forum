@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
 import debounce from "lodash.debounce"
 import axios from 'axios';
+import PostSummary from './PostSummary';
 
 export default class Homepage extends Component {
   getMorePost = async (posts) => {
@@ -70,21 +70,26 @@ export default class Homepage extends Component {
     return (
       <div className="mt-3">
         <h2 className="mb-3" id="homepage">Homepage</h2>
+        <div className="post-header">
+          <div className='post-header-post'>Post</div>
+          <div className='post-header-category'>Category</div>
+          <div className='post-header-comment'>Comments</div>
+          <div className='post-header-upvotes'>Upvotes</div>
+        </div>
         {
           this.state.posts.map((post, index) => {
+            const color = (()=>{
+              switch(index % 3){
+                case 0:
+                  return '#f2f4f6';
+                case 1:
+                  return '#ffffff';
+                case 2:
+                  return '#f9f4ee';
+              }
+            })();
             return (
-              <div className="card m-2 card-fade-in" key={index}>
-                <div className="card-header h4">
-                  <Link to={"/posts/view-post/" + post._id } style={{
-                    color: "#000000"
-                  }}>{ post.title }</Link>
-                </div>
-                <div id="post-content-summary" className="card-body">
-                  <p className="h6 card-subtitle text-muted">{post.author[0].username}</p>
-                  <p className="card-text collapse post-content" id={"post-content-" + index}>{post.content}</p>
-                  <a className="collapsed" data-toggle="collapse" href={"#post-content-" + index}></a>
-                </div>
-              </div>
+              <PostSummary key={index} post={post} backgroundColor={color}></PostSummary>
             );
           })
         }

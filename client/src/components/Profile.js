@@ -1,48 +1,29 @@
 import React, { Component } from 'react'
-import axios from 'axios'
 import MessagePopup from './MessagePopup'
 import { connect } from 'react-redux'
 import { getUserByID } from '../utils/index'
 import UploadImage from './UploadImage';
+import EditBio from './EditBio';
+import FollowUser from './FollowUser';
+import Block from './Block';
+import Collection from './Collection';
+import { Link } from 'react-router-dom'
 
 class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      profileUser: null,
-      following: false
+      profileUser: null
     };
-  }
-
-  handleFollow = async () => {
-    const follower = this.props.userID;
-    const { profileUser, following } = this.state;
-    try {
-      await axios.post('/users/follow-user', {
-        user: profileUser,
-        follower: follower,
-        startFollowing: !following
-      });
-      this.setState({
-        following: !following
-      });      
-    } catch(err) {
-      console.log("axios exception in Profile handle follow");  
-    }
   }
 
   async componentDidMount() {
     try {
       const { userID } = this.props.match.params;
       const profileUser = await getUserByID(userID);
-      const resFollwing = await axios.post('/users/check-follow-user', {
-        user: profileUser,
-        follower: this.props.userID
-      });
 
       this.setState({
-        profileUser: profileUser,
-        following: resFollwing.data.following
+        profileUser: profileUser
       });
     } catch(err) {
       console.log("axios exception in Profile Mount");   
@@ -50,7 +31,7 @@ class Profile extends Component {
   }
 
   render() {
-    const { profileUser, following } = this.state;
+    const { profileUser } = this.state;
     if(!profileUser) {
       return (
         <div>
@@ -60,16 +41,31 @@ class Profile extends Component {
     }
     return (
       <div>
-        <img src={"/" + profileUser.avatarFile} />
+        <img src={"/" + profileUser.avatarFile} className="rounded-circle" width="100" height="100"/>
         <h3>{profileUser.username}</h3>
-        <UploadImage></UploadImage>
-        <MessagePopup />
         {
-          String(profileUser._id) !== this.props.userID && 
-          <button 
-          onClick={this.handleFollow}
-          >{following ? "Following" : "Follow Me"}</button>
+          profileUser.bio.trim() !== "" &&
+          <p className="h5">Bio: {profileUser.bio}</p>
         }
+        {
+          String(profileUser._id) === this.props.userID && [
+          <UploadImage key="upload-image"></UploadImage>,
+          <EditBio key="edit-bio"></EditBio>,
+          <Link key="browse-history" 
+            className="btn btn-outline-secondary" to={{
+            pathname: "/users/browse-history",
+            userID: profileUser._id
+          }} >Browse History</Link>
+          ]
+        }
+        {
+          String(profileUser._id) !== this.props.userID && [
+          <MessagePopup key="message-popup" receiver={profileUser._id}/>,
+          <FollowUser key="follow-user" profileUser={profileUser}></FollowUser>,
+          <Block key="block-user" profileUser={profileUser}></Block>
+        ]}
+        <h5>Articles</h5>
+        <Collection profileUser={profileUser}></Collection>
       </div>
     )
   }
