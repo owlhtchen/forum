@@ -8,6 +8,7 @@ export default class PostSummary extends Component {
   render() {
     const { post,backgroundColor } = this.props;
     console.log(this.props);
+    console.log(post.author[0].username);
     return (
       <div className="post-summary" style={{
         'backgroundColor': backgroundColor
