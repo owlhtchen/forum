@@ -32,7 +32,7 @@ const postSchema = new Schema({
     type: Boolean,
     default: false
   },
-  category: {
+  categoryID: {
     type: Schema.Types.ObjectId,
     ref: 'Category'
   }

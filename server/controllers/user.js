@@ -276,11 +276,20 @@ module.exports = {
               localField: 'authorID',
               foreignField: '_id',
               as: "author"
-            }
-          }
+            },
+          },
+          {
+            "$lookup" : {
+              from: 'categories',
+              localField: 'categoryID',
+              foreignField: '_id',
+              as:'category'
+            } 
+          }         
         ]);
         return post[0];
       }));
+      console.log(browseHistory);
       res.json(browseHistory);      
     } catch(err) {
       next(err);

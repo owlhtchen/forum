@@ -13,7 +13,8 @@ module.exports = {
         content,
         postType,  
         authorID,
-        parentID
+        parentID,
+        categoryID
       });
       await newPost.save();      
       if(parentID) {
@@ -63,7 +64,15 @@ module.exports = {
       foreignField: "_id",
       as: "author"
       }
-    },   
+    },
+    {
+      $lookup : {
+        from: 'categories',
+        localField: 'categoryID',
+        foreignField: '_id',
+        as:'category'
+      }
+    },
     {"$match": {"$or": [
       {"postType": "post"},
       {"postType": "article"}

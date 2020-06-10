@@ -13,7 +13,7 @@ class Navbar extends Component {
   render() {
     const { userID } = this.props;
     return (
-        <nav className="navbar navbar-expand navbar-light bg-light">
+        <nav className="navbar navbar-expand bg-light navbar-light">
           <Link className="navbar-brand" to="/">Forum</Link>
 
           <div className="collapse navbar-collapse">
@@ -25,7 +25,7 @@ class Navbar extends Component {
                   <NavLink className="nav-link" to={"/users/profile/" + userID}>Profile</NavLink> 
                 </li>,
                 <li className="nav-item" key="dashboard">
-                  <NavLink className="nav-link" to="/dadshboar">Dashboard</NavLink> 
+                  <NavLink className="nav-link" to="/dashboard">Dashboard</NavLink>
                 </li>,                
                 ] :
                 [ "" ]}

@@ -20,8 +20,8 @@ export default class SearchBar extends Component {
     const { keyword } = this.state;
     return (
       <form className="form-inline m-2 my-lg-0">
-        <input onChange={this.onChange} className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
-        <NavLink className="btn btn-outline-primary my-2 my-sm-0" type="submit" 
+        <input onChange={this.onChange} className="form-control mr-sm-2 btn-outline-success" type="search" placeholder="Search" aria-label="Search" />
+        <NavLink className="btn btn-outline-success my-2 my-sm-0" type="submit"
         to={'/search/' + keyword}>Search</NavLink>
       </form>
     )

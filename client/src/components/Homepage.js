@@ -70,10 +70,26 @@ export default class Homepage extends Component {
     return (
       <div className="mt-3">
         <h2 className="mb-3" id="homepage">Homepage</h2>
+        <div className="post-header">
+          <div className='post-header-post'>Post</div>
+          <div className='post-header-category'>Category</div>
+          <div className='post-header-comment'>Comments</div>
+          <div className='post-header-upvotes'>Upvotes</div>
+        </div>
         {
           this.state.posts.map((post, index) => {
+            const color = (()=>{
+              switch(index % 3){
+                case 0:
+                  return '#f2f4f6';
+                case 1:
+                  return '#ffffff';
+                case 2:
+                  return '#f9f4ee';
+              }
+            })();
             return (
-              <PostSummary key={index} post={post}></PostSummary>
+              <PostSummary key={index} post={post} backgroundColor={color}></PostSummary>
             );
           })
         }
