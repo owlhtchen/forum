@@ -1,0 +1,29 @@
+@import "../variables";
+
+.sidebar {
+  grid-area: sidebar;
+  background-color: var(--sidebar-bg-color);
+  color: var(--sidebar-primary-color);
+  font-size: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  line-height: 6rem;
+  min-height: 95vh;
+
+  & > * {
+    padding-left: 2rem;
+  }
+
+  a:link, a:visited {
+    text-transform: capitalize;
+    text-decoration: none;
+    color: var(--sidebar-primary-color);
+  }
+
+  &__svg {
+    height: 1.5rem;
+    width: 1.5rem;
+    fill: white;
+    margin-right: 1.2rem;
+  }
+}

@@ -4,9 +4,9 @@ import {connect} from 'react-redux';
 import NotificationDropdown from './NotificationDropdown'
 import SearchBar from './SearchBar'
 import * as actions from '../../actions';
-import './Navbar.scss';
+import './Header.scss';
 
-class Navbar extends Component {
+class Header extends Component {
     onClick = () => {
         this.props.signOut();
     };
@@ -47,10 +47,10 @@ class Navbar extends Component {
                         </li>
                     ] : [
                         <div className="header__nav-square" key="signup">
-                            <NavLink className="nav-link" to="/users/signup">Sign Up</NavLink>
+                            <NavLink to="/users/signup">Sign Up</NavLink>
                         </div>,
                         <div className="header__nav-square" key="signin">
-                            <NavLink className="nav-link" to="/users/signin">Sign In</NavLink>
+                            <NavLink to="/users/signin">Sign In</NavLink>
                         </div>
                     ]}
                 </ul>
@@ -68,4 +68,4 @@ const mapStateToProps = (state) => {
     }
 };
 
-export default connect(mapStateToProps, actions)(Navbar);
+export default connect(mapStateToProps, actions)(Header);

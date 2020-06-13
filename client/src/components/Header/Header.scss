@@ -3,12 +3,13 @@
 .header {
   color: var(--navbar-primary-color);
   background-color: var(--navbar-bg-color);
-  font-size: 2rem;
+  font-size: 1.5rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 2.5rem 0 3.5rem;
   text-transform: uppercase;
+  grid-area: header;
 
   a:link, a:visited, a:active {
     text-decoration: none;
@@ -18,7 +19,7 @@
   &__brand {
     flex: 0 0 6%;
     font-family: var(--heading-font-family);
-    font-size: 4rem;
+    font-size: 2.7rem;
   }
 
   &__search-form {
