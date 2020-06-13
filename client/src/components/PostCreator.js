@@ -1,127 +1,134 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import SimpleMDE from "react-simplemde-editor";
 import "easymde/dist/easymde.min.css";
 import axios from 'axios';
-import { connect } from 'react-redux';
-import { getUserByID, getUserFollowers, notifyFollowers, getPostFollowers, getParentPost, getPostByID } from '../utils/index';
+import {connect} from 'react-redux';
+import {
+    getUserByID,
+    getUserFollowers,
+    notifyFollowers,
+    getPostFollowers,
+    getParentPost,
+    getPostByID
+} from '../utils/index';
 import SearchCategory from './SearchCategory';
 import MentionUser from './MentionUser';
 
 const mdeID = "mdeID";
 
 class PostCreator extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      mdeValue: localStorage.getItem(`smde_${mdeID}`) || '',
-      showMentionUser: false,
-      cursorRow: 0,
-      cursorCol: 0
+    constructor(props) {
+        super(props);
+        this.state = {
+            mdeValue: localStorage.getItem(`smde_${mdeID}`) || '',
+            showMentionUser: false,
+            cursorRow: 0,
+            cursorCol: 0
+        }
     }
-  }
-  
-  handleChange = value => {
-    this.setState({ 
-      mdeValue: value
-    });
-    
-  };
 
-  handleSubmit = async (e) => {
-    try{
-      e.preventDefault();
-      let title;
-      let postType;
-      let content = this.state.mdeValue;
-      let category;
-      if(this.props.parentID) {
-        postType = "comment";
-      } else {
-        postType =  this.props.location.state.postType;
-        title = document.getElementById('title').value;
-        category = document.getElementById('category').value;
-      }
-      let res = await axios.post('http://localhost:5000/posts/make-post', {
-        title: title,
-        content: content,
-        postType: postType,
-        authorID: this.props.userID,
-        parentID: this.props.parentID,
-        category: category
-      });
-      let newPostID = res.data;
-
-      //notification
-      const user = await getUserByID(this.props.userID);
-      const userMessage = user.username + " made a " + postType + 
-                  ((postType === "comment") ? ": " + content.slice(0, 7) + "(...)" : " with title: " + title);
-      // user followers
-      const userFollowers = await getUserFollowers(user._id);
-      await notifyFollowers(userFollowers, userMessage, newPostID);
-      // parent Post followers
-      const parentID = await getParentPost(newPostID);
-      const postFollowers = await getPostFollowers(parentID);
-      const parentPost = await getPostByID(parentID);
-      const postMessage = parentPost.title + " has a follow up";
-      await notifyFollowers(postFollowers, postMessage, parentID);
-
-      document.getElementById("post-form").reset();
-      this.setState({
-        mdeValue: ""
-      });
-      localStorage.removeItem(`smde_${mdeID}`)
-      // refresh page to see new post/comment
-      window.location.reload();
-    } catch(err) {
-      console.log(err);
-    }
-  }
-
-  handleAt = async (instance, changeObj) => {
-    const { showMentionUser } = this.state;
-    if(showMentionUser) {
-      changeObj.cancel();
-    }
-    if(changeObj.origin === '+input') {
-      if(changeObj.text[0].charAt(0) === '@') {
-        let { line, ch } = changeObj.from;
+    handleChange = value => {
         this.setState({
-          showMentionUser: true,
-          cursorRow: line,
-          cursorCol: ch
+            mdeValue: value
         });
-      }
+
+    };
+
+    handleSubmit = async (e) => {
+        try {
+            e.preventDefault();
+            let title;
+            let postType;
+            let content = this.state.mdeValue;
+            let category;
+            if (this.props.parentID) {
+                postType = "comment";
+            } else {
+                postType = this.props.location.state.postType;
+                title = document.getElementById('title').value;
+                category = document.getElementById('category').value;
+            }
+            let res = await axios.post('http://localhost:5000/posts/make-post', {
+                title: title,
+                content: content,
+                postType: postType,
+                authorID: this.props.userID,
+                parentID: this.props.parentID,
+                category: category
+            });
+            let newPostID = res.data;
+
+            //notification
+            const user = await getUserByID(this.props.userID);
+            const userMessage = user.username + " made a " + postType +
+                ((postType === "comment") ? ": " + content.slice(0, 7) + "(...)" : " with title: " + title);
+            // user followers
+            const userFollowers = await getUserFollowers(user._id);
+            await notifyFollowers(userFollowers, userMessage, newPostID);
+            // parent Post followers
+            const parentID = await getParentPost(newPostID);
+            const postFollowers = await getPostFollowers(parentID);
+            const parentPost = await getPostByID(parentID);
+            const postMessage = parentPost.title + " has a follow up";
+            await notifyFollowers(postFollowers, postMessage, parentID);
+
+            document.getElementById("post-form").reset();
+            this.setState({
+                mdeValue: ""
+            });
+            localStorage.removeItem(`smde_${mdeID}`)
+            // refresh page to see new post/comment
+            window.location.reload();
+        } catch (err) {
+            console.log(err);
+        }
     }
-  }
 
-  setUser = (userInfoString) => {
-    let { userID, username } = JSON.parse(userInfoString);
-    const { mdeValue, cursorRow, cursorCol } = this.state;
-    let mdeArray = mdeValue.split('\n');
-    let link = '[' + username + ']' + '(/users/profile/' + userID + ')';
-    mdeArray[cursorRow] = mdeArray[cursorRow].slice(0, cursorCol)
-                        .concat(link)
-                        .concat(mdeArray[cursorRow].slice(cursorCol + 1));
-    let newMdeValue = mdeArray.join('\n');
-    this.setState({
-      showMentionUser: false,
-      mdeValue: newMdeValue
-    })
-  }
+    handleAt = async (instance, changeObj) => {
+        const {showMentionUser} = this.state;
+        if (showMentionUser) {
+            changeObj.cancel();
+        }
+        if (changeObj.origin === '+input') {
+            if (changeObj.text[0].charAt(0) === '@') {
+                let {line, ch} = changeObj.from;
+                this.setState({
+                    showMentionUser: true,
+                    cursorRow: line,
+                    cursorCol: ch
+                });
+            }
+        }
+    }
 
-  render() {
-    const { showMentionUser } = this.state
-    return (
-          <form onSubmit={this.handleSubmit} id="post-form">
-            <div className="row">
-              <div className="col-6">
-                { !this.props.parentID && 
-                  <fieldset className="form-control">
-                    <label htmlFor="title">Title&nbsp;</label>
-                    <input type="text" id="title"></input>
-                  </fieldset>
-                }
-                {/* { !this.props.parentID && 
+    setUser = (userInfoString) => {
+        let {userID, username} = JSON.parse(userInfoString);
+        const {mdeValue, cursorRow, cursorCol} = this.state;
+        let mdeArray = mdeValue.split('\n');
+        let link = '[' + username + ']' + '(/users/profile/' + userID + ')';
+        mdeArray[cursorRow] = mdeArray[cursorRow].slice(0, cursorCol)
+            .concat(link)
+            .concat(mdeArray[cursorRow].slice(cursorCol + 1));
+        let newMdeValue = mdeArray.join('\n');
+        this.setState({
+            showMentionUser: false,
+            mdeValue: newMdeValue
+        })
+    }
+
+    render() {
+        const {showMentionUser} = this.state
+        return (
+            <form onSubmit={this.handleSubmit} id="post-form">
+                <div className="row">
+                    <div className="col-6">
+                        {!this.props.parentID &&
+                        <fieldset className="form-control">
+                            <label htmlFor="title">Title&nbsp;</label>
+                            <input type="text" id="title"></input>
+                        </fieldset>
+                        }
+                        {/* { !this.props.parentID &&
                 <fieldset >
                   <select name="postType" id="postType" className="form-control">
                     <option>-- select a type --</option>
@@ -131,52 +138,52 @@ class PostCreator extends Component {
                   </select>
                 </fieldset>
                 } */}
-                { !this.props.parentID && 
-                <fieldset >
-                  <label htmlFor="category">Category</label>
-                  <SearchCategory id={"category"}/>
-                </fieldset>
-                }
-              </div>
-            </div>
+                        {!this.props.parentID &&
+                        <fieldset>
+                            <label htmlFor="category">Category</label>
+                            <SearchCategory id={"category"}/>
+                        </fieldset>
+                        }
+                    </div>
+                </div>
 
-            <div className="row">
-              <div className="col-6">            
-                <SimpleMDE id={mdeID}
-                value={ this.state.mdeValue } 
-                onChange={this.handleChange} 
-                options = {{
-                  spellChecker: false,
-                  autosave: {
-                    enabled: true, 
-                    uniqueId: mdeID,
-                    delay: 1000
-                  }
-                }}
-                events={{
-                  'beforeChange': this.handleAt
-              }}
-                />
-                <input type="submit" className="btn btn-primary" />
-              </div>
-              <div className="col-3 wrap-text">
-                {
-                  showMentionUser &&
-                  <MentionUser 
-                  setUser={this.setUser}
-                  id={"userID"} />
-                }
-              </div>
-            </div>
-          </form>
-    )
-  }
+                <div className="row">
+                    <div className="col-6">
+                        <SimpleMDE id={mdeID}
+                                   value={this.state.mdeValue}
+                                   onChange={this.handleChange}
+                                   options={{
+                                       spellChecker: false,
+                                       autosave: {
+                                           enabled: true,
+                                           uniqueId: mdeID,
+                                           delay: 1000
+                                       }
+                                   }}
+                                   events={{
+                                       'beforeChange': this.handleAt
+                                   }}
+                        />
+                        <input type="submit" className="btn btn-primary"/>
+                    </div>
+                    <div className="col-3 wrap-text">
+                        {
+                            showMentionUser &&
+                            <MentionUser
+                                setUser={this.setUser}
+                                id={"userID"}/>
+                        }
+                    </div>
+                </div>
+            </form>
+        )
+    }
 }
 
-const mapStateToProps = (state) =>  {
-  return {
-    userID: state.user.userID
-  }
+const mapStateToProps = (state) => {
+    return {
+        userID: state.user.userID
+    }
 }
 
 export default connect(mapStateToProps, null)(PostCreator);

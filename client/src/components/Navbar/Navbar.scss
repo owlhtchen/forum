@@ -1,0 +1,41 @@
+@import "../variables";
+
+.header {
+  color: var(--navbar-primary-color);
+  background-color: var(--navbar-bg-color);
+  font-size: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2.5rem;
+  text-transform: uppercase;
+
+  a:link, a:visited, a:active {
+    text-decoration: none;
+    color: var(--navbar-primary-color);
+  }
+
+  &__brand {
+    font-family: var(--heading-font-family);
+    font-size: 4rem;
+  }
+
+  &__nav {
+    display: flex;
+  }
+
+  &__nav-square {
+    padding: 1rem;
+  }
+
+  &__nav-square:hover {
+    color: var(--navbar-bg-color);
+    background-color: var(--navbar-primary-color);
+
+    a {
+      color: var(--navbar-bg-color);
+    }
+  }
+}
+
+

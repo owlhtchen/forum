@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import { BrowserRouter } from 'react-router-dom';
-import { Route, Switch } from 'react-router-dom';
-import Navbar from './Navbar';
+import React, {Component} from 'react';
+import {BrowserRouter} from 'react-router-dom';
+import {Route, Switch} from 'react-router-dom';
+import Navbar from './Navbar/Navbar';
 import Signup from './Signup';
 import Dashboard from './Dashboard';
 import Signin from './Signin';
@@ -16,32 +16,33 @@ import CategoryDetail from './CategoryDetail'
 import BrowseHistory from './BrowseHistory'
 
 class App extends Component {
-  state = {  }
-  render() { 
-    return (   
-      <div className="App">
-        {/* <BrowserRouter forceRefresh={true}> */}
-        <BrowserRouter >
-          <Navbar />
-          <div className="container">
-            <Switch>
-              <Route exact path="/" component={ Homepage } />
-              <Route exact path="/dashboard" component={ authGuard(Dashboard) } />
-              <Route exact path="/users/signup" component={ Signup } />
-              <Route exact path="/users/signin" component={ Signin } />
-              <Route exact path="/posts/make-post" component={authGuard(Post)} />
-              <Route exact path="/posts/view-post/:postID" component={PostLoader} />
-              <Route exact path="/users/profile/:userID" component={Profile} />
-              <Route exact path="/categories/edit-category" component={Category} />
-              <Route exact path="/categories/category-by-id/:categoryID" component={CategoryDetail} />
-              <Route path="/search/:keyword?" component={SearchResult} />
-              <Route path="/users/browse-history" component={BrowseHistory} />
-            </Switch>
-          </div>
-        </BrowserRouter>
-      </div>
-     );
-  }
+    state = {}
+
+    render() {
+        return (
+            <div className="App">
+                {/* <BrowserRouter forceRefresh={true}> */}
+                <BrowserRouter>
+                    <Navbar/>
+                    <div className="container">
+                        <Switch>
+                            <Route exact path="/" component={Homepage}/>
+                            <Route exact path="/dashboard" component={authGuard(Dashboard)}/>
+                            <Route exact path="/users/signup" component={Signup}/>
+                            <Route exact path="/users/signin" component={Signin}/>
+                            <Route exact path="/posts/make-post" component={authGuard(Post)}/>
+                            <Route exact path="/posts/view-post/:postID" component={PostLoader}/>
+                            <Route exact path="/users/profile/:userID" component={Profile}/>
+                            <Route exact path="/categories/edit-category" component={Category}/>
+                            <Route exact path="/categories/category-by-id/:categoryID" component={CategoryDetail}/>
+                            <Route path="/search/:keyword?" component={SearchResult}/>
+                            <Route path="/users/browse-history" component={BrowseHistory}/>
+                        </Switch>
+                    </div>
+                </BrowserRouter>
+            </div>
+        );
+    }
 }
- 
+
 export default App;
