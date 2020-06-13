@@ -7,7 +7,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 2.5rem;
+  padding: 0 2.5rem 0 3.5rem;
   text-transform: uppercase;
 
   a:link, a:visited, a:active {
@@ -16,8 +16,47 @@
   }
 
   &__brand {
+    flex: 0 0 6%;
     font-family: var(--heading-font-family);
     font-size: 4rem;
+  }
+
+  &__search-form {
+    flex: 0 0 37%;
+    display: flex;
+    align-items: center;
+  }
+
+  &__search-input {
+    font-family: inherit;
+    font-size: inherit;
+    color: var(--color-grey-dark);
+    background-color: inherit;
+    border: 0.25rem solid var(--color-grey-dark);
+    border-radius: 10rem;
+    padding: 0.2rem 3.5rem 0.2rem 2rem;
+    margin-right: -3.2rem;
+    width: 80%;
+    transition: all 0.3s;
+
+    &:focus {
+      outline: none;
+      appearance: none;
+      width: 100%;
+      box-shadow: 0.1rem 0 0.5rem var(--color-grey-dark);
+      transform: translateY(-0.3rem);
+    }
+
+    &::placeholder {
+      color: var(--color-grey-light);
+    }
+  }
+
+  &__search-icon {
+    width: 2rem;
+    height: 2rem;
+    fill: var(--color-grey-dark);
+    //transform: translateX(-2rem);
   }
 
   &__nav {

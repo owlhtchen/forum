@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import axios from 'axios'
 import {NavLink} from 'react-router-dom'
+import { ReactComponent as SearchSVG } from './search.svg';
 
 export default class SearchBar extends Component {
     constructor(props) {
@@ -19,15 +20,13 @@ export default class SearchBar extends Component {
     render() {
         const {keyword} = this.state;
         return (
-            <form>
-                <input onChange={this.onChange} className="form-control mr-sm-2 btn-outline-success" type="search"
-                       placeholder="Search" aria-label="Search"/>
-                <NavLink className="btn btn-outline-success my-2 my-sm-0" type="submit"
-                    to={'/search/' + keyword}>
-                    Search
+            <form className="header__search-form">
+                <input className="header__search-input"
+                    onChange={this.onChange} type="search" placeholder="Keyword" aria-label="Search"/>
+                <NavLink
+                    to={'/search/' + keyword} type="submit">
+                    <SearchSVG className="header__search-icon"/>
                 </NavLink>
-
-
             </form>
         )
     }

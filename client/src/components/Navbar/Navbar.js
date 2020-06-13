@@ -17,8 +17,7 @@ class Navbar extends Component {
             <header className="header">
                 <Link className="header__brand" to="/">Forum</Link>
 
-                <SearchBar></SearchBar>
-
+                <SearchBar/>
 
                 <ul className="header__nav">
 
