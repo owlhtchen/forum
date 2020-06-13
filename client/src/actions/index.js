@@ -21,7 +21,7 @@ const setSignOutStatus = () => {
 export const signIn = (formData) => {
     return async (dispatch, getState) => {
         try {
-            const res = await axios.post("http://localhost:5000/users/signin", formData);
+            const res = await axios.post("/users/signin", formData);
             if (!res.data || !res.data.token) {
                 throw new Error("user not found");
             }
@@ -45,7 +45,7 @@ export const googleOauth = (response) => {
     return async (dispatch, getState) => {
         let res;
         try {
-            res = await axios.post("http://localhost:5000/users/oauth/google", response);
+            res = await axios.post("/users/oauth/google", response);
             if (!res.data || !res.data.token) {
                 throw new Error(res.data.errorMsg);
             }
@@ -77,7 +77,7 @@ export const signOut = () => {
 export const getSecret = () => {
     return async (dispatch, getState) => {
         try {
-            const res = await axios.get("http://localhost:5000/users/secret");
+            const res = await axios.get("/users/secret");
 
             dispatch({
                 type: GET_SECRET,
@@ -95,7 +95,7 @@ export const getSecret = () => {
 export const signUp = (formData) => {
     return async (dispatch, getState) => {
         try {
-            const res = await axios.post("http://localhost:5000/users/signup", formData);
+            const res = await axios.post("/users/signup", formData);
             /*
             data: {token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmb…zc5fQ.SToYM5V88ieefcoEzBcZnIIkpIFvX-jpcXqyypPioSo"}
             status: 200

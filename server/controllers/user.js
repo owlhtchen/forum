@@ -36,7 +36,7 @@ module.exports = {
 
             if (user.email && foundUser) {
                 return res.json({
-                    errorMsg: 'email alreadly registered'
+                    errorMsg: 'email already registered'
                 });
             }
             const password = user.password;

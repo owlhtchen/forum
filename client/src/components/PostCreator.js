@@ -48,7 +48,7 @@ class PostCreator extends Component {
                 title = document.getElementById('title').value;
                 category = document.getElementById('category').value;
             }
-            let res = await axios.post('http://localhost:5000/posts/make-post', {
+            let res = await axios.post('/posts/make-post', {
                 title: title,
                 content: content,
                 postType: postType,

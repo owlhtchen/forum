@@ -1,0 +1,70 @@
+@import '../variables';
+
+.sign-div {
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-blue-light);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-div {
+  width: 72vw;
+  padding: 3vw;
+  background-image: linear-gradient(100deg,
+          rgba(white, .9) 0%,
+          rgba(white, .9) 55%,
+          rgba(white, .0) 55%),
+          url("../assets/sign-background.jpg") ;
+  background-repeat: no-repeat;
+  //border: 2px solid red;
+}
+
+.sign-form {
+
+  &__group {
+    display: flex;
+    flex-direction: column;
+    width: 35vw;
+    margin-bottom: 2vh;
+  }
+
+  &__label {
+    font-size: 2.5vh;
+    padding-bottom: 1vh;
+  }
+
+  &__input {
+    font-size: 2.8vh;
+    font-family: inherit;
+    background-color: white;
+    border: 2px solid var(--color-grey-light);
+    border-radius: 3vh;
+    padding: .8vw;
+    width: 70%;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  &__btn {
+    color: white;
+    background-color: var(--color-blue-light);
+    border: none;
+    font-size: 3.5vh;
+    text-transform: uppercase;
+    border-radius: 2.5vh;
+    box-shadow: .5rem .5rem 2rem var(--color-shade-light);
+    transition: all 0.3s;
+    padding: 1.5vh 2.5vw 1.5vh 2.5vw;
+    margin-left: 2.5vw;
+    margin-top: 2vh;
+
+    &:active {
+      box-shadow: .2rem .2rem 1.3rem var(--color-shade-dark);
+      outline: none;
+    }
+  }
+}
