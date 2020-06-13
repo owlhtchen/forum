@@ -4,14 +4,14 @@
   grid-area: sidebar;
   background-color: var(--sidebar-bg-color);
   color: var(--sidebar-primary-color);
-  font-size: 1.5rem;
+  font-size: 1.2vw;
   display: flex;
   flex-direction: column;
   line-height: 6rem;
   min-height: 95vh;
 
   & > * {
-    padding-left: 2rem;
+    padding-left: 10%;
   }
 
   a:link, a:visited {
@@ -21,8 +21,8 @@
   }
 
   &__svg {
-    height: 1.5rem;
-    width: 1.5rem;
+    height: 1.5vw;
+    width: 1.5vw;
     fill: white;
     margin-right: 1.2rem;
   }

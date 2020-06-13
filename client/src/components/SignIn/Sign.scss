@@ -10,19 +10,40 @@
 }
 
 .form-div {
-  width: 72vw;
-  padding: 3vw;
+  width: 100%;
+  height: 100%;
+  padding: 3vw 3vw 3vw 6vw;
   background-image: linear-gradient(100deg,
           rgba(white, .9) 0%,
           rgba(white, .9) 55%,
           rgba(white, .0) 55%),
           url("../assets/sign-background.jpg") ;
+  background-size: cover;
   background-repeat: no-repeat;
-  //border: 2px solid red;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+
+  h2 {
+    font-size: 3.5vh;
+    color: var(--color-grey-dark);
+    text-transform: capitalize;
+    margin-bottom: 2.7vh;
+  }
+
+  hr {
+    border: 0;
+    clear:both;
+    display:block;
+    width: 50%;
+    background-color: black;
+    height: 1px;
+    margin: 5vh 0;
+  }
 }
 
 .sign-form {
-
   &__group {
     display: flex;
     flex-direction: column;
@@ -59,7 +80,7 @@
     box-shadow: .5rem .5rem 2rem var(--color-shade-light);
     transition: all 0.3s;
     padding: 1.5vh 2.5vw 1.5vh 2.5vw;
-    margin-left: 2.5vw;
+    //margin-left: 2.5vw;
     margin-top: 2vh;
 
     &:active {
@@ -68,3 +89,4 @@
     }
   }
 }
+
