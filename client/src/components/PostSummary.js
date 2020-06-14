@@ -2,14 +2,9 @@ import React, {Component} from 'react'
 import {Link} from 'react-router-dom'
 
 export default class PostSummary extends Component {
-    constructor() {
-        super();
-    }
 
     render() {
         const {post, backgroundColor} = this.props;
-        console.log(this.props);
-        console.log(post.author[0].username);
         return (
             <div className="post-summary" style={{
                 'backgroundColor': backgroundColor

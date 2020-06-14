@@ -86,6 +86,8 @@ export default class Homepage extends Component {
                                     return '#ffffff';
                                 case 2:
                                     return '#f9f4ee';
+                                default:
+                                    return '#f9f4ee';
                             }
                         })();
                         return (

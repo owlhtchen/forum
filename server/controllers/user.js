@@ -13,6 +13,8 @@ const SignJWTToken = (user) => {
     return jwt.sign({
         iss: 'forum',
         sub: user.id,
+        isAdmin: user.isAdmin,
+        isDelete: user.isDelete,
         iat: new Date().getTime(),
         exp: new Date().setDate(new Date().getDate() + 1)
     }, JWT_SECRET);
@@ -20,11 +22,11 @@ const SignJWTToken = (user) => {
 
 module.exports = {
     signIn: (req, res, next) => {
-        const token = SignJWTToken(req.user);
+        const token = SignJWTToken(res.locals.user);
         return res.json({
             token: token,
-            userID: req.user.id,
-            isAdmin: req.user.isAdmin
+            userID: res.locals.user.id,
+            isAdmin: res.locals.user.isAdmin
         });
     },
     signUp: async (req, res, next) => {

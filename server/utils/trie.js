@@ -49,8 +49,7 @@ let usernameSingleton = (function () {
     let instance;
 
     async function createInstance() {
-        let object = await buildUsernameTrie();
-        return object;
+        return await buildUsernameTrie();
     }
 
     return {

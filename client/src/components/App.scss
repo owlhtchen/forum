@@ -1,3 +1,5 @@
+@import "mixins";
+
 *,
 *::after,
 *::before {
@@ -9,7 +11,17 @@
 html {
   box-sizing: border-box;
   font-size: 62.5%;
-  //border: 2px solid red;
+
+  @include respond-max(1024px) {
+    font-size: 50%;
+  }
+  @include respond-max(768px) {
+    font-size: 38%;
+  }
+  @include respond-max(430px) {
+    font-size: 24%;
+  }
+
 }
 
 body {

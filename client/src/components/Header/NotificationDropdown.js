@@ -8,7 +8,7 @@ import {withRouter} from 'react-router';
 // Dropdown needs access to the DOM node in order to position the Menu
 const CustomToggle = React.forwardRef(({children, onClick}, ref) => (
     <a
-        href=""
+        href="#"
         ref={ref}
         onClick={e => {
             e.preventDefault();
@@ -24,7 +24,7 @@ const CustomToggle = React.forwardRef(({children, onClick}, ref) => (
 // Dropdown needs access to the DOM of the Menu to measure it
 const CustomMenu = React.forwardRef(
     ({children, style, className, 'aria-labelledby': labeledBy}, ref) => {
-        const [value, setValue] = useState('');
+        const [value] = useState('');
 
         return (
             <div

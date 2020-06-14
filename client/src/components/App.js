@@ -3,7 +3,7 @@ import {BrowserRouter} from 'react-router-dom';
 import {Route, Switch} from 'react-router-dom';
 import Header from './Header/Header';
 import Signup from './SignIn/Signup';
-import Dashboard from './Dashboard';
+import Dashboard from './GetSecret';
 import Signin from './SignIn/Signin';
 import Post from './PostCreator';
 import Homepage from './Homepage';
@@ -16,6 +16,7 @@ import CategoryDetail from './CategoryDetail'
 import BrowseHistory from './BrowseHistory'
 import Sidebar from "./Sidebar/Sidebar";
 import './App.scss';
+import GetSecret from "./GetSecret";
 
 class App extends Component {
     state = {}
@@ -29,7 +30,7 @@ class App extends Component {
                     <Sidebar />
                     <div className="content">
                         <Switch>
-                            <Route exact path="/dashboard" component={authGuard(Dashboard)}/>
+                            <Route exact path="/get-secret" component={authGuard(GetSecret)}/>
                             <Route exact path="/users/signup" component={Signup}/>
                             <Route exact path="/users/signin" component={Signin}/>
                             <Route exact path="/posts/make-post" component={authGuard(Post)}/>

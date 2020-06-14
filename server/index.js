@@ -37,8 +37,6 @@ db.once('open', function () {
 
     app.use(cors());
 
-    require('./passport');
-
     // Serve the static files from the React app
     console.log(path.join(__dirname, '../client/public'));
     app.use(express.static(path.join(__dirname, '../client/public/avatars')));

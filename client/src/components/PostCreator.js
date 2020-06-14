@@ -105,7 +105,7 @@ class PostCreator extends Component {
         let {userID, username} = JSON.parse(userInfoString);
         const {mdeValue, cursorRow, cursorCol} = this.state;
         let mdeArray = mdeValue.split('\n');
-        let link = '[' + username + ']' + '(/users/profile/' + userID + ')';
+        let link = '[' + username + '] (/users/profile/' + userID + ')';
         mdeArray[cursorRow] = mdeArray[cursorRow].slice(0, cursorCol)
             .concat(link)
             .concat(mdeArray[cursorRow].slice(cursorCol + 1));

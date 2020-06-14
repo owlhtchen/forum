@@ -4,7 +4,7 @@
   grid-area: sidebar;
   background-color: var(--sidebar-bg-color);
   color: var(--sidebar-primary-color);
-  font-size: 1.2vw;
+  font-size: 1.65rem;
   display: flex;
   flex-direction: column;
   line-height: 6rem;
@@ -21,8 +21,8 @@
   }
 
   &__svg {
-    height: 1.5vw;
-    width: 1.5vw;
+    height: 1.65rem;
+    width: 1.65rem;
     fill: white;
     margin-right: 1.2rem;
   }

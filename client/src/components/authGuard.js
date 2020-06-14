@@ -22,7 +22,7 @@ const authGuard = (OriginalComponent) => {
             if (this.props.isAuthed) {
                 return <OriginalComponent {...this.props} />;
             } else {
-                return <Redirect to="/"/>
+                return <Redirect to="/users/signin"/>
             }
         }
     }

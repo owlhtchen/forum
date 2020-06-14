@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import axios from 'axios'
 import {NavLink} from 'react-router-dom'
 import { ReactComponent as SearchSVG } from '../assets/search.svg';
 
