@@ -5,7 +5,7 @@ import Header from './Header/Header';
 import Signup from './SignIn/Signup';
 import Dashboard from './GetSecret';
 import Signin from './SignIn/Signin';
-import Post from './PostCreator';
+import Post from './CreatePost/PostCreator';
 import Homepage from './Homepage';
 import authGuard from './authGuard';
 import PostLoader from './PostLoader';
@@ -19,7 +19,6 @@ import './App.scss';
 import GetSecret from "./GetSecret";
 
 class App extends Component {
-    state = {}
 
     render() {
         return (

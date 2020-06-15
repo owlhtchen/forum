@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import axios from 'axios'
 import PostDetail from './PostDetail'
-import PostCreator from './PostCreator';
+import PostCreator from './CreatePost/PostCreator';
 import {connect} from 'react-redux';
 import DeletePost from './DeletePost';
 import QRDropdown from './QRDropdown';
