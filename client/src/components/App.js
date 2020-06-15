@@ -34,7 +34,7 @@ class App extends Component {
                             <Route exact path="/users/signin" component={Signin}/>
                             <Route exact path="/posts/make-post" component={authGuard(Post)}/>
                             <Route exact path="/posts/view-post/:postID" component={PostLoader}/>
-                            <Route exact path="/users/profile/:userID" component={Profile}/>
+                            <Route exact path="/users/profile/:userID" component={authGuard(Profile)}/>
                             <Route exact path="/categories/edit-category" component={Category}/>
                             <Route exact path="/categories/category-by-id/:categoryID" component={CategoryDetail}/>
                             <Route exact path="/search/:keyword?" component={SearchResult}/>

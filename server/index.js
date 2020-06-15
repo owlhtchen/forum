@@ -38,9 +38,9 @@ db.once('open', function () {
     app.use(cors());
 
     // Serve the static files from the React app
-    console.log(path.join(__dirname, '../client/public'));
+    // console.log(path.join(__dirname, '../client/public'));
     app.use(express.static(path.join(__dirname, '../client/public/avatars')));
-    app.use(express.static(path.join(__dirname, '../client/public')));
+    app.use(express.static(path.join(__dirname, '../client/public/default_avatars')));
 
     let http = require('http').createServer(app);
     let io = require('socket.io')(http);

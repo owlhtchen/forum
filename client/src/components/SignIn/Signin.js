@@ -29,7 +29,9 @@ class Signin extends Component {
         await this.props.signIn(this.state);
 
         if (this.props.errorMsg === '') {
-            this.props.history.push('/profile');
+            this.props.history.push('/users/profile/' + this.props.userID);
+        } else {
+            alert("sign in failed");
         }
     }
 
@@ -78,6 +80,7 @@ class Signin extends Component {
 
 const mapStateToProps = (state) => {
     return {
+        userID: state.user.userID,
         errorMsg: state.user.errorMsg
     };
 }

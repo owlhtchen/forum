@@ -8,8 +8,8 @@ module.exports = {
         const { email, password } = req.body;
         const user = await User.findOne({ 'email': email });
         if(user) {
-            const result = Password.findByUserIDPassword(user.id, password);
-            if(result) {
+            const result = await Password.findByUserIDPassword(user.id, password);
+            if(result === true) {
                 res.locals.user = user;
                 next();
             } else {

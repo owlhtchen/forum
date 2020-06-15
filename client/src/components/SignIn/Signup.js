@@ -27,12 +27,15 @@ class Signup extends Component {
         // setTimeout(() => {console.log(this.state)}, 5000)
     }
 
-    handleSubmit = async () => {
+    handleSubmit = async (e) => {
+        e.preventDefault();
         // data: {email: "email@email.com", username: "user", password: "aaa"}
         await this.props.signUp(this.state);
 
         if (this.props.errorMsg === '') {
-            this.props.history.push('/profile');
+            this.props.history.push('/users/profile/' + this.props.userID);
+        } else {
+            alert("sign up failed");
         }
     }
 
@@ -66,6 +69,7 @@ class Signup extends Component {
 
 const mapStateToProps = (state) => {
     return {
+        userID: state.user.userID,
         errorMsg: state.user.errorMsg
     };
 }

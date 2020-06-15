@@ -27,12 +27,6 @@ class MarkdownEditor extends Component {
         });
     }
 
-    // addExtraKeys = {
-    //     'Shift-2': function(cm) {
-    //         cm.replaceSelection('@');
-    //     }
-    // }
-
     detectAt = (cm) => {
         let { line, ch } = cm.getCursor();
         let namePopUp = document.querySelector(".markdown__popup");
@@ -74,6 +68,12 @@ class MarkdownEditor extends Component {
             </div>
         );
     }
+
+    // addExtraKeys = {
+    //     'Shift-2': function(cm) {
+    //         cm.replaceSelection('@');
+    //     }
+    // }
 }
 
 export default MarkdownEditor;

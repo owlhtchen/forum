@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const { getRandomInt } = require('../utils/helpers');
 
 const userSchema = new Schema({
     email: String, //'local'
@@ -43,7 +44,7 @@ const userSchema = new Schema({
     },
     avatarFile: {
         type: String,
-        default: 'default.jpg'
+        default: getRandomInt(10) + '.jpg'
     }
 });
 
