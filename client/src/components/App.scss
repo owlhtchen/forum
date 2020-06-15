@@ -1,4 +1,6 @@
 @import "mixins";
+@import "variables";
+
 
 *,
 *::after,
@@ -35,4 +37,5 @@ body {
   grid-template-areas:
           "header header"
           "sidebar content";
+  font-size: var(--content-font-size);
 }

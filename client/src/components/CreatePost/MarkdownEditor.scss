@@ -1,0 +1,16 @@
+@import "../variables";
+
+.markdown {
+  font-size: inherit;
+  &__popup {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 100;
+    background-color: white;
+    padding: .8rem 1.5rem;
+    border-radius: 2rem;
+    border: 1px solid var(--color-grey-light);
+    display: none;
+  }
+}

@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import SimpleMDE from "react-simplemde-editor";
 import "easymde/dist/easymde.min.css";
+import './MarkdownEditor.scss';
 
 class MarkdownEditor extends Component {
 
@@ -26,9 +27,24 @@ class MarkdownEditor extends Component {
         });
     }
 
-    addExtraKeys = {
-        'Shift-2': function(cm) {
-            cm.replaceSelection('@');
+    // addExtraKeys = {
+    //     'Shift-2': function(cm) {
+    //         cm.replaceSelection('@');
+    //     }
+    // }
+
+    detectAt = (cm) => {
+        let { line, ch } = cm.getCursor();
+        let namePopUp = document.querySelector(".markdown__popup");
+        let input_ch = cm.doc.getLine(line).charAt(ch - 1);
+        if(input_ch === '@') {
+            // cm.doc.replaceRange('[you type @]', {line, ch});
+            let {left, top} = cm.cursorCoords(true, "window");
+            namePopUp.style.left = left + 'px';
+            namePopUp.style.top = top + 'px';
+            namePopUp.style.display = 'block';
+        } else {
+            namePopUp.style.display = "none";
         }
     }
 
@@ -36,7 +52,7 @@ class MarkdownEditor extends Component {
         const { value } = this.state;
         const { uniqueId } = this;
         return (
-            <div>
+            <div className="markdown">
                 <SimpleMDE
                     onChange={this.handleChange}
                     value={value}
@@ -47,8 +63,14 @@ class MarkdownEditor extends Component {
                             delay: 1000
                         }
                     }}
-                    extraKeys={this.addExtraKeys}
-                />;
+                    // extraKeys={this.addExtraKeys}
+                    events={{
+                        'cursorActivity': this.detectAt
+                    }}
+                />
+                <div className="markdown__popup">
+                    <span>You typed @</span>
+                </div>
             </div>
         );
     }
