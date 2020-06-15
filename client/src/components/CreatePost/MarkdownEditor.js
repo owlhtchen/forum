@@ -9,20 +9,14 @@ class MarkdownEditor extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            mdeInstance: null,
             value: ''
         };
     }
 
-    handleChange = () => {
-        const { mdeInstance } = this.state;
-        console.log(mdeInstance.value());
-    }
-
-    getMdeInstance= (mdeInstance) => {
+    handleChange = (value) => {
         this.setState({
-            mdeInstance
-        });
+            value
+        })
     }
 
     componentDidMount() {
@@ -32,6 +26,12 @@ class MarkdownEditor extends Component {
         });
     }
 
+    addExtraKeys = {
+        'Shift-2': function(cm) {
+            cm.replaceSelection('@');
+        }
+    }
+
     render() {
         const { value } = this.state;
         const { uniqueId } = this;
@@ -39,15 +39,15 @@ class MarkdownEditor extends Component {
             <div>
                 <SimpleMDE
                     onChange={this.handleChange}
-                    getMdeInstance={this.getMdeInstance}
                     value={value}
                     options={{
                         autosave: {
                             enabled: true,
                             uniqueId: uniqueId,
-                            delay: 3000
+                            delay: 1000
                         }
                     }}
+                    extraKeys={this.addExtraKeys}
                 />;
             </div>
         );
