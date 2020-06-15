@@ -5,6 +5,10 @@ import NotificationDropdown from './NotificationDropdown'
 import SearchBar from './SearchBar'
 import * as actions from '../../actions';
 import './Header.scss';
+import NavLinkTooltip from "./NavLinkTooltip";
+import {ReactComponent as ArticleSVG} from "../assets/article.svg";
+import {ReactComponent as DiscussSVG} from "../assets/discuss.svg";
+import {ReactComponent as LogoutSVG} from "../assets/logout.svg";
 
 class Header extends Component {
     onClick = () => {
@@ -12,6 +16,7 @@ class Header extends Component {
     };
 
     render() {
+
         const {userID} = this.props;
         return (
             <header className="header">
@@ -23,28 +28,30 @@ class Header extends Component {
 
                     {this.props.isAdmin &&
                     <NavLink className="nav-link" to="/categories/edit-category" activeClassName="nav-active">Edit Category</NavLink>}
+
                     {this.props.isAuthed ? [
-                        <li className="nav-item" key="notification">
-                            <NotificationDropdown userID={this.props.userID}/>
-                        </li>,
-                        <li className="nav-item" key="makearticle">
-                            <NavLink className="nav-link" to={{
-                                pathname: "/posts/make-post",
-                                state: {"postType": "article"}
-                            }}>Write Article</NavLink>
-                        </li>,
-                        <li className="nav-item" key="makepost">
-                            <NavLink className="nav-link" to={{
-                                pathname: "/posts/make-post",
-                                state: {"postType": "post"}
-                            }}>Make Post</NavLink>
-                        </li>,
-                        <li className="nav-item" key="profile">
-                            <NavLink className="nav-link" to={"/users/profile/" + userID}>Profile</NavLink>
-                        </li>,
-                        <li className="nav-item" key="signout">
-                            <NavLink className="nav-link" to="/users/signout" onClick={this.onClick}>Sign Out</NavLink>
-                        </li>
+                        // <div className="nav-item" key="notification">
+                        //     <NotificationDropdown userID={this.props.userID}/>
+                        // </div>,
+                        <NavLinkTooltip
+                            tooltip = "Make a post"
+                            text="Discuss"
+                            to={{ pathname: "/posts/make-post",
+                            state: {"postType": "article"} }} >
+                            <DiscussSVG />
+                        </NavLinkTooltip>,
+                        <NavLinkTooltip
+                            tooltip = "Write an article"
+                            text="Article"
+                            to={{ pathname: "/posts/make-post",
+                                state: {"postType": "article"} }} >
+                            <ArticleSVG />
+                        </NavLinkTooltip>,
+                        <NavLinkTooltip
+                            tooltip = "Logout"
+                            onClick={this.onClick} >
+                            <LogoutSVG />
+                        </NavLinkTooltip>,
                     ] : [
                         <div className="header__nav-square" key="signup">
                             <NavLink to="/users/signup">Sign Up</NavLink>
