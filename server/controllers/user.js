@@ -78,13 +78,13 @@ module.exports = {
             });
         }
 
-        const {email, name} = profileObj;
+        let {email, name} = profileObj;
         let foundUser = await User.findOne({
             source: 'google',
             thirdPartyID: googleId
         });
-
         if (!foundUser) {
+            name = name.replace(/\W/g, '_');
             foundUser = new User({
                 email: email,
                 thirdPartyID: googleId,

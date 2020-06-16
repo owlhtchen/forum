@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import './MarkdownEditor.scss';
+import './ProfileSmall.scss';
 
 class ProfileSmall extends Component {
 

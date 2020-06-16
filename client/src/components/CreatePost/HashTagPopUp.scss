@@ -1,0 +1,13 @@
+.hash-popup {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 100;
+  background-color: white;
+  padding: .2rem;
+  border-radius: 2rem;
+  border: 1px solid var(--color-grey-light);
+  display: none;
+  max-height: 30%;
+  overflow: auto;
+}

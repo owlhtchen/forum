@@ -40,7 +40,7 @@ class Signin extends Component {
         await this.props.googleOauth(response);
 
         if (this.props.errorMsg === '') {
-            this.props.history.push('/homepage');
+            this.props.history.push('/users/profile/' + this.props.userID);
         }
     }
 

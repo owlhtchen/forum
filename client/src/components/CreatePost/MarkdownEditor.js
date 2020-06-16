@@ -55,26 +55,38 @@ class MarkdownEditor extends Component {
         });
     }
 
-    detectAt = (cm) => {
+    showAtUserPopUp = (cm) => {
+        let namePopUp = document.querySelector(".markdown__popup");
+        let nameInput = namePopUp.querySelector(".markdown__input");
+        let {left, top} = cm.cursorCoords(true, "window");
+        namePopUp.style.left = (4 + left) + 'px';
+        namePopUp.style.top = top + 'px';
+        namePopUp.style.display = 'block';
+        setTimeout(() => {
+            // a hack from: https://stackoverflow.com/questions/30018357/override-autofocus-attribute-with-javascript-jquery
+            nameInput.focus();
+            nameInput.select();
+        }, 120);
+    }
+
+    closePopUps = () => {
+        this.closeAtUserPopUp();
+    }
+
+    closeAtUserPopUp = () => {
+        let namePopUp = document.querySelector(".markdown__popup");
+        namePopUp.style.display = 'none';
+    }
+
+    detachSpecialChar = (cm) => {
         let { line, ch } = cm.getCursor();
         if(ch < 1) {
             return;
         }
-        let namePopUp = document.querySelector(".markdown__popup");
-        let nameInput = namePopUp.querySelector(".markdown__input");
+
         let inputChar = cm.doc.getLine(line).charAt(ch - 1);
         if(inputChar === '@') {
-            let {left, top} = cm.cursorCoords(true, "window");
-            namePopUp.style.left = (4 + left) + 'px';
-            namePopUp.style.top = top + 'px';
-            namePopUp.style.display = 'block';
-            setTimeout(() => {
-                // a hack from: https://stackoverflow.com/questions/30018357/override-autofocus-attribute-with-javascript-jquery
-                nameInput.focus();
-                nameInput.select();
-            }, 120);
-        } else {
-            namePopUp.style.display = "none";
+            this.showAtUserPopUp(cm);
         }
     }
 
@@ -95,7 +107,8 @@ class MarkdownEditor extends Component {
                         }
                     }}
                     events={{
-                        'inputRead': this.detectAt
+                        'inputRead': this.detachSpecialChar,
+                        'focus': this.closePopUps
                     }}
                     getMdeInstance={this.setMdeInstance}
                     // extraKeys={this.addExtraKeys}

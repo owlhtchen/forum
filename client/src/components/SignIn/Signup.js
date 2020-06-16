@@ -30,6 +30,11 @@ class Signup extends Component {
     handleSubmit = async (e) => {
         e.preventDefault();
         // data: {email: "email@email.com", username: "user", password: "aaa"}
+        const { username } = this.state;
+        if(username.match(/\W/g)) {
+            alert("only alphanumeric characters [0-9a-zA-Z_] are allowed");
+            return;
+        }
         await this.props.signUp(this.state);
 
         if (this.props.errorMsg === '') {

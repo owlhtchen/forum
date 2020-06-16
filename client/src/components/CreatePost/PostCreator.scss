@@ -3,9 +3,67 @@
   width: 75vw;
   border: 2px solid red;
   margin:0 auto;
-  padding: 6rem 2rem;
+  padding: 2.4rem;
 }
 
 .markdown {
   width: 100%;
+}
+
+.post-form {
+  font-size: inherit;
+
+  #title {
+    width: 80%;
+  }
+  #tag-input {
+    width: 15%;
+  }
+
+  &__group {
+    padding: 1rem 0;
+  }
+  &__label {
+    padding-right: 1rem;
+  }
+  &__input {
+    font-size: 1.8rem;
+    padding: .3rem .7rem;
+    border-radius: 10rem;
+    &:focus {
+      outline: none;
+    }
+  }
+  &__btn, &__tag {
+    font-size: 1.5rem;
+  }
+
+  &__btn {
+    display: inline-block;
+    margin-left: .5rem;
+    padding: .3rem .7rem;
+    background-color: var(--color-grey-light);
+    border-radius: 10rem;
+    box-shadow: .25rem 0.25rem .25rem var(--color-grey-light);
+    &:active {
+      box-shadow: .15rem 0.15rem .15rem var(--color-grey-dark);
+    }
+  }
+
+  &__tag {
+    display: inline-block;
+    margin: 0 .5rem ;
+    padding: .3rem .8rem;
+    min-width: 6rem;
+    text-align: center;
+    background-color: var(--color-yellow-light);
+    font-weight: 700;
+    &:hover span{
+      display: none;
+    }
+    &:hover::before {
+      content: 'remove';
+      color: red;
+    }
+  }
 }

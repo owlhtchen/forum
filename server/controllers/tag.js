@@ -12,12 +12,20 @@ module.exports = {
     },
     addTag: async (req, res, next) => {
         try {
-            const {name, parentID} = req.body;
-            const newTag = new Tag({
-                name: name,
-                parentID: parentID
+            console.log("addTag: ", req.body);
+            let { name } = req.body;
+            name = name.toLowerCase();
+
+            let tag = await Tag.findOne({
+                name: name
             });
-            await newTag.save();
+            if(!tag) {
+                tag = new Tag({
+                    name: name
+                });
+                tag = await tag.save();
+            }
+            res.send(tag);
         } catch (err) {
             next(err);
         }

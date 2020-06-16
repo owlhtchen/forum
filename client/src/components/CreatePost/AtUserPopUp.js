@@ -30,7 +30,7 @@ class AtUserPopUp extends Component {
         const { usersWithPrefix } = this.state;
         const { setSelectedUser } = this.props;
         return (
-            <div className="markdown__popup">
+            <div className="markdown__popup AtUserPopUp">
                 <input
                     type="text" className="markdown__input"
                     onChange={this.handleChange}

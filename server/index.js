@@ -22,11 +22,11 @@ db.once('open', function () {
     mongoose.connection.db.listCollections({name: 'tags'})
         .next(async function (err, collinfo) {
             if (!collinfo) {
-                console.log("Root Tag created");
-                const rootTag = new Tag({
-                    name: "Root Tag"
-                });
-                await rootTag.save();
+                // console.log("Root Tag created");
+                // const rootTag = new Tag({
+                //     name: "Root Tag"
+                // });
+                // await rootTag.save();
             }
         });
 
