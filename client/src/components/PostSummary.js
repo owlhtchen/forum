@@ -42,7 +42,6 @@ export default class PostSummary extends Component {
                                 'flex': 1
                             }}>{`by ${post.author[0].username}`}</div>
                         </div>
-                        {/* <div className='post-header-category mt-4'>{post.category[0].name}</div> */}
                         <div className='post-header-comment mt-4'>{post.commentIDs.length}</div>
                         <div className='post-header-upvotes mt-4'>{post.likedBy.length}</div>
                     </div>

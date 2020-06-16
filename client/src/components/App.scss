@@ -39,3 +39,8 @@ body {
           "sidebar content";
   font-size: var(--content-font-size);
 }
+
+.content {
+  display: grid;
+  //grid-template-columns: ;
+}

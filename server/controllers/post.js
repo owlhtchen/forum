@@ -1,20 +1,20 @@
 const User = require('../models/user');
 const Post = require('../models/post');
-const Category = require('../models/category');
+const Tag = require('../models/tag');
 const Followpost = require('../models/followpost');
 var mongoose = require('mongoose');
 
 module.exports = {
     makePost: async (req, res, next) => {
         try {
-            const {title, content, postType, authorID, parentID, category: categoryID} = req.body;
+            const {title, content, postType, authorID, parentID, tagID} = req.body;
             const newPost = new Post({
                 title,
                 content,
                 postType,
                 authorID,
                 parentID,
-                categoryID
+                tagID
             });
             await newPost.save();
             if (parentID) {
@@ -28,8 +28,8 @@ module.exports = {
                 );
             }
 
-            await Category.updateOne(
-                {_id: categoryID},
+            await Tag.updateOne(
+                {_id: tagID},
                 {
                     "$push": {
                         postIDs: newPost._id
@@ -74,10 +74,10 @@ module.exports = {
             },
             {
                 $lookup: {
-                    from: 'categories',
-                    localField: 'categoryID',
+                    from: 'tags',
+                    localField: 'tagID',
                     foreignField: '_id',
-                    as: 'category'
+                    as: 'tag'
                 }
             },
             {

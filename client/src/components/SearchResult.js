@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import Axios from 'axios';
 import PostSummary from './PostSummary';
 import UserSummary from './UserSummary';
-import CategorySummary from './CategorySummary';
+import TagSummary from './TagSummary';
 
 export default class SearchResult extends Component {
     constructor(props) {
@@ -10,18 +10,18 @@ export default class SearchResult extends Component {
         this.state = {
             users: [],
             posts: [],
-            categories: []
+            tags: []
         };
     }
 
     async componentDidMount() {
         const {keyword} = this.props.match.params;
         let res = await Axios.get('/search/' + keyword);
-        const {users, posts, categories} = res.data;
+        const {users, posts, tags} = res.data;
         this.setState({
             users,
             posts,
-            categories
+            tags
         });
     }
 
@@ -29,17 +29,17 @@ export default class SearchResult extends Component {
         const {keyword} = this.props.match.params;
         if (keyword !== prevProps.match.params.keyword) {
             let res = await Axios.get('/search/' + keyword);
-            const {users, posts, categories} = res.data;
+            const {users, posts, tags} = res.data;
             this.setState({
                 users,
                 posts,
-                categories
+                tags
             });
         }
     }
 
     render() {
-        const {users, posts, categories} = this.state;
+        const {users, posts, tags} = this.state;
         return (
             <div className="row">
                 <div className="nav flex-column col-2 nav-pills" id="v-pills-tab" role="tablist"
@@ -48,8 +48,8 @@ export default class SearchResult extends Component {
                        role="tab" aria-controls="v-pills-post" aria-selected="false">Post</a>
                     <a className="nav-link" id="v-pills-user-tab" data-toggle="pill" href="#v-pills-user" role="tab"
                        aria-controls="v-pills-user" aria-selected="true">User</a>
-                    <a className="nav-link" id="v-pills-category-tab" data-toggle="pill" href="#v-pills-category"
-                       role="tab" aria-controls="v-pills-category" aria-selected="false">Category</a>
+                    <a className="nav-link" id="v-pills-tag-tab" data-toggle="pill" href="#v-pills-tag"
+                       role="tab" aria-controls="v-pills-tag" aria-selected="false">Tag</a>
                 </div>
                 <div className="tab-content col-10" id="v-pills-tabContent">
                     <div className="tab-pane fade show active" id="v-pills-post" role="tabpanel"
@@ -67,11 +67,11 @@ export default class SearchResult extends Component {
                             })
                         }
                     </div>
-                    <div className="tab-pane fade" id="v-pills-category" role="tabpanel"
-                         aria-labelledby="v-pills-category-tab">
+                    <div className="tab-pane fade" id="v-pills-tag" role="tabpanel"
+                         aria-labelledby="v-pills-tag-tab">
                         {
-                            categories.map((category, index) => {
-                                return <CategorySummary key={index} category={category}></CategorySummary>
+                            tags.map((tag, index) => {
+                                return <TagSummary key={index} tag={tag}></TagSummary>
                             })
                         }
                     </div>

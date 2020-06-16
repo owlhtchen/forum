@@ -72,7 +72,7 @@ export default class Homepage extends Component {
                 <h2 className="mb-3" id="homepage">Homepage</h2>
                 <div className="post-header">
                     <div className='post-header-post'>Post</div>
-                    <div className='post-header-category'>Category</div>
+                    <div className='post-header-tag'>Tag</div>
                     <div className='post-header-comment'>Comments</div>
                     <div className='post-header-upvotes'>Upvotes</div>
                 </div>

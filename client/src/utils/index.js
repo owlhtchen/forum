@@ -74,8 +74,8 @@ export const getArticlesByUserID = async (userID) => {
     return res.data;
 }
 
-export const getCategoryByID = async (categoryID) => {
-    let res = await axios.get('/categories/category-by-id/' + categoryID);
+export const getTagByID = async (tagID) => {
+    let res = await axios.get('/tags/tag-by-id/' + tagID);
     return res.data;
 }
 

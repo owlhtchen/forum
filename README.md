@@ -33,7 +33,7 @@
   - [ ] Add/Delete categories
   - [x] Add/Delete post
   - ~~Suspend accounts~~
-- Category
+- Tag
   - [ ] Join X
 - Search
   - [ ] Advance Search (time, categories) X

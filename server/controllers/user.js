@@ -286,10 +286,10 @@ module.exports = {
                     },
                     {
                         "$lookup": {
-                            from: 'categories',
-                            localField: 'categoryID',
+                            from: 'tags',
+                            localField: 'tagID',
                             foreignField: '_id',
-                            as: 'category'
+                            as: 'tag'
                         }
                     }
                 ]);

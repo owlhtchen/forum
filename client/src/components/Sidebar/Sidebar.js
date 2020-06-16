@@ -6,6 +6,7 @@ import { ReactComponent as BookmarkSVG} from "../assets/bookmark.svg";
 import { ReactComponent as MessageSVG} from "../assets/message.svg";
 import { ReactComponent as HistorySVG} from "../assets/clock.svg";
 import { ReactComponent as ProfileSVG} from "../assets/profile.svg";
+import { connect } from 'react-redux';
 
 class Sidebar extends Component {
     render() {
@@ -27,7 +28,7 @@ class Sidebar extends Component {
                     <HistorySVG className="sidebar__svg"/>
                     History
                 </NavLink>
-                <NavLink className="sidebar__profile" to="/users/profile/:userID">
+                <NavLink className="sidebar__profile" to={`/users/profile/${this.props.userID}`} >
                     <ProfileSVG className="sidebar__svg"/>
                     Profile
                 </NavLink>
@@ -36,4 +37,10 @@ class Sidebar extends Component {
     }
 }
 
-export default Sidebar;
+const mapStateToProps = (state) => {
+    return {
+        userID: state.user.userID
+    }
+}
+
+export default connect(mapStateToProps)(Sidebar);

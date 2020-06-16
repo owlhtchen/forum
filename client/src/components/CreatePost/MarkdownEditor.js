@@ -45,6 +45,7 @@ class MarkdownEditor extends Component {
             cm.doc.replaceRange(url,
                 {line: line, ch: ch -1},
                 {line: line, ch: ch});
+            cm.focus();
         }
     }
 
@@ -86,7 +87,6 @@ class MarkdownEditor extends Component {
                     onChange={this.handleChange}
                     value={value}
                     options={{
-                        autofocus: false,
                         spellChecker: false,
                         autosave: {
                             enabled: true,

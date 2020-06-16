@@ -1,4 +1,5 @@
 **/node_modules
 public/avatars
 **/package-lock.json
-.idea/
+**/.idea/
+**/.vscode/

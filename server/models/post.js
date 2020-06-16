@@ -10,7 +10,7 @@ const postSchema = new Schema({
     content: String,
     postType: {
         type: String,
-        enum: ['article', 'timeline', 'post', 'comment']
+        enum: ['story', 'post', 'comment']
     },
     authorID: {
         type: Schema.Types.ObjectId,
@@ -32,9 +32,9 @@ const postSchema = new Schema({
         type: Boolean,
         default: false
     },
-    categoryID: {
+    tagID: {
         type: Schema.Types.ObjectId,
-        ref: 'Category'
+        ref: 'Tag'
     }
 })
 

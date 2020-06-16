@@ -9,6 +9,7 @@
   flex-direction: column;
   line-height: 6rem;
   min-height: 95vh;
+  border-right: 3px solid var(--navbar-bg-color);
 
   & > * {
     padding-left: 10%;
@@ -21,9 +22,9 @@
   }
 
   &__svg {
-    height: 1.65rem;
-    width: 1.65rem;
-    fill: white;
-    margin-right: 1.2rem;
+    height: 1.75rem;
+    width: 1.75rem;
+    fill: var(--sidebar-primary-color);
+    margin-right: 1rem;
   }
 }

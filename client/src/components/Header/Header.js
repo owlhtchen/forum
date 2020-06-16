@@ -9,6 +9,7 @@ import NavLinkTooltip from "./NavLinkTooltip";
 import {ReactComponent as ArticleSVG} from "../assets/article.svg";
 import {ReactComponent as DiscussSVG} from "../assets/discuss.svg";
 import {ReactComponent as LogoutSVG} from "../assets/logout.svg";
+import {ReactComponent as CameraSVG} from "../assets/camera.svg";
 import {ReactComponent as ProfileSVG} from "../assets/profile.svg";
 
 class Header extends Component {
@@ -28,12 +29,12 @@ class Header extends Component {
                 <ul className="header__nav">
 
                     {this.props.isAdmin &&
-                    <NavLink className="nav-link" to="/categories/edit-category" activeClassName="nav-active">Edit Category</NavLink>}
+                    <NavLink className="nav-link" to="/tags/edit-tag" activeClassName="nav-active">Edit Tag</NavLink>}
 
                     {this.props.isAuthed ? [
                         <NotificationDropdown key="notification-dropdown"/>,
                         <NavLinkTooltip
-                            tooltip = "Ask or Discuss"
+                            tooltip = "share your thoughts, opinions, news..."
                             text="Discuss"
                             to={{ pathname: "/posts/make-post",
                             state: {"postType": "article"} }}
@@ -41,20 +42,21 @@ class Header extends Component {
                             <DiscussSVG />
                         </NavLinkTooltip>,
                         <NavLinkTooltip
-                            tooltip = "Write an article"
-                            text="Article"
+                            tooltip = "What's up in your life?"
+                            text="Stories"
                             to={{ pathname: "/posts/make-post",
-                                state: {"postType": "article"} }}
+                                state: {"postType": "story"} }}
                             key="navlink-article" >
-                            <ArticleSVG />
+                            <CameraSVG />
                         </NavLinkTooltip>,
-                        <NavLinkTooltip
-                            tooltip = "View Profile"
-                            to={{ pathname: "/users/profile/" + userID }}
-                            key="navlink-profile">
-                            <ProfileSVG />
-                        </NavLinkTooltip>,
+                        // <NavLinkTooltip
+                        //     tooltip = "View Profile"
+                        //     to={{ pathname: "/users/profile/" + userID }}
+                        //     key="navlink-profile">
+                        //     <ProfileSVG />
+                        // </NavLinkTooltip>,
                         <div className="nav-div"
+                             style={{paddingLeft: '1rem'}}
                             onClick={this.signOut}
                             key="navlink-signout">
                             <LogoutSVG />

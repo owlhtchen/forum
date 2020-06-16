@@ -6,11 +6,11 @@ var bodyParser = require('body-parser');
 
 const users = require('./routes/user');
 const posts = require('./routes/post');
-const categories = require('./routes/category');
+const tags = require('./routes/tag');
 const uploads = require('./routes/multer');
 const searchs = require('./routes/search');
 
-const Category = require('./models/category');
+const Tag = require('./models/tag');
 
 mongoose.connect('mongodb://localhost/forum', {useNewUrlParser: true});
 let db = mongoose.connection;
@@ -19,14 +19,14 @@ db.once('open', function () {
     // we're connected!
     console.log("connected to mongod");
 
-    mongoose.connection.db.listCollections({name: 'categories'})
+    mongoose.connection.db.listCollections({name: 'tags'})
         .next(async function (err, collinfo) {
             if (!collinfo) {
-                console.log("Root Category created");
-                const rootCategory = new Category({
-                    name: "Root Category"
+                console.log("Root Tag created");
+                const rootTag = new Tag({
+                    name: "Root Tag"
                 });
-                await rootCategory.save();
+                await rootTag.save();
             }
         });
 
@@ -48,7 +48,7 @@ db.once('open', function () {
 
     app.use('/users', users);
     app.use('/posts', posts);
-    app.use('/categories', categories);
+    app.use('/tags', tags);
     app.use('/upload', uploads);
     app.use('/search', searchs);
 

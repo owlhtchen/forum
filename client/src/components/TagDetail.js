@@ -1,26 +1,26 @@
 import React, {Component} from 'react'
-import {getCategoryByID} from '../utils/index'
+import {getTagByID} from '../utils/index'
 import PostSummary from './PostSummary';
 
-export default class CategoryDetail extends Component {
+export default class TagDetail extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            category: null
+            tag: null
         };
     }
 
     async componentDidMount() {
-        const {categoryID} = this.props.match.params;
-        let category = await getCategoryByID(categoryID);
+        const {tagID} = this.props.match.params;
+        let tag = await getTagByID(tagID);
         this.setState({
-            category
+            tag
         });
     }
 
     render() {
-        const {category} = this.state;
-        if (!category) {
+        const {tag} = this.state;
+        if (!tag) {
             return (
                 <div>
                     Loading ...
@@ -29,9 +29,9 @@ export default class CategoryDetail extends Component {
         }
         return (
             <div>
-                <h2>Category: {category.name}</h2>
+                <h2>Tag: {tag.name}</h2>
                 {
-                    category.posts.map((post, index) => {
+                    tag.posts.map((post, index) => {
                         return <PostSummary post={post} key={index}></PostSummary>
                     })
                 }

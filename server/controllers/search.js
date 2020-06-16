@@ -1,26 +1,26 @@
 const User = require('../models/user')
 const Post = require('../models/post')
-const Category = require('../models/category')
+const Tag = require('../models/tag')
 
 module.exports = {
     getSearchResultsWith: async (req, res, next) => {
         const {keyword} = req.params;
-        let foundusers = await getUsernameWith(keyword);
+        let foundUsers = await getUsernameWith(keyword);
         let foundPosts = await getPostsWith(keyword);
-        let foundCategories = await getCategoriesWith(keyword);
+        let foundTags = await getTagsWith(keyword);
         res.json({
-            users: foundusers,
+            users: foundUsers,
             posts: foundPosts,
-            categories: foundCategories
+            tags: foundTags
         });
     }
 };
 
-const getCategoriesWith = async (keyword) => {
-    let foundCategories = await Category.find({
+const getTagsWith = async (keyword) => {
+    let foundTags = await Tag.find({
         "name": {"$regex": keyword, "$options": "$i"}
     });
-    return foundCategories;
+    return foundTags;
 }
 
 const getPostsWith = async (keyword) => {

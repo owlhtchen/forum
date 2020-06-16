@@ -1,34 +1,34 @@
-const Category = require('../models/category');
+const Tag = require('../models/tag');
 const mongoose = require('mongoose');
 
 module.exports = {
-    getAllCategories: async (req, res, next) => {
+    getAllTags: async (req, res, next) => {
         try {
-            const allCategories = await Category.find();
-            res.json(allCategories);
+            const allTags = await Tag.find();
+            res.json(allTags);
         } catch (err) {
             next(err);
         }
     },
-    addCategory: async (req, res, next) => {
+    addTag: async (req, res, next) => {
         try {
             const {name, parentID} = req.body;
-            const newCategory = new Category({
+            const newTag = new Tag({
                 name: name,
                 parentID: parentID
             });
-            await newCategory.save();
+            await newTag.save();
         } catch (err) {
             next(err);
         }
     },
-    getCategoryByID: async (req, res, next) => {
+    getTagByID: async (req, res, next) => {
         try {
-            const {categoryID} = req.params;
-            let foundCategory = await Category.aggregate([
+            const {tagID} = req.params;
+            let foundTag = await Tag.aggregate([
                 {
                     "$match": {
-                        _id: mongoose.Types.ObjectId(categoryID)
+                        _id: mongoose.Types.ObjectId(tagID)
                     }
                 },
                 {
@@ -52,8 +52,8 @@ module.exports = {
                     }
                 }
             ]);
-            console.log(JSON.stringify(foundCategory[0]));
-            res.json(foundCategory[0]);
+            console.log(JSON.stringify(foundTag[0]));
+            res.json(foundTag[0]);
         } catch (err) {
             next(err);
         }
