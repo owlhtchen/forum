@@ -32,10 +32,10 @@ const postSchema = new Schema({
         type: Boolean,
         default: false
     },
-    tagID: {
+    tagID: [{
         type: Schema.Types.ObjectId,
         ref: 'Tag'
-    }
+    }]
 })
 
 const Post = mongoose.model('Post', postSchema);

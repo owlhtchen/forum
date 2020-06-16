@@ -13,7 +13,8 @@ class MarkdownEditor extends Component {
         this.state = {
             value: '',
             selectedUser: null,
-            mdeInstance: null
+            mdeInstance: null,
+            detectedHash: false
         };
     }
 
@@ -78,15 +79,57 @@ class MarkdownEditor extends Component {
         namePopUp.style.display = 'none';
     }
 
+    getHashPrefix = (cm) => {
+        let wordRange = cm.findWordAt(cm.getCursor());
+        let word = cm.getRange(wordRange.anchor, wordRange.head);
+        return word;
+    }
+
+    handlePrefix = (cm) => {
+        let { line, ch } = cm.getCursor();
+        if(ch < 1) {
+            return;
+        }
+        const { detectedHash } = this.state;
+        let inputChar = cm.doc.getLine(line).charAt(ch - 1);
+        if(detectedHash && (/\s/.test(inputChar))) {
+            this.setState({
+                detectedHash: false
+            })
+            return;
+        } else if(inputChar === '#') {
+            return;
+        } else if(detectedHash) {
+                let prefix = this.getHashPrefix(cm);
+                console.log(prefix);
+                return;
+        }
+    }
+
     detachSpecialChar = (cm) => {
         let { line, ch } = cm.getCursor();
         if(ch < 1) {
             return;
         }
-
+        const { detectedHash } = this.state;
         let inputChar = cm.doc.getLine(line).charAt(ch - 1);
+        // if(detectedHash && (/\s/.test(inputChar))) {
+        //     this.setState({
+        //         detectedHash: false
+        //     })
+        //     return;
+        // } else if(detectedHash) {
+        //     let prefix = this.getHashPrefix(cm);
+        //     console.log(prefix);
+        //     return;
+        // }
+
         if(inputChar === '@') {
             this.showAtUserPopUp(cm);
+        } else if(inputChar === '#') {
+            this.setState({
+                detectedHash: true
+            });
         }
     }
 
@@ -108,7 +151,8 @@ class MarkdownEditor extends Component {
                     }}
                     events={{
                         'inputRead': this.detachSpecialChar,
-                        'focus': this.closePopUps
+                        'focus': this.closePopUps,
+                        'keyup': this.handlePrefix
                     }}
                     getMdeInstance={this.setMdeInstance}
                     // extraKeys={this.addExtraKeys}

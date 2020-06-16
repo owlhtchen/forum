@@ -1,4 +1,5 @@
 const User = require('../models/user');
+const Tag = require('../models/tag');
 
 class Trie {
     constructor() {
@@ -45,6 +46,15 @@ buildUsernameTrie = async () => {
     return t;
 };
 
+buildTagTrie = async () => {
+    let t = new Trie();
+    const allTags = await Tag.find();
+    allTags.forEach((tag) => {
+        t.insertWord(tag.name, tag);
+    });
+    return t;
+};
+
 let usernameSingleton = (function () {
     let instance;
 
@@ -62,4 +72,24 @@ let usernameSingleton = (function () {
     }
 })();
 
-module.exports = usernameSingleton;
+let tagNameSingleton = (function () {
+    let instance;
+
+    async function createInstance() {
+        return await buildTagTrie();
+    }
+
+    return {
+        getInstance: async function () {
+            if (!instance) {
+                instance = await createInstance();
+            }
+            return instance;
+        }
+    }
+})();
+
+module.exports = {
+    usernameSingleton,
+    tagNameSingleton
+};

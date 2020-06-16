@@ -1,5 +1,6 @@
 const Tag = require('../models/tag');
 const mongoose = require('mongoose');
+const { tagNameSingleton } = require('../utils/trie');
 
 module.exports = {
     getAllTags: async (req, res, next) => {
@@ -24,6 +25,8 @@ module.exports = {
                     name: name
                 });
                 tag = await tag.save();
+                const trie = await tagNameSingleton.getInstance();
+                trie.insertWord(tag.name, tag);
             }
             res.send(tag);
         } catch (err) {
@@ -62,6 +65,17 @@ module.exports = {
             ]);
             console.log(JSON.stringify(foundTag[0]));
             res.json(foundTag[0]);
+        } catch (err) {
+            next(err);
+        }
+    },
+    getTagNameWithPrefix: async (req, res, next) => {
+        try {
+            const {prefix} = req.params;
+            const decodedPrefix = decodeURI(prefix);
+            const tagTrie = await tagNameSingleton.getInstance();
+            let tagObjects = tagTrie.getTrie(decodedPrefix);
+            res.json(tagObjects);
         } catch (err) {
             next(err);
         }

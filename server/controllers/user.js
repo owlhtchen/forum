@@ -5,7 +5,7 @@ const {JWT_SECRET} = require('../config/index');
 const Followuser = require('../models/followuser');
 const Block = require('../models/block');
 const Notification = require('../models/notification');
-const usernameSingleton = require('../utils/trie');
+const { usernameSingleton } = require('../utils/trie');
 const Post = require('../models/post');
 
 const SignJWTToken = (user) => {
@@ -84,7 +84,7 @@ module.exports = {
             thirdPartyID: googleId
         });
         if (!foundUser) {
-            name = name.replace(/\W/g, '_');
+            // name = name.replace(/\W/g, '_');
             foundUser = new User({
                 email: email,
                 thirdPartyID: googleId,
