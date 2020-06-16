@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import SimpleMDE from "react-simplemde-editor";
 import "easymde/dist/easymde.min.css";
 import './MarkdownEditor.scss';
+import AtUserPopUp from "./AtUserPopUp";
 
 class MarkdownEditor extends Component {
 
@@ -10,7 +11,9 @@ class MarkdownEditor extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            value: ''
+            value: '',
+            selectedUser: null,
+            mdeInstance: null
         };
     }
 
@@ -27,16 +30,48 @@ class MarkdownEditor extends Component {
         });
     }
 
+    setSelectedUser = (user) => {
+        let namePopUp = document.querySelector(".markdown__popup");
+        this.setState({
+            selectedUser: user
+        });
+        namePopUp.style.display = "none";
+        const { mdeInstance } = this.state;
+        if(mdeInstance) {
+            const cm = mdeInstance.codemirror;
+            let { line, ch } = cm.getCursor();
+            const url = `[@${user.username}](/users/profile/${user._id})`;
+            console.log(url);
+            cm.doc.replaceRange(url,
+                {line: line, ch: ch -1},
+                {line: line, ch: ch});
+        }
+    }
+
+    setMdeInstance = (mdeInstance) => {
+        this.setState({
+            mdeInstance: mdeInstance
+        });
+    }
+
     detectAt = (cm) => {
         let { line, ch } = cm.getCursor();
+        if(ch < 1) {
+            return;
+        }
         let namePopUp = document.querySelector(".markdown__popup");
-        let input_ch = cm.doc.getLine(line).charAt(ch - 1);
-        if(input_ch === '@') {
-            // cm.doc.replaceRange('[you type @]', {line, ch});
+        let nameInput = namePopUp.querySelector(".markdown__input");
+        let inputChar = cm.doc.getLine(line).charAt(ch - 1);
+        if(inputChar === '@') {
             let {left, top} = cm.cursorCoords(true, "window");
-            namePopUp.style.left = left + 'px';
+            namePopUp.style.left = (4 + left) + 'px';
             namePopUp.style.top = top + 'px';
             namePopUp.style.display = 'block';
+            setTimeout(() => {
+                // a hack from: https://stackoverflow.com/questions/30018357/override-autofocus-attribute-with-javascript-jquery
+                nameInput.focus();
+                nameInput.select();
+            }, 120);
         } else {
             namePopUp.style.display = "none";
         }
@@ -51,20 +86,23 @@ class MarkdownEditor extends Component {
                     onChange={this.handleChange}
                     value={value}
                     options={{
+                        autofocus: false,
+                        spellChecker: false,
                         autosave: {
                             enabled: true,
                             uniqueId: uniqueId,
                             delay: 1000
                         }
                     }}
-                    // extraKeys={this.addExtraKeys}
                     events={{
-                        'cursorActivity': this.detectAt
+                        'inputRead': this.detectAt
                     }}
+                    getMdeInstance={this.setMdeInstance}
+                    // extraKeys={this.addExtraKeys}
                 />
-                <div className="markdown__popup">
-                    <span>You typed @</span>
-                </div>
+                <AtUserPopUp
+                    setSelectedUser={this.setSelectedUser}
+                />
             </div>
         );
     }

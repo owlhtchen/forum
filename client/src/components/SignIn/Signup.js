@@ -35,7 +35,8 @@ class Signup extends Component {
         if (this.props.errorMsg === '') {
             this.props.history.push('/users/profile/' + this.props.userID);
         } else {
-            alert("sign up failed");
+            //TODO: make sign in, sign up error more beautiful
+            alert("sign in failed: " + this.props.errorMsg);
         }
     }
 

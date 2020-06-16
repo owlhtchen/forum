@@ -8,9 +8,33 @@
     top: 0;
     z-index: 100;
     background-color: white;
-    padding: .8rem 1.5rem;
+    padding: .1rem;
     border-radius: 2rem;
     border: 1px solid var(--color-grey-light);
     display: none;
+    max-height: 30%;
+    overflow: auto;
+  }
+
+  &__input {
+    font-size: inherit;
+    border-radius: 5rem;
+    padding: .2rem .8rem;
+    border: 1px solid var(--color-grey-dark);
+
+    &:focus {
+      outline: none;
+    }
+  }
+}
+
+.profile-small {
+  display: flex;
+  align-items: center;
+  font-size: inherit;
+
+  &__icon {
+    height: 4.2rem;
+    padding-right: 1rem;
   }
 }
