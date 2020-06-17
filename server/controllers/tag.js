@@ -72,6 +72,9 @@ module.exports = {
     getTagNameWithPrefix: async (req, res, next) => {
         try {
             const {prefix} = req.params;
+            if(!prefix) {
+                return res.json([]);
+            }
             const decodedPrefix = decodeURI(prefix);
             const tagTrie = await tagNameSingleton.getInstance();
             let tagObjects = tagTrie.getTrie(decodedPrefix);

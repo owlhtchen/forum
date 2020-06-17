@@ -5,9 +5,12 @@
   z-index: 100;
   background-color: white;
   padding: .2rem;
-  border-radius: 2rem;
-  border: 1px solid var(--color-grey-light);
   display: none;
   max-height: 30%;
   overflow: auto;
+
+  &__name {
+    color: var(--color-blue-light);
+    border: 0.8px solid var(--color-grey-light);
+  }
 }

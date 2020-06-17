@@ -54,8 +54,8 @@ db.once('open', function () {
 
     // Handles any requests that don't match the ones above
     app.get('*', (req, res) => {
-        console.log(__dirname)
-        res.sendFile(path.join(__dirname + '/../client/public/not-found.html'));
+        console.log(__dirname);
+        res.status(404).sendFile(path.join(__dirname + '/../client/public/not-found.html'));
     });
 
     const port = process.env.PORT || 5000;
