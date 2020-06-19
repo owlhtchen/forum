@@ -3,6 +3,8 @@ import MarkdownEditor from "./MarkdownEditor";
 import './PostCreator.scss';
 import HashTagPopUp from "./HashTagPopUp";
 import axio from 'axios';
+import { connect } from 'react-redux';
+
 
 class PostCreator extends Component {
     constructor(props) {
@@ -11,6 +13,15 @@ class PostCreator extends Component {
             mdeValue: "",
             tags: []   // should be tag mongodb objects
         }
+    }
+
+    reset = () => {
+        this.setState({
+            mdeValue: '',
+            tags: []
+        });
+        document.querySelector("#title").value = "";
+        document.querySelector("#tag-input").value = "";
     }
 
     removeTag = (e) => {
@@ -23,8 +34,27 @@ class PostCreator extends Component {
         }
     }
 
-    handleSubmit = (e) => {
+    handleSubmit = async (e) => {
         e.preventDefault();
+        const title = document.querySelector('#title').value.trim();
+        const tagIDs = this.state.tags.map((tag) => { return tag._id });
+        const content = this.state.mdeValue;
+        const authorID = this.props.userID;
+        const postType = "post";
+        if(title === "" || content.trim() === "") {
+            alert("title and content cannot be empty");
+            return;
+        }
+        const formData = {
+            postType,
+            authorID,
+            content,
+            title,
+            tagIDs,
+        };
+        // console.log(formData);
+        await axio.post('/posts/make-post', formData);
+        // TODO: reset after submit
     }
 
     setMdeValue = (mdeValue) => {
@@ -83,7 +113,14 @@ class PostCreator extends Component {
                     </div>
                     <MarkdownEditor
                         mdeValue={mdeValue}
-                        setMdeValue={this.setMdeValue}/>
+                        setMdeValue={this.setMdeValue}
+                    />
+                    <button
+                        className="post-form__btn post-form__submit" type="submit"
+                    >Submit</button>
+                    <button
+                        className="post-form__btn post-form__submit" onClick={this.reset}
+                    >Reset</button>
                 </form>
                 <HashTagPopUp />
             </div>
@@ -91,4 +128,11 @@ class PostCreator extends Component {
     }
 }
 
-export default PostCreator;
+const mapStateToProps = (state) => {
+    return {
+        userID: state.user.userID
+    };
+
+}
+
+export default connect(mapStateToProps)(PostCreator);

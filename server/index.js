@@ -12,7 +12,10 @@ const searchs = require('./routes/search');
 
 const Tag = require('./models/tag');
 
-mongoose.connect('mongodb://localhost/forum', {useNewUrlParser: true});
+mongoose.connect('mongodb://localhost/forum', {
+    useNewUrlParser: true,
+    useFindAndModify: false
+});
 let db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {

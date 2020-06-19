@@ -7,12 +7,12 @@ import HashTagPopUp from "./HashTagPopUp";
 
 class MarkdownEditor extends Component {
 
-    uniqueId= "mde-editor-storage";
+    // this.props: mdeValue, setMdeValue
+    uniqueId = "mde-editor-storage";
 
     constructor(props) {
         super(props);
         this.state = {
-            value: '',
             selectedUser: null,
             mdeInstance: null,
             detectedHash: false,
@@ -21,16 +21,12 @@ class MarkdownEditor extends Component {
     }
 
     handleChange = (value) => {
-        this.setState({
-            value
-        })
+        this.props.setMdeValue(value);
     }
 
     componentDidMount() {
-        const saved = localStorage.getItem(this.uniqueId) || '';
-        this.setState({
-            value: saved
-        });
+        const saved = localStorage.getItem(`smde_${this.uniqueId}`) || '';
+        this.props.setMdeValue(saved);
     }
 
     setSelectedUser = (user) => {
@@ -177,13 +173,14 @@ class MarkdownEditor extends Component {
     }
 
     render() {
-        const { value, hashPrefix } = this.state;
+        const { hashPrefix } = this.state;
+        const { mdeValue } = this.props;
         const { uniqueId } = this;
         return (
             <div className="markdown">
                 <SimpleMDE
                     onChange={this.handleChange}
-                    value={value}
+                    value={mdeValue}
                     options={{
                         spellChecker: false,
                         autosave: {

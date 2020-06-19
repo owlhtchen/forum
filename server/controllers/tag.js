@@ -13,7 +13,6 @@ module.exports = {
     },
     addTag: async (req, res, next) => {
         try {
-            console.log("addTag: ", req.body);
             let { name } = req.body;
             name = name.toLowerCase();
 

@@ -32,7 +32,7 @@ const postSchema = new Schema({
         type: Boolean,
         default: false
     },
-    tagID: [{
+    tagIDs: [{
         type: Schema.Types.ObjectId,
         ref: 'Tag'
     }]

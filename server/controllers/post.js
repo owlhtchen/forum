@@ -2,44 +2,51 @@ const User = require('../models/user');
 const Post = require('../models/post');
 const Tag = require('../models/tag');
 const Followpost = require('../models/followpost');
-var mongoose = require('mongoose');
+let mongoose = require('mongoose');
+let ObjectId = require('mongoose').Types.ObjectId;
 
 module.exports = {
-    makePost: async (req, res, next) => {
-        try {
-            const {title, content, postType, authorID, parentID, tagID} = req.body;
-            const newPost = new Post({
-                title,
-                content,
-                postType,
-                authorID,
-                parentID,
-                tagID
-            });
-            await newPost.save();
-            if (parentID) {
-                await Post.updateOne(
-                    {_id: parentID},
-                    {
-                        $push: {
-                            commentIDs: newPost.id
-                        }
-                    }
-                );
+    addPost: async (formData) => {
+        const { postType, authorID, content, title, tagIDs } = formData;
+        let post = new Post({
+            postType, authorID, content, title, tagIDs
+        });
+        post = await post.save();
+        let promises = [];
+        for(let tagID of tagIDs) {
+            if(ObjectId.isValid && !ObjectId.isValid(tagID)) {
+                console.log("not valid");
+                return;
             }
-
-            await Tag.updateOne(
-                {_id: tagID},
-                {
-                    "$push": {
-                        postIDs: newPost._id
-                    }
-                }
-            )
-
-            res.json(newPost._id);
-        } catch (err) {
-            next(err);
+            promises.push(Tag.findByIdAndUpdate(
+                tagID,
+                {$push: {postIDs: post._id}}
+            ))
+        }
+        Promise.all(promises)
+            .catch((err) => {
+                console.log("addPost: ", err);
+            })
+    },
+    makePost: async (req, res, next) => {
+        // postType, authorID, content,
+        // 'post': title, tagIDs
+        // 'comment': parentID
+        try {
+            const { postType } = req.body;
+            switch (postType) {
+                case 'post':
+                    await module.exports.addPost(req.body);
+                    break;
+                case 'comment':
+                    break;
+                case 'story':
+                    break;
+                default:
+                    throw 'cannot create unknown post type';
+            }
+        } catch (e) {
+            next(e);
         }
     },
     filterSortedPosts: async (req, res, next) => {
@@ -84,7 +91,7 @@ module.exports = {
                 "$match": {
                     "$or": [
                         {"postType": "post"},
-                        {"postType": "article"}
+                        {"postType": "story"}
                     ]
                 }
             },

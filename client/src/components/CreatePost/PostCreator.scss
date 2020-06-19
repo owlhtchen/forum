@@ -33,23 +33,26 @@
       outline: none;
     }
   }
-  &__btn, &__tag {
-    font-size: 1.5rem;
-  }
 
   &__btn {
     display: inline-block;
     margin-left: .5rem;
     padding: .3rem .7rem;
     background-color: var(--color-grey-light);
+    border: none;
     border-radius: 10rem;
     box-shadow: .25rem 0.25rem .25rem var(--color-grey-light);
     &:active {
       box-shadow: .15rem 0.15rem .15rem var(--color-grey-dark);
+      outline: none;
+    }
+     &:hover, &:focus {
+      outline: none;
     }
   }
 
-  &__tag {
+  &__tag{
+    font-size: 1.5rem;
     display: inline-block;
     margin: 0 .5rem ;
     padding: .3rem .8rem;
@@ -64,5 +67,10 @@
       content: 'remove';
       color: red;
     }
+  }
+
+  &__submit {
+    font-size: 2rem;
+    padding: 1rem 1.5rem;
   }
 }
