@@ -57,7 +57,7 @@ class PostView extends Component {
             <div className="container mb-3">
                 <PostDetail post={post}/>
                 <button className="btn" onClick={this.addComment}>Reply</button>
-                <QRDropdown post={post}></QRDropdown>
+                {/*<QRDropdown post={post}></QRDropdown>*/}
                 <button className={upvoted ? "btn btn-primary" : "btn"} onClick={this.upvote}>Upvote</button>
                 <DeletePost
                     post={post}></DeletePost>

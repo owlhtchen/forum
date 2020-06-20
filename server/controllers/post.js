@@ -27,6 +27,7 @@ module.exports = {
             .catch((err) => {
                 console.log("addPost: ", err);
             })
+        return post;
     },
     makePost: async (req, res, next) => {
         // postType, authorID, content,
@@ -34,9 +35,10 @@ module.exports = {
         // 'comment': parentID
         try {
             const { postType } = req.body;
+            let post;
             switch (postType) {
                 case 'post':
-                    await module.exports.addPost(req.body);
+                    post = await module.exports.addPost(req.body);
                     break;
                 case 'comment':
                     break;
@@ -45,6 +47,7 @@ module.exports = {
                 default:
                     throw 'cannot create unknown post type';
             }
+            res.send(post);
         } catch (e) {
             next(e);
         }
@@ -91,7 +94,8 @@ module.exports = {
                 "$match": {
                     "$or": [
                         {"postType": "post"},
-                        {"postType": "story"}
+                        {"postType": "story"},
+                        {"postType": "post-comment"}
                     ]
                 }
             },

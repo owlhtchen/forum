@@ -6,7 +6,7 @@ import Signup from './SignIn/Signup';
 import Dashboard from './GetSecret';
 import Signin from './SignIn/Signin';
 import Post from './CreatePost/PostCreator';
-import Homepage from './Homepage';
+import Homepage from './Homepage/Homepage';
 import authGuard from './authGuard';
 import PostLoader from './PostLoader';
 import Profile from './Profile';

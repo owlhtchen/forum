@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {getTagByID} from '../utils/index'
-import PostSummary from './PostSummary';
+import PostSummary from './ViewPost/PostSummary';
 
 export default class TagDetail extends Component {
     constructor(props) {

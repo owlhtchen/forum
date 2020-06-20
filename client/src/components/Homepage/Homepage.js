@@ -1,7 +1,9 @@
 import React, {Component} from 'react'
 import debounce from "lodash.debounce"
 import axios from 'axios';
-import PostSummary from './PostSummary';
+import PostSummary from '../ViewPost/PostSummary';
+import './Homepage.scss';
+import Loading from "../Loading/Loading";
 
 export default class Homepage extends Component {
     getMorePost = async (posts) => {
@@ -67,35 +69,19 @@ export default class Homepage extends Component {
     }
 
     render() {
+        const { posts } = this.state;
+        let inner;
+        if(posts.length === 0) {
+            inner = <Loading width="20rem" height="20rem"/>
+        } else {
+            inner = posts.map((post, index) => {
+                return <PostSummary post={post} key={index} />;
+            })
+        }
         return (
-            <div className="mt-3">
-                <h2 className="mb-3" id="homepage">Homepage</h2>
-                <div className="post-header">
-                    <div className='post-header-post'>Post</div>
-                    <div className='post-header-tag'>Tag</div>
-                    <div className='post-header-comment'>Comments</div>
-                    <div className='post-header-upvotes'>Upvotes</div>
-                </div>
-                {
-                    this.state.posts.map((post, index) => {
-                        const color = (() => {
-                            switch (index % 3) {
-                                case 0:
-                                    return '#f2f4f6';
-                                case 1:
-                                    return '#ffffff';
-                                case 2:
-                                    return '#f9f4ee';
-                                default:
-                                    return '#f9f4ee';
-                            }
-                        })();
-                        return (
-                            <PostSummary key={index} post={post} backgroundColor={color}></PostSummary>
-                        );
-                    })
-                }
+            <div className="homepage">
+                {inner}
             </div>
-        )
+        );
     }
 }

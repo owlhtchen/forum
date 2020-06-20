@@ -52,9 +52,18 @@ class PostCreator extends Component {
             title,
             tagIDs,
         };
-        // console.log(formData);
-        await axio.post('/posts/make-post', formData);
-        // TODO: reset after submit
+        try {
+            let { data: post } = await axio.post('/posts/make-post', formData);
+            // TODO: reset after submit
+            this.reset();
+            if(post && post._id) {
+                this.props.history.push(`/posts/view-post/${post._id}`);
+            } else {
+                throw "error occurred when submitting post.";
+            }
+        } catch (e) {
+            alert("error occurred when submitting post.");
+        }
     }
 
     setMdeValue = (mdeValue) => {
