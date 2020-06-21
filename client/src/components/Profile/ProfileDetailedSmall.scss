@@ -1,0 +1,19 @@
+@import "../variables";
+
+.profile-detailed-small {
+  display: flex;
+  align-items: center;
+  font-size: inherit;
+
+  &__icon {
+    height: 3.2rem;
+    padding-right: 1rem;
+    border-radius: 45%;
+  }
+
+  &__join-date {
+    color: var(--color-grey-dark);
+    padding-left: 1rem;
+    font-size: 80%;
+  }
+}

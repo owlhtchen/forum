@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import './ProfileSmall.scss';
+import './ProfileDetailedSmall.scss';
+const { formatDate } = require('../../utils/index');
 
 class ProfileSmall extends Component {
 
@@ -13,9 +14,10 @@ class ProfileSmall extends Component {
     render() {
         const { user } = this.props;
         return (
-            <div className="profile-small" onClick={this.handleClick}>
-                <img src={`/${user.avatarFile}`} alt="user avatar" className="profile-small__icon"/>
+            <div className="profile-detailed-small" onClick={this.handleClick}>
+                <img src={`/${user.avatarFile}`} alt="user avatar" className="profile-detailed-small__icon"/>
                 <span>{user.username}</span>
+                <span className="profile-detailed-small__join-date">joined {formatDate(new Date(user.joinDate))}</span>
             </div>
         );
     }

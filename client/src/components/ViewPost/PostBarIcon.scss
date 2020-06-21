@@ -1,0 +1,27 @@
+@import "../variables";
+.post-icon {
+
+  display: inline-block;
+
+  svg {
+    height: 3.7rem;
+    width: 3.7rem;
+    fill: var(--post-bar-icon-color);
+    padding: .8rem;
+  }
+
+  &__tooltip {
+    text-align: center;
+    position: absolute;
+    top: 110%;
+    left: 20%;
+    z-index: 100;
+    text-transform: capitalize;
+    background-color: black;
+    color: white;
+    font-size: .8rem;
+    padding: .5rem;
+    border-radius: .3rem;
+    display: none;
+  }
+}

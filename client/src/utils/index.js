@@ -1,5 +1,18 @@
 import axios from 'axios'
 
+export const formatDate = (date) => {
+    let month = '' + (date.getMonth() + 1),
+        day = '' + date.getDate(),
+        year = date.getFullYear();
+
+    if (month.length < 2)
+        month = '0' + month;
+    if (day.length < 2)
+        day = '0' + day;
+
+    return [year, month, day].join('-');
+};
+
 export const getUserByID = async (userID) => {
     let res = await axios.get("/users/get-user/" + userID);
     return res.data;
@@ -28,20 +41,20 @@ export const notifyFollowers = async (followers, message, postID) => {
     });
 };
 
-export const formatDate = (date) => {
-    let monthNames = [
-        "January", "February", "March",
-        "April", "May", "June", "July",
-        "August", "September", "October",
-        "November", "December"
-    ];
-
-    let day = date.getDate();
-    let monthIndex = date.getMonth();
-    let year = date.getFullYear();
-
-    return day + ' ' + monthNames[monthIndex] + ' ' + year;
-};
+// export const formatDate = (date) => {
+//     let monthNames = [
+//         "January", "February", "March",
+//         "April", "May", "June", "July",
+//         "August", "September", "October",
+//         "November", "December"
+//     ];
+//
+//     let day = date.getDate();
+//     let monthIndex = date.getMonth();
+//     let year = date.getFullYear();
+//
+//     return day + ' ' + monthNames[monthIndex] + ' ' + year;
+// };
 
 export const dateInfo = (date) => {
     return ' on '.concat(formatDate(new Date(Date.parse(date))));
