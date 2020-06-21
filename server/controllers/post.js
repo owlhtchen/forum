@@ -83,11 +83,16 @@ module.exports = {
                 }
             },
             {
+                $unwind: {
+                    path: "$author"
+                }
+            },
+            {
                 $lookup: {
                     from: 'tags',
-                    localField: 'tagID',
+                    localField: 'tagIDs',
                     foreignField: '_id',
-                    as: 'tag'
+                    as: 'tags'
                 }
             },
             {

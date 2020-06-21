@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import './MarkdownEditor.scss';
 import axios from 'axios';
-import ProfileSmall from "./ProfileSmall";
+import ProfileSmall from "../Profile/ProfileSmall";
 
 class AtUserPopUp extends Component {
 

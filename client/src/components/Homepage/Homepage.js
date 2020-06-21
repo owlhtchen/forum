@@ -74,8 +74,8 @@ export default class Homepage extends Component {
         if(posts.length === 0) {
             inner = <Loading width="20rem" height="20rem"/>
         } else {
-            inner = posts.map((post, index) => {
-                return <PostSummary post={post} key={index} />;
+            inner = posts.map((post) => {
+                return <PostSummary post={post} key={post._id} />;
             })
         }
         return (
