@@ -8,7 +8,7 @@ import MarkdownView from "./MarkdownView";
 export default class PostSummary extends Component {
 
     render() {
-        const {post} = this.props;
+        const { post, collapsed } = this.props;
         let isPostComment = (post.postType === "post-comment");
         let titleUrl = `/posts/expanded-post/${post._id}`;
         if (isPostComment) {
@@ -24,10 +24,10 @@ export default class PostSummary extends Component {
                     </Link>
                 </h1>
                 {
-                    // isPostComment &&
-                    true &&
+                    isPostComment &&   // TODO: show question detail?
                     <div className="post-summary__content">
                         <MarkdownView
+                            collapsed={true}
                             content={post.content}
                         />
                     </div>

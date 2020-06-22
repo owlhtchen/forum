@@ -26,12 +26,23 @@ export default class Homepage extends Component {
                     hasMore: false
                 });
             }
-            const newPosts = posts.concat(res.data);
+            posts = posts.concat(res.data);
+            // duplicatedPosts: remove posts with postComment(s)
+            // const duplicatedPosts = posts
+            //     .filter(post => {
+            //         return post.postType === "post-comment";
+            //     })
+            //     .map(post => post.parentID);
+            const duplicatedPosts = [];
+            const newPosts = posts.filter(post => {
+                return !(post.postType === "post" && duplicatedPosts.includes(post._id))
+            })
             this.setState({
                 isLoading: false,
                 posts: newPosts
             });
         } catch (err) {
+            console.log(err);
             console.log("error: getMorePost in Homepage");
         }
     }

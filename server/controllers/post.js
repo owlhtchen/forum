@@ -44,6 +44,11 @@ module.exports = {
             title
         });
         post = await post.save();
+        let parent = await Post.findById(parentID);
+        await Post.findByIdAndUpdate(
+            parent._id,
+            { $push: {commentIDs: post._id}}
+            );
         return post;
     },
     makePost: async (req, res, next) => {
@@ -119,7 +124,7 @@ module.exports = {
                     "$or": [
                         {"postType": "post"},
                         {"postType": "story"},
-                        {"postType": "post-comment"}
+                        // {"postType": "post-comment"}
                     ]
                 }
             },
@@ -127,7 +132,7 @@ module.exports = {
         try {
             if (!lastPost) {
                 let q1 = query.concat([{
-                    "$limit": 80
+                    "$limit": 100
                 }]);
                 result = await Post.aggregate(q1);
             } else {
@@ -340,6 +345,10 @@ const addUserHistory = async (userID, postID) => {
 
 const expandPost = async (postID, depth) => {
     // depth in [1, inf]; depth === 1: the post itself only (with no comments)
+    if(depth !== undefined && depth === 0) {
+        return;
+    }
+
     const postList = await Post.aggregate([
         {
             "$match": {"_id": mongoose.Types.ObjectId(postID)}
@@ -361,21 +370,12 @@ const expandPost = async (postID, depth) => {
     if(depth !== undefined) {
         depth -= 1;
     }
-    if(depth !== undefined && depth === 0) {
-        return;
-    }
     const post = postList[0];
     post.comments = [];
     if (post.commentIDs.length > 0) {
-        let promises = post.commentIDs.map((commentID) => {
-            return expandPost(commentID, depth);
-        });
-        Promise.all(promises)
-            .then( values => {
-                values.forEach((comment) => {
-                    post.comments.push(comment);
-                })
-            })
+        for (const id of post.commentIDs) {
+            post.comments.push(await expandPost(id.toString(), depth));
+        }
     }
     return post;
 }

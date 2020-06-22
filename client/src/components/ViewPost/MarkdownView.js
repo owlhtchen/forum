@@ -9,15 +9,17 @@ class MarkdownView extends Component {
     }
 
     expandContent = (e) => {
-        e.currentTarget.classList.remove("collapsed-md");
-        e.currentTarget.classList.add("expanded-md");
-        e.currentTarget.style.maxHeight = "none";
+        if(this.props.collapsed) {
+            e.currentTarget.classList.remove("collapsed-md");
+            e.currentTarget.classList.add("expanded-md");
+            e.currentTarget.style.maxHeight = "none";
+        }
     }
 
     render() {
-        const { content } = this.props;
+        const { content, collapsed } = this.props;
         return (
-            <div className="collapsed-md"
+            <div className={collapsed? "collapsed-md": "expanded-md"}
                  onClick={this.expandContent}
             >
                 <ReactMarkdown

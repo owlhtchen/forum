@@ -19,8 +19,7 @@ class CommentCreator extends Component {
         });
     }
 
-    reset = (e) => {
-        e.preventDefault();
+    reset = () => {
         this.setState({
             mdeValue: ""
         })

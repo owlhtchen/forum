@@ -11,6 +11,7 @@ import {cancelUpVotePost, checkUpVoted, upVotePost} from "../../utils/post";
 import './PostBar.scss';
 import CommentCreator from "../CreatePost/CommentCreator";
 import axios from 'axios';
+import NestedComments from "./NestedComments";
 
 let bodyStyle = getComputedStyle(document.body);
 let barColor = bodyStyle.getPropertyValue("--post-bar-icon-color");
@@ -24,7 +25,8 @@ class PostBar extends Component {
         this.state = {
             upVoted: false,
             post: post,
-            replyShown: false
+            replyShown: false,
+            commentsShown: false
         };
     }
 
@@ -55,8 +57,17 @@ class PostBar extends Component {
     showReply = () => {
         const { replyShown: prev} = this.state;
         this.setState({
-            replyShown: !prev
+            replyShown: !prev,
+            commentsShown: false
         })
+    }
+
+    showComments = () => {
+        const { commentsShown: prev } = this.state;
+        this.setState({
+            commentsShown: !prev,
+            replyShown: false
+        });
     }
 
     render() {
@@ -75,6 +86,7 @@ class PostBar extends Component {
                     </PostBarIcon>
                     <PostBarIcon
                         text={post.commentIDs.length}
+                        onClick={this.showComments}
                     >
                         <CommentSVG />
                     </PostBarIcon>
@@ -93,10 +105,15 @@ class PostBar extends Component {
                         <ShareSVG />
                     </PostBarIcon>
                 </div>
-                <div className="post-bar__comment">
+                <div className="post-bar__reply">
                     {
                         replyShown &&
                         <CommentCreator parentPost={post}/>
+                    }
+                </div>
+                <div className="post-bar__comments">
+                    {
+                        <NestedComments parentPost={post}/>
                     }
                 </div>
             </div>
