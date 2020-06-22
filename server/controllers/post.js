@@ -12,6 +12,8 @@ module.exports = {
             postType, authorID, content, title, tagIDs
         });
         post = await post.save();
+        post.ancestorID = post._id;
+        post = await post.save();
         let promises = [];
         for(let tagID of tagIDs) {
             if(ObjectId.isValid && !ObjectId.isValid(tagID)) {
@@ -135,7 +137,16 @@ module.exports = {
             next(err);
         }
     },
-    upvotePost: async (req, res, next) => {
+    getPostByID: async (req, res, next) => {
+        try {
+            const {postID, depth} = req.params;
+            let post = await expandPost(postID, depth);
+            res.json(post);
+        } catch (err) {
+            next(err);
+        }
+    },
+    upVotePost: async (req, res, next) => {
         try {
             const {userID, postID} = req.body;
             await Post.updateOne(
@@ -146,11 +157,12 @@ module.exports = {
                     }
                 }
             );
+            res.end();
         } catch (err) {
             next(err);
         }
     },
-    cancelUpvotePost: async (req, res, next) => {
+    cancelUpVotePost: async (req, res, next) => {
         try {
             const {userID, postID} = req.body;
             await Post.updateOne(
@@ -160,28 +172,25 @@ module.exports = {
                         likedBy: userID
                     }
                 }
-            )
+            );
+            res.end();
         } catch (err) {
             next(err);
         }
     },
-    checkUpvote: async (req, res, next) => {
+    checkUpVoted: async (req, res, next) => {
         try {
-            const {userID, postID} = req.body;
-            const foundUpvote = await Post.find({
+            const {userID, postID} = req.params;
+            const foundUpVote = await Post.find({
                 "$and": [
                     {_id: postID},
                     {likedBy: {$elemMatch: {$eq: userID}}}
                 ]
             })
-            if (foundUpvote && foundUpvote.length > 0) {
-                res.json({
-                    upvoted: true
-                });
+            if (foundUpVote && foundUpVote.length > 0) {
+                res.json(true);
             } else {
-                res.json({
-                    upvoted: false
-                });
+                res.json(false);
             }
         } catch (err) {
             next(err);
@@ -253,15 +262,6 @@ module.exports = {
             next(err);
         }
     },
-    getPostByID: async (req, res, next) => {
-        try {
-            const {postID} = req.params;
-            const post = await Post.findById(postID);
-            res.json(post);
-        } catch (err) {
-            next(err);
-        }
-    },
     deletePost: async (req, res, next) => {
         const {post, userID} = req.body;
         try {
@@ -321,7 +321,8 @@ const addUserHistory = async (userID, postID) => {
     await user.save();
 }
 
-const expandPost = async (postID) => {
+const expandPost = async (postID, depth) => {
+    // depth in [1, inf]; depth === 1: the post itself only (with no comments)
     const postList = await Post.aggregate([
         {
             "$match": {"_id": mongoose.Types.ObjectId(postID)}
@@ -333,14 +334,31 @@ const expandPost = async (postID) => {
                 foreignField: "_id",
                 as: "author"
             }
+        },
+        {
+            $unwind: {
+                path: "$author"
+            }
         }
     ]);
+    if(depth !== undefined) {
+        depth -= 1;
+    }
+    if(depth !== undefined && depth === 0) {
+        return;
+    }
     const post = postList[0];
     post.comments = [];
     if (post.commentIDs.length > 0) {
-        await Promise.all(post.commentIDs.map(async (commentID) => {
-            post.comments.push(await expandPost(commentID));
-        }))
+        let promises = post.commentIDs.map((commentID) => {
+            return expandPost(commentID, depth);
+        });
+        Promise.all(promises)
+            .then( values => {
+                values.forEach((comment) => {
+                    post.comments.push(comment);
+                })
+            })
     }
     return post;
 }

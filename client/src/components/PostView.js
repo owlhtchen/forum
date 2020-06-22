@@ -59,8 +59,7 @@ class PostView extends Component {
                 <button className="btn" onClick={this.addComment}>Reply</button>
                 {/*<QRDropdown post={post}></QRDropdown>*/}
                 <button className={upvoted ? "btn btn-primary" : "btn"} onClick={this.upvote}>Upvote</button>
-                <DeletePost
-                    post={post}></DeletePost>
+                <DeletePost post={post}/>
                 {this.state.showAddComment && <PostCreator postType="comment" parentID={post._id}/>}
                 <div>
                     {

@@ -26,7 +26,9 @@ class MarkdownEditor extends Component {
 
     componentDidMount() {
         const saved = localStorage.getItem(`smde_${this.uniqueId}`) || '';
-        this.props.setMdeValue(saved);
+        if(this.props.setMdeValue) {
+            this.props.setMdeValue(saved);
+        }
     }
 
     setSelectedUser = (user) => {

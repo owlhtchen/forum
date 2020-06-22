@@ -57,7 +57,7 @@ class PostCreator extends Component {
             // TODO: reset after submit
             this.reset();
             if(post && post._id) {
-                this.props.history.push(`/posts/view-post/${post._id}`);
+                this.props.history.push(`/posts/expanded-post/${post._id}`);
             } else {
                 throw "error occurred when submitting post.";
             }

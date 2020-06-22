@@ -33,7 +33,7 @@ class App extends Component {
                             <Route exact path="/users/signup" component={Signup}/>
                             <Route exact path="/users/signin" component={Signin}/>
                             <Route exact path="/posts/make-post" component={authGuard(Post)}/>
-                            <Route exact path="/posts/view-post/:postID" component={PostLoader}/>
+                            <Route exact path="/posts/expanded-post/:postID" component={PostLoader}/>
                             <Route exact path="/users/profile/:userID" component={authGuard(Profile)}/>
                             <Route exact path="/tags/tag-by-id/:tagID" component={TagDetail}/>
                             <Route exact path="/search/:keyword?" component={SearchResult}/>

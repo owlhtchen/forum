@@ -14,7 +14,7 @@ class PostLoader extends Component {
     getPostOnUrlChange = async () => {
         const {postID} = this.props.match.params;
         const {userID} = this.props;
-        let url = '/posts/view-post/' + postID;
+        let url = '/posts/expanded-post/' + postID;
         if (userID) {
             url += '/' + userID;
         }

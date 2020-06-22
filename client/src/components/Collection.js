@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {getArticlesByUserID} from '../utils/index'
+import {getArticlesByUserID} from '../utils/post'
 import {Link} from 'react-router-dom'
 
 export default class Collection extends Component {
@@ -28,7 +28,7 @@ export default class Collection extends Component {
                         return (
                             <div className="card m-2 card-fade-in" key={index}>
                                 <div className="card-header h4">
-                                    <Link to={"/posts/view-post/" + article._id} style={{
+                                    <Link to={"/posts/expanded-post/" + article._id} style={{
                                         color: "#000000"
                                     }}>{article.title}</Link>
                                 </div>

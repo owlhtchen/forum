@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import MessagePopup from './MessagePopup'
 import {connect} from 'react-redux'
-import {getUserByID} from '../utils/index'
+import {getUserByID} from '../utils/user'
 import UploadImage from './UploadImage';
 import EditBio from './EditBio';
 import FollowUser from './FollowUser';
