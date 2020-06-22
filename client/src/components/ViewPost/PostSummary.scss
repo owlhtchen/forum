@@ -26,6 +26,7 @@
 
   .show-more:after {
     content: "+ Show more";
+    background-color: var(--show-more-bg-color);
     color: blue;
     position: absolute;
     right: 0;

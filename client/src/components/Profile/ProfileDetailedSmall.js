@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import './ProfileDetailedSmall.scss';
 const { formatDate } = require('../../utils/index');
 
-class ProfileSmall extends Component {
+class ProfileDetailedSmall extends Component {
 
     handleClick = () => {
         const { user, setSelectedUser } = this.props;
@@ -23,4 +23,4 @@ class ProfileSmall extends Component {
     }
 }
 
-export default ProfileSmall;
+export default ProfileDetailedSmall;
