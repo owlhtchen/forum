@@ -8,8 +8,9 @@ import {ReactComponent as BookmarkSVG} from "../assets/bookmark.svg";
 import {ReactComponent as ShareSVG} from "../assets/share.svg";
 import {connect} from "react-redux";
 import {cancelUpVotePost, checkUpVoted, upVotePost} from "../../utils/post";
+import './PostBar.scss';
+import CommentCreator from "../CreatePost/CommentCreator";
 import axios from 'axios';
-import MarkdownEditor from "../CreatePost/MarkdownEditor";
 
 let bodyStyle = getComputedStyle(document.body);
 let barColor = bodyStyle.getPropertyValue("--post-bar-icon-color");
@@ -22,7 +23,8 @@ class PostBar extends Component {
         const { post } = this.props;
         this.state = {
             upVoted: false,
-            post: post
+            post: post,
+            replyShown: false
         };
     }
 
@@ -50,40 +52,53 @@ class PostBar extends Component {
         });
     }
 
+    showReply = () => {
+        const { replyShown: prev} = this.state;
+        this.setState({
+            replyShown: !prev
+        })
+    }
+
     render() {
-        const { upVoted, post } = this.state;
+        const { upVoted, post, replyShown } = this.state;
 
         return (
             <div className="post-bar">
-                <PostBarIcon
-                    text={post.likedBy.length}
-                    tooltip={"up vote"}
-                    onClick={this.upVote}
-                    fill={upVoted? barColorActive : barColor}
-                >
-                    <UpvoteSVG />
-                </PostBarIcon>
-                <PostBarIcon
-                    text={post.commentIDs.length}
-                >
-                    <CommentSVG />
-                </PostBarIcon>
-                <PostBarIcon
-                    text={"Reply"}
-                >
-                    <ReplySVG />
-                </PostBarIcon>
-                <PostBarIcon
-                    text={"Favorite"}
-                >
-                    <BookmarkSVG />
-                </PostBarIcon>
-                <PostBarIcon>
-                    <ShareSVG />
-                </PostBarIcon>
-                {/*<div className="post-bar__comment">*/}
-                {/*    <MarkdownEditor />*/}
-                {/*</div>*/}
+                <div className="post-bar__icons">
+                    <PostBarIcon
+                        text={post.likedBy.length}
+                        tooltip={"up vote"}
+                        onClick={this.upVote}
+                        fill={upVoted? barColorActive : barColor}
+                    >
+                        <UpvoteSVG />
+                    </PostBarIcon>
+                    <PostBarIcon
+                        text={post.commentIDs.length}
+                    >
+                        <CommentSVG />
+                    </PostBarIcon>
+                    <PostBarIcon
+                        text={"Reply"}
+                        onClick={this.showReply}
+                    >
+                        <ReplySVG />
+                    </PostBarIcon>
+                    <PostBarIcon
+                        text={"Favorite"}
+                    >
+                        <BookmarkSVG />
+                    </PostBarIcon>
+                    <PostBarIcon>
+                        <ShareSVG />
+                    </PostBarIcon>
+                </div>
+                <div className="post-bar__comment">
+                    {
+                        replyShown &&
+                        <CommentCreator parentPost={post}/>
+                    }
+                </div>
             </div>
         );
     }

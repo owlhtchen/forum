@@ -8,29 +8,12 @@
   box-shadow: 0.4rem 0.4rem 0.4rem var(--color-grey-light);
 
   &__content {
-    padding: 1.8rem 0;
     border-top: 1px solid var(--color-grey-light);
     border-bottom: 1px solid var(--color-grey-light);
 
     a:link, a:visited {
       color: var(--navbar-primary-color);
     }
-  }
-
-  .show-more {
-    // collapse
-    max-height: 10rem;
-    overflow: hidden;
-    position: relative;
-  }
-
-  .show-more:after {
-    content: "+ Show more";
-    background-color: var(--show-more-bg-color);
-    color: blue;
-    position: absolute;
-    right: 0;
-    bottom: 0;
   }
 
   &__title {

@@ -10,7 +10,7 @@ const postSchema = new Schema({
     content: String,
     postType: {
         type: String,
-        enum: ['story', 'post', 'post-comment', 'comment-comment']
+        enum: ['story', 'post', 'post-comment', 'sub-comment']
     },
     authorID: {
         type: Schema.Types.ObjectId,

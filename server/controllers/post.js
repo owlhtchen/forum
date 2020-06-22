@@ -31,10 +31,25 @@ module.exports = {
             })
         return post;
     },
+    addComment: async (formData) => {
+        const { postType, authorID, content, ancestorID, parentID } = formData;
+        let ancestor = await Post.findById(ancestorID);
+        let title = ancestor.title;
+        let post = new Post({
+            postType,
+            authorID,
+            content,
+            ancestorID,
+            parentID,
+            title
+        });
+        post = await post.save();
+        return post;
+    },
     makePost: async (req, res, next) => {
-        // postType, authorID, content,
+        // postType, authorID, content, ancestorID
         // 'post': title, tagIDs
-        // 'comment': parentID
+        // 'comment': parentID (title of ancestor)
         try {
             const { postType } = req.body;
             let post;
@@ -42,7 +57,9 @@ module.exports = {
                 case 'post':
                     post = await module.exports.addPost(req.body);
                     break;
-                case 'comment':
+                case 'post-comment':
+                case 'sub-comment':
+                    post = await module.exports.addComment(req.body);
                     break;
                 case 'story':
                     break;

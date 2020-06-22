@@ -1,0 +1,25 @@
+@import "../variables";
+
+.collapsed-md {
+  // collapse
+  padding: 1.8rem 0;
+  max-height: 18rem;
+  overflow: hidden;
+  position: relative;
+}
+
+.collapsed-md:after {
+  content: "+ Show more";
+  width: 100%;
+  text-align: right;
+  line-height: 1.75;
+  background-image: linear-gradient(to bottom,transparent, var(--collapsed-md-bg-color) 40%);
+  color: blue;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+
+.expanded-md {
+  padding: 1.8rem 0;
+}

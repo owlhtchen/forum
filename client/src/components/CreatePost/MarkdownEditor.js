@@ -127,9 +127,7 @@ class MarkdownEditor extends Component {
     showHashPopUp = (cm) => {
         let hashPopUp = document.querySelector(".hash-popup");
         let {left, top} = cm.cursorCoords(true, "window");
-        let creatorFontsize = parseFloat(
-            window.getComputedStyle(
-                document.querySelector(".post-creator")).fontSize);
+        let creatorFontsize = 16;
         hashPopUp.style.left = (2 + left) + 'px';
         hashPopUp.style.top = (top + creatorFontsize + 2) + 'px';
         hashPopUp.style.display = 'block';
@@ -176,8 +174,11 @@ class MarkdownEditor extends Component {
 
     render() {
         const { hashPrefix } = this.state;
-        const { mdeValue } = this.props;
-        const { uniqueId } = this;
+        const { mdeValue, idSuffix } = this.props;
+        let { uniqueId } = this;
+        if(idSuffix) {
+            uniqueId += idSuffix;
+        }
         return (
             <div className="markdown">
                 <SimpleMDE
@@ -189,7 +190,7 @@ class MarkdownEditor extends Component {
                             enabled: true,
                             uniqueId: uniqueId,
                             delay: 1000
-                        }
+                        },
                     }}
                     events={{
                         'inputRead': this.detachSpecialChar,

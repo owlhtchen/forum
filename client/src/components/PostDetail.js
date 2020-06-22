@@ -55,7 +55,7 @@ class PostDetail extends Component {
                 <h2 style={{display: "inline-block"}}>{title}</h2>
                 <div style={{display: "inline-block"}}>
                     <span>Posted by </span>
-                    <Link to={'/users/profile/' + author[0]._id}>{author[0].username}</Link>
+                    <Link to={'/users/profile/' + author._id}>{author.username}</Link>
                     {dateInfo(createDate)}  &nbsp;
                 </div>
                 {

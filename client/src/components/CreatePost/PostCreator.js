@@ -4,6 +4,7 @@ import './PostCreator.scss';
 import HashTagPopUp from "./HashTagPopUp";
 import axio from 'axios';
 import { connect } from 'react-redux';
+import {addPost} from "../../utils/post";
 
 
 class PostCreator extends Component {
@@ -45,16 +46,10 @@ class PostCreator extends Component {
             alert("title and content cannot be empty");
             return;
         }
-        const formData = {
-            postType,
-            authorID,
-            content,
-            title,
-            tagIDs,
-        };
         try {
-            let { data: post } = await axio.post('/posts/make-post', formData);
+            let post = await addPost(postType, authorID, content, title, tagIDs);
             // TODO: reset after submit
+            console.log(post);
             this.reset();
             if(post && post._id) {
                 this.props.history.push(`/posts/expanded-post/${post._id}`);

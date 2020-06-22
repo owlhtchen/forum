@@ -1,6 +1,36 @@
 import axios from "axios";
+import axio from "axios";
+
+export const addPost = async (postType, authorID, content, title, tagIDs) => {
+    const formData = {
+        postType,
+        authorID,
+        content,
+        title,
+        tagIDs,
+    };
+    let { data: post } = await axio.post('/posts/make-post', formData);
+    return post;
+}
+
+export const addComment = async (postType, authorID, content, parentPost) => {
+    let ancestorID = parentPost.ancestorID;
+    let parentID = parentPost._id;
+    const formData = {
+      postType,
+      authorID,
+      content,
+      ancestorID,
+      parentID
+    };
+    let { data: post } = await axio.post('/posts/make-post', formData);
+    return post;
+}
 
 export const checkUpVoted = async (userID, postID) => {
+    if(!userID) {
+        return false;
+    }
     let {data: upVoted } = await axios.get(`/posts/checkUpVote/${userID}/${postID}`);
     return upVoted;
 }
