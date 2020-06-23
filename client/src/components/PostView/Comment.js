@@ -5,8 +5,27 @@ import ProfileDetailedSmall from "../Profile/ProfileDetailedSmall";
 import './Comment.scss';
 
 class Comment extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            post: this.props.post
+        };
+    }
+
+
+    prependComment = (newComment) => {
+        let prevPost = JSON.parse(JSON.stringify(this.state.post));
+        // console.log("prependComment: ");   // TODO: DELETE
+        // console.log(newComment);
+        prevPost.comments.unshift(newComment);
+        this.setState({
+            post: prevPost
+        });
+    }
+
     render() {
-        const { post } = this.props;
+        const { post } = this.state;
         return (
             <div className="comment">
                 <div className="comment__main">
@@ -16,7 +35,10 @@ class Comment extends Component {
                         content={post.content}
                         key={post._id}
                     />
-                    <PostBar post={post}/>
+                    <PostBar
+                        post={post}
+                        prependComment={this.prependComment}
+                    />
                 </div>
                 <div className="comment__nested">
                     {

@@ -23,6 +23,8 @@ export const addComment = async (postType, authorID, content, parentPost) => {
       parentID
     };
     let { data: post } = await axios.post('/posts/make-post', formData);
+    // This is for post.comments.map in Comment.js
+    post.comments = [];
     return post;
 }
 

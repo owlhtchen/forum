@@ -6,6 +6,7 @@ import {addComment} from "../../utils/post";
 
 class CommentCreator extends Component {
     constructor(props) {
+        // props: parentPost (prependComment)
         super(props);
         this.state = {
             mdeValue: "",
@@ -20,15 +21,18 @@ class CommentCreator extends Component {
     }
 
     reset = () => {
+        const { parentPost } = this.state;
         this.setState({
             mdeValue: ""
         })
+        let uniqueId = "mde-editor-storage" + "${parentPost._id}";
+        localStorage.setItem(`smde_${uniqueId}`, '');
     }
 
     handleSubmit = async (e) => {
         e.preventDefault();
         const { mdeValue, parentPost } = this.state;
-        const { userID } = this.props;
+        const { userID, prependComment } = this.props;
         let postType;
         if(parentPost.postType === "post") {
             postType = "post-comment";
@@ -37,8 +41,11 @@ class CommentCreator extends Component {
         }
         let authorID = userID;
         let content = mdeValue;
-        await addComment(postType, authorID, content, parentPost);
-        this.reset();
+        let newComment = await addComment(postType, authorID, content, parentPost);
+        if(prependComment) {
+            prependComment(newComment);
+        }
+        // this.reset();
     }
 
     render() {

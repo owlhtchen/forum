@@ -71,6 +71,7 @@ class PostBar extends Component {
 
     render() {
         const { upVoted, post, replyShown } = this.state;
+        const { prependComment } = this.props;
 
         return (
             <div className="post-bar">
@@ -107,7 +108,10 @@ class PostBar extends Component {
                 <div className="post-bar__reply">
                     {
                         replyShown &&
-                        <CommentCreator parentPost={post}/>
+                        <CommentCreator
+                            parentPost={post}
+                            prependComment={prependComment}
+                        />
                     }
                 </div>
             </div>

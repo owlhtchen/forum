@@ -175,10 +175,10 @@ class MarkdownEditor extends Component {
     render() {
         const { hashPrefix } = this.state;
         const { mdeValue, idSuffix } = this.props;
-        let { uniqueId } = this;
         if(idSuffix) {
-            uniqueId += idSuffix;
+            this.uniqueId = this.uniqueId + idSuffix;
         }
+        let { uniqueId } = this;
         return (
             <div className="markdown">
                 <SimpleMDE

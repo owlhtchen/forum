@@ -71,6 +71,9 @@ module.exports = {
                 default:
                     throw 'cannot create unknown post type';
             }
+            let postList = await getPostWithAuthor(post);
+            post = postList[0];
+            console.log(post);
             res.send(post);
         } catch (e) {
             next(e);
@@ -378,4 +381,27 @@ const expandPost = async (postID, depth) => {
         }
     }
     return post;
+}
+
+const getPostWithAuthor = async (post) => {
+    return await Post.aggregate([
+        {
+            "$match": {
+                "_id": post._id
+            }
+        },
+        {
+            "$lookup": {
+                from: "users",
+                localField: "authorID",
+                foreignField: "_id",
+                as: "author"
+            }
+        },
+        {
+            "$unwind": {
+                path: "$author"
+            }
+        }
+    ])
 }
