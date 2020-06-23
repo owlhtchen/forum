@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import debounce from "lodash.debounce"
 import axios from 'axios';
-import PostSummary from '../ViewPost/PostSummary';
+import PostSummary from '../PostSummary/PostSummary';
 import './Homepage.scss';
 import Loading from "../Loading/Loading";
 

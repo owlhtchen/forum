@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import Axios from 'axios';
-import PostSummary from './ViewPost/PostSummary';
+import PostSummary from './PostSummary/PostSummary';
 import UserSummary from './UserSummary';
 import TagSummary from './TagSummary';
 

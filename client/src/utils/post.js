@@ -61,12 +61,12 @@ export const cancelUpVotePost = async (userID, postID, post) => {
     return post;
 }
 
-export const getPostByID = async (postID, depth) => {
+export const getPostDepth = async (postID, depth) => {
     let res;
     if(!depth) {
-        res = await axios.get("/posts/get-post/" + postID);
+        res = await axios.get("/posts/post-depth/" + postID);
     } else {
-        res = await axios.get(`/posts/get-post/${postID}/${depth}`);
+        res = await axios.get(`/posts/post-depth/${postID}/${depth}`);
     }
     return res.data;
 };

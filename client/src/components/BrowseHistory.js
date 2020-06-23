@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {getBrowseHistory} from '../utils/user'
-import PostSummary from './ViewPost/PostSummary'
+import PostSummary from './PostSummary/PostSummary'
 import {connect} from 'react-redux';
 
 class BrowseHistory extends Component {

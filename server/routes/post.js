@@ -3,9 +3,9 @@ const express = require('express');
 const router = express.Router();
 
 router.post('/make-post', PostController.makePost);
-router.post('/filter-sorted-posts', PostController.filterSortedPosts)
+router.post('/filter-sorted-posts', PostController.filterSortedPosts);
 router.get('/expanded-post/:postID/:userID?', PostController.viewPost);
-router.get('/get-post/:postID/:depth?', PostController.getPostByID);
+router.get('/post-depth/:postID/:depth?', PostController.getPostDepth);
 router.post('/upVote', PostController.upVotePost);
 router.post('/cancelUpVote', PostController.cancelUpVotePost);
 router.get('/checkUpVote/:userID/:postID', PostController.checkUpVoted);

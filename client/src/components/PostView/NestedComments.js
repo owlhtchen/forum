@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import './NestedComments.scss';
-import {getPostByID} from "../../utils/post";
-import MarkdownView from "./MarkdownView";
+import {getPostDepth} from "../../utils/post";
+import MarkdownView from "../MarkdownView/MarkdownView";
 
 class NestedComments extends Component {
     constructor(props) {
@@ -14,7 +14,7 @@ class NestedComments extends Component {
     async componentDidMount() {
         let { parentPost } = this.props;
         try {
-            parentPost = await getPostByID(parentPost._id, 3);
+            parentPost = await getPostDepth(parentPost._id, 3);
             // if(parentPost.title === "here") {
                 console.log(parentPost)
             // }

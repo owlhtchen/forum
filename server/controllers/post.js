@@ -159,7 +159,7 @@ module.exports = {
             next(err);
         }
     },
-    getPostByID: async (req, res, next) => {
+    getPostDepth: async (req, res, next) => {
         try {
             const {postID, depth} = req.params;
             let post = await expandPost(postID, depth);

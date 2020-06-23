@@ -2,8 +2,7 @@ import React, {Component} from 'react'
 import {Link} from 'react-router-dom'
 import ProfileDetailedSmall from "../Profile/ProfileDetailedSmall";
 import './PostSummary.scss';
-import PostBar from "./PostBar";
-import MarkdownView from "./MarkdownView";
+import MarkdownView from "../MarkdownView/MarkdownView";
 
 export default class PostSummary extends Component {
 
@@ -32,9 +31,6 @@ export default class PostSummary extends Component {
                         />
                     </div>
                 }
-                <div className="post-summary__bar">
-                    <PostBar post={post} />
-                </div>
             </div>
         )
     }
