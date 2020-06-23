@@ -21,12 +21,12 @@ class CommentCreator extends Component {
     }
 
     reset = () => {
-        const { parentPost } = this.state;
+        let uniqueId = "mde-editor-storage" + "${parentPost._id}";
+        localStorage.setItem(`smde_${uniqueId}`, '');
         this.setState({
             mdeValue: ""
         })
-        let uniqueId = "mde-editor-storage" + "${parentPost._id}";
-        localStorage.setItem(`smde_${uniqueId}`, '');
+        console.log("CommentCreator reset");
     }
 
     handleSubmit = async (e) => {
@@ -62,7 +62,7 @@ class CommentCreator extends Component {
                         idSuffix={parentPost._id}
                     />
                     <button className="comment-form__btn" type="submit">Submit</button>
-                    <button className="comment-form__btn" onClick={this.reset}>Reset</button>
+                    <div className="comment-form__btn" onClick={this.reset}>Reset</div>
                 </form>
             </div>
         );

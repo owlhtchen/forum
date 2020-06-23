@@ -2,4 +2,13 @@
   border-left: 2px solid var(--color-grey-light);
   margin-left: 0.3rem;
   padding-left: 0.8rem;
+
+  &__main {
+    //border: 2px red solid;
+    p {
+      //border: 2px purple solid;
+      word-wrap: break-word;
+      hyphens: auto;
+    }
+  }
 }

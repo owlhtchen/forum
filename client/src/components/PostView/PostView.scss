@@ -3,10 +3,10 @@
 .post-view {
 
   &__main {
-    width: 65%;
+    width: 50vw;   // !!! 65% does not work
     background-color: white;
     padding: 2rem 3rem;
-    margin: 2rem 25% 2rem 10%;
+    margin: 2rem 0 2rem 10%;
     box-shadow: 0.4rem 0.4rem 0.4rem var(--color-grey-light);
   }
 
@@ -35,10 +35,10 @@
   }
 
   &__comments {
-    width: 65%;
+    width: 50vw;  // !!! 65% does not work
     background-color: white;
     padding: 2rem 3rem;
-    margin: 2rem 25% 2rem 10%;
+    margin: 2rem 0 2rem 10%;
     box-shadow: 0.4rem 0.4rem 0.4rem var(--color-grey-light);
   }
 }
