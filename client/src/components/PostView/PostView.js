@@ -58,7 +58,10 @@ class PostView extends Component {
                 <div className="post-view__comments">
                     {
                         post.comments.map(comment => {
-                            return <Comment post={comment}/>
+                            return <Comment
+                                post={comment}
+                                key={comment._id}
+                            />
                         })
                     }
                 </div>
