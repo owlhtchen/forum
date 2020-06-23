@@ -14,7 +14,7 @@ const SignJWTToken = (user) => {
         iss: 'forum',
         sub: user.id,
         isAdmin: user.isAdmin,
-        isDelete: user.isDelete,
+        isDeleted: user.isDeleted,
         iat: new Date().getTime(),
         exp: new Date().setDate(new Date().getDate() + 1)
     }, JWT_SECRET);
@@ -269,7 +269,7 @@ module.exports = {
         try {
             const {userID} = req.params;
             const user = await User.findById(userID);
-            const browseHistory = await Promise.all(user.browserHistory.map(async (postID) => {
+            const browseHistory = await Promise.all(user.browseHistory.map(async (postID) => {
                 const post = await Post.aggregate([
                     {
                         "$match": {

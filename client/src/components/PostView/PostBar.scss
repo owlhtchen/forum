@@ -1,5 +1,9 @@
 .post-bar {
+  margin: 1rem 0;
   &__icons {
     margin-bottom: 1rem;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
   }
 }

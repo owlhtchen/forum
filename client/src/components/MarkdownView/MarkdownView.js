@@ -17,7 +17,7 @@ class MarkdownView extends Component {
     }
 
     render() {
-        const { content, collapsed } = this.props;
+        const { content, collapsed, disallowedTypes } = this.props;
         return (
             <div className={collapsed? "collapsed-md": "expanded-md"}
                  onClick={this.expandContent}
@@ -25,7 +25,7 @@ class MarkdownView extends Component {
                 <ReactMarkdown
                     source={content}
                     escapeHtml={false}
-                    disallowedTypes={['heading']}
+                    disallowedTypes={disallowedTypes}
                     unwrapDisallowed={true}
                     renderers={{image: this.imageSize}}
                 />

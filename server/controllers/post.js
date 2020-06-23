@@ -54,7 +54,7 @@ module.exports = {
     makePost: async (req, res, next) => {
         // postType, authorID, content, ancestorID
         // 'post': title, tagIDs
-        // 'comment': parentID (title of ancestor)
+        // 'comment': parentID (title: ancestor's title)
         try {
             const { postType } = req.body;
             let post;
@@ -330,13 +330,13 @@ module.exports = {
 
 const addUserHistory = async (userID, postID) => {
     const user = await User.findById(userID);
-    if (user.browserHistory.length > 0 &&
-        user.browserHistory[user.browserHistory.length - 1].toString() === postID) {
+    if (user.browseHistory.length > 0 &&
+        user.browseHistory[user.browseHistory.length - 1].toString() === postID) {
         return;
     }
-    user.browserHistory.push(postID);
-    const length = user.browserHistory.length;
-    user.browserHistory = user.browserHistory.slice(
+    user.browseHistory.push(postID);
+    const length = user.browseHistory.length;
+    user.browseHistory = user.browseHistory.slice(
         length - 5 >= 0 ? length - 5 : 0,
         length
     );

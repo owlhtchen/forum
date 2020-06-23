@@ -22,11 +22,11 @@ const userSchema = new Schema({
         type: String,
         enum: ['local', 'google', 'facebook']
     },
-    isDelete: {
+    isDeleted: {
         type: Boolean,
         default: false
     },
-    browserHistory: [{
+    browseHistory: [{
         type: Schema.Types.ObjectId,
         ref: 'Post'
     }],

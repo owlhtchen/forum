@@ -5,10 +5,9 @@
   position: relative;
 
   &__svg {
-    height: 3.7rem;
-    width: 3.7rem;
+    height: 2rem;
+    width: 2.2em;
     fill: var(--post-bar-icon-color);
-    padding: .8rem 0 .8rem .8rem;
 
     svg {
       height: 100%;
@@ -18,9 +17,12 @@
 
   &__text {
     color: var(--post-bar-icon-color);
+    display: inline-block;
+    padding-left: 0.3rem;
   }
 
   &__main {
+    padding: 0 0.5rem;
     display: flex;
     justify-content: left;
     align-items: center;

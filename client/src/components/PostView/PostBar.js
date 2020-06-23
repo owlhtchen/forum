@@ -11,7 +11,6 @@ import {cancelUpVotePost, checkUpVoted, upVotePost} from "../../utils/post";
 import './PostBar.scss';
 import CommentCreator from "../CreatePost/CommentCreator";
 import axios from 'axios';
-import NestedComments from "./NestedComments";
 
 let bodyStyle = getComputedStyle(document.body);
 let barColor = bodyStyle.getPropertyValue("--post-bar-icon-color");
@@ -77,7 +76,7 @@ class PostBar extends Component {
             <div className="post-bar">
                 <div className="post-bar__icons">
                     <PostBarIcon
-                        text={post.likedBy.length}
+                        text={`${post.likedBy.length}`}
                         tooltip={"up vote"}
                         onClick={this.upVote}
                         fill={upVoted? barColorActive : barColor}
@@ -85,7 +84,7 @@ class PostBar extends Component {
                         <UpvoteSVG />
                     </PostBarIcon>
                     <PostBarIcon
-                        text={post.commentIDs.length}
+                        text={`${post.commentIDs.length}`}
                         onClick={this.showComments}
                     >
                         <CommentSVG />
@@ -109,11 +108,6 @@ class PostBar extends Component {
                     {
                         replyShown &&
                         <CommentCreator parentPost={post}/>
-                    }
-                </div>
-                <div className="post-bar__comments">
-                    {
-                        <NestedComments parentPost={post}/>
                     }
                 </div>
             </div>

@@ -23,7 +23,7 @@ module.exports = {
         let token = req.headers['authorization'];
         try {
             token = jwt.verify(token, JWT_SECRET);
-            if(!token.isDelete) {
+            if(!token.isDeleted) {
                 console.log(token);
                 res.locals.token = token;
                 next();

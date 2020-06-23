@@ -28,6 +28,7 @@ export default class PostSummary extends Component {
                         <MarkdownView
                             collapsed={true}
                             content={post.content}
+                            disallowedTypes={['heading']}
                         />
                     </div>
                 }

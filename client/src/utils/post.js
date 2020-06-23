@@ -1,5 +1,4 @@
 import axios from "axios";
-import axio from "axios";
 
 export const addPost = async (postType, authorID, content, title, tagIDs) => {
     const formData = {
@@ -9,7 +8,7 @@ export const addPost = async (postType, authorID, content, title, tagIDs) => {
         title,
         tagIDs,
     };
-    let { data: post } = await axio.post('/posts/make-post', formData);
+    let { data: post } = await axios.post('/posts/make-post', formData);
     return post;
 }
 
@@ -23,7 +22,7 @@ export const addComment = async (postType, authorID, content, parentPost) => {
       ancestorID,
       parentID
     };
-    let { data: post } = await axio.post('/posts/make-post', formData);
+    let { data: post } = await axios.post('/posts/make-post', formData);
     return post;
 }
 
@@ -58,6 +57,12 @@ export const cancelUpVotePost = async (userID, postID, post) => {
         post.likedBy.splice(index, 1);
     }
     await axios.post("/posts/cancelUpVote", formData);
+    return post;
+}
+
+export const viewPost = async (postID, userID) => {
+    let url = `/posts/expanded-post/${postID}/${userID ? userID : ""}`;
+    let { data: post} = await axios.get(url);
     return post;
 }
 

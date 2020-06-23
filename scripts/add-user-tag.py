@@ -19,8 +19,15 @@ for i in range(1, 6):
         user = {
             'username': username,
             'email':email,
+            'gender': "male",
+            'joinDate': datetime.datetime.utcnow(),
+            'lastLoginDate': datetime.datetime.utcnow(),
+            'isDeleted': False,
+            'browseHistory': [],
+            'favorite': [],
+            'isAdmin': False,
+            'bio': "",
             'avatarFile': "{}.jpg".format(randint(0, 9)),
-            'joinDate': datetime.datetime.utcnow()
         }
         userID = users.insert_one(user).inserted_id
         password = {
