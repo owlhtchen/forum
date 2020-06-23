@@ -11,6 +11,8 @@ import {cancelUpVotePost, checkUpVoted, upVotePost} from "../../utils/post";
 import './PostBar.scss';
 import CommentCreator from "../CreatePost/CommentCreator";
 import axios from 'axios';
+import {cancelFavoritePost, checkFavorite, favoritePost} from "../../utils/user";
+import { handleError } from "../utils/index";
 
 let bodyStyle = getComputedStyle(document.body);
 let barColor = bodyStyle.getPropertyValue("--post-bar-icon-color");
@@ -25,53 +27,74 @@ class PostBar extends Component {
             upVoted: false,
             post: post,
             replyShown: false,
-            commentsShown: false
+            favorite: false
         };
     }
 
     async componentDidMount() {
         const { userID } = this.props;
         const { post } = this.state;
+        if(!userID) {
+            return;
+        }
         let upVoted = await checkUpVoted(userID, post._id);
+        let favorite = await checkFavorite(userID, post._id);
         this.setState({
             upVoted,
-        })
+            favorite
+        });
     }
 
     upVote =  async () => {
         const { userID } = this.props;
         let { upVoted, post } = this.state;
-        if(!upVoted) {
-            post = await upVotePost(userID, post._id, post);
-        } else {
-            post = await cancelUpVotePost(userID, post._id, post);
+        try {
+            if(!upVoted) {
+                post = await upVotePost(userID, post._id, post);
+            } else {
+                post = await cancelUpVotePost(userID, post._id, post);
+            }
+            this.setState({
+                upVoted: !upVoted,
+                post
+            });
+        } catch (e) {
+            handleError(e);
         }
-        console.log("now: ", !upVoted);
-        this.setState({
-            upVoted: !upVoted,
-            post
-        });
     }
 
-    showReply = () => {
+    favorite = async () => {
+        const { userID } = this.props;
+        if(!userID) {
+            return;
+        }
+        let { favorite, post } = this.state;
+        try {
+            if(!favorite) {
+                await favoritePost(userID, post._id);
+            } else {
+                await cancelFavoritePost(userID, post._id);
+            }
+            this.setState({
+                favorite: !favorite
+            })
+        } catch (e) {
+            handleError(e);
+        }
+
+    }
+
+    toggleReply = () => {
         const { replyShown: prev} = this.state;
         this.setState({
             replyShown: !prev,
-            commentsShown: false
         })
     }
 
-    showComments = () => {
-        const { commentsShown: prev } = this.state;
-        this.setState({
-            commentsShown: !prev,
-            replyShown: false
-        });
-    }
-
     render() {
-        const { upVoted, post, replyShown } = this.state;
+        const { upVoted, post, replyShown, favorite } = this.state;
         const { prependComment } = this.props;
+        console.log("render ", favorite);
 
         return (
             <div className="post-bar">
@@ -86,18 +109,20 @@ class PostBar extends Component {
                     </PostBarIcon>
                     <PostBarIcon
                         text={`${post.commentIDs.length}`}
-                        onClick={this.showComments}
                     >
                         <CommentSVG />
                     </PostBarIcon>
                     <PostBarIcon
                         text={"Reply"}
-                        onClick={this.showReply}
+                        onClick={this.toggleReply}
                     >
                         <ReplySVG />
                     </PostBarIcon>
                     <PostBarIcon
                         text={"Favorite"}
+                        tooltip="add to favorite"
+                        onClick={this.favorite}
+                        fill={favorite? barColorActive : barColor}
                     >
                         <BookmarkSVG />
                     </PostBarIcon>
@@ -111,6 +136,7 @@ class PostBar extends Component {
                         <CommentCreator
                             parentPost={post}
                             prependComment={prependComment}
+                            toggleReply={this.toggleReply}
                         />
                     }
                 </div>

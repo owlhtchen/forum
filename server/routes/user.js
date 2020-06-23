@@ -7,6 +7,11 @@ router.post('/signup', UserController.signUp);
 router.get('/secret' , auth.isUser, UserController.getSecret);
 router.post('/signin', auth.getUserFromDB, UserController.signIn);
 router.post('/oauth/google', UserController.googleOauth);
+
+router.post('/favorite', auth.isUser, UserController.favoritePost);
+router.post('/cancelFavorite', auth.isUser, UserController.cancelFavoritePost);
+router.get('/checkFavorite/:userID/:postID', auth.isUser, UserController.checkFavorite);
+
 router.get('/get-user/:userID', UserController.getUserByID);
 router.post('/check-follow-user', UserController.checkFollowUser);
 router.post('/follow-user', UserController.followUser);

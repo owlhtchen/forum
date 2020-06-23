@@ -3,7 +3,7 @@
 .post-view {
 
   &__main {
-    width: 50vw;   // !!! 65% does not work
+    width: var(--post-view-width);   // !!! 65% does not work
     background-color: white;
     padding: 2rem 3rem;
     margin: 2rem 0 2rem 10%;
@@ -35,7 +35,7 @@
   }
 
   &__comments {
-    width: 50vw;  // !!! 65% does not work
+    width: var(--post-view-width);  // !!! 65% does not work
     background-color: white;
     padding: 2rem 3rem;
     margin: 2rem 0 2rem 10%;

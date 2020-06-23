@@ -8,9 +8,9 @@ import MarkdownView from "../MarkdownView/MarkdownView";
 import './PostView.scss'
 import PostBar from "./PostBar";
 import Comment from './Comment';
+import TagBar from "../Tag/TagBar";
 
 class PostView extends Component {
-    // load all data
 
     constructor(props) {
         super(props);
@@ -28,6 +28,14 @@ class PostView extends Component {
         });
     }
 
+    prependComment = (newComment) => {
+        let prevPost = JSON.parse(JSON.stringify(this.state.post));
+        prevPost.comments.unshift(newComment);
+        this.setState({
+            post: prevPost
+        });
+    }
+
     render() {
         const { post } = this.state;
         if(post === null) {
@@ -42,6 +50,7 @@ class PostView extends Component {
             <div className="post-view">
                 <div className="post-view__main">
                     <ProfileDetailedSmall user={post.author} />
+                    <TagBar tags={post.tags}/>
                     <h1 className="post-view__title">
                         <Link to={titleUrl} >
                             {post.title}
@@ -53,7 +62,10 @@ class PostView extends Component {
                             content={post.content}
                         />
                     </div>
-                    <PostBar post={post}/>
+                    <PostBar
+                        post={post}
+                        prependComment={this.prependComment}
+                    />
                 </div>
                 <div className="post-view__comments">
                     {

@@ -45,7 +45,10 @@ class CommentCreator extends Component {
         if(prependComment) {
             prependComment(newComment);
         }
-        // this.reset();
+        this.reset();
+        if(this.props.toggleReply) {
+            this.props.toggleReply();
+        }
     }
 
     render() {

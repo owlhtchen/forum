@@ -73,7 +73,6 @@ module.exports = {
             }
             let postList = await getPostWithAuthor(post);
             post = postList[0];
-            console.log(post);
             res.send(post);
         } catch (e) {
             next(e);
@@ -155,7 +154,9 @@ module.exports = {
     viewPost: async (req, res, next) => {
         try {
             const {postID, userID} = req.params;
-            await addUserHistory(userID, postID);
+            if(userID) {
+                await addUserHistory(userID, postID);
+            }
             const post = await expandPost(postID);
             res.json(post);
         } catch (err) {
@@ -368,6 +369,14 @@ const expandPost = async (postID, depth) => {
             $unwind: {
                 path: "$author"
             }
+        },
+        {
+            "$lookup": {
+                from: "tags",
+                localField: "tagIDs",
+                foreignField: "_id",
+                as: "tags"
+            }
         }
     ]);
     if(depth !== undefined) {
@@ -384,7 +393,7 @@ const expandPost = async (postID, depth) => {
 }
 
 const getPostWithAuthor = async (post) => {
-    return await Post.aggregate([
+    return Post.aggregate([
         {
             "$match": {
                 "_id": post._id

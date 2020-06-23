@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom'
 import ProfileDetailedSmall from "../Profile/ProfileDetailedSmall";
 import './PostSummary.scss';
 import MarkdownView from "../MarkdownView/MarkdownView";
+import TagBar from "../Tag/TagBar";
 
 export default class PostSummary extends Component {
 
@@ -17,21 +18,19 @@ export default class PostSummary extends Component {
         return (
             <div className="post-summary">
                 <ProfileDetailedSmall user={post.author} />
+                { post.tags.length !== 0 && <TagBar tags={post.tags} />}
                 <h1 className="post-summary__title">
                     <Link to={titleUrl} >
                         {post.title}
                     </Link>
                 </h1>
-                {
-                    isPostComment &&   // TODO: show question detail?
-                    <div className="post-summary__content">
-                        <MarkdownView
-                            collapsed={true}
-                            content={post.content}
-                            disallowedTypes={['heading']}
-                        />
-                    </div>
-                }
+                <div className="post-summary__content">
+                    <MarkdownView
+                        collapsed={true}
+                        content={post.content}
+                        disallowedTypes={['heading']}
+                    />
+                </div>
             </div>
         )
     }

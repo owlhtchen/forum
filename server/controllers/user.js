@@ -7,6 +7,8 @@ const Block = require('../models/block');
 const Notification = require('../models/notification');
 const { usernameSingleton } = require('../utils/trie');
 const Post = require('../models/post');
+const mongoose = require('mongoose');
+const ObjectId = mongoose.Types.ObjectId;
 
 const SignJWTToken = (user) => {
     // the claim names are only three characters long as JWT is meant to be compact.
@@ -100,6 +102,55 @@ module.exports = {
             userID: foundUser.id,
             isAdmin: foundUser.isAdmin
         });
+    },
+    favoritePost: async (req, res, next) => {
+        try {
+            const {userID, postID} = req.body;
+            let user = await User.findByIdAndUpdate(
+                userID,
+                {
+                    "$addToSet": {
+                        "favorite": postID
+                    }
+                }
+            );
+            res.json(user);
+        } catch (e) {
+            next(e);
+        }
+    },
+    cancelFavoritePost: async (req, res, next) => {
+        try {
+            const {userID, postID} = req.body;
+            let user = await User.findByIdAndUpdate(
+                userID,
+                {
+                    "$pull": {
+                        "favorite": postID
+                    }
+                }
+            );
+            res.json(user);
+        } catch (e) {
+            next(e);
+        }
+    },
+    checkFavorite: async (req, res, next) => {
+        const { userID, postID } = req.params;
+        try {
+            const foundUser = await User.findOne({
+               "_id":  ObjectId(userID),
+                "favorite": postID
+            });
+            if(foundUser) {
+                console.log(foundUser);
+                res.json(true);
+            } else {
+                res.json(false);
+            }
+        } catch (e) {
+            next(e);
+        }
     },
     getUserByID: async (req, res, next) => {
         try {
