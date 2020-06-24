@@ -10,6 +10,8 @@ import { connect } from 'react-redux';
 
 class Sidebar extends Component {
     render() {
+        const { userID } = this.props;
+
         return (
             <div className="sidebar">
                 <NavLink className="sidebar__homepage" to="/">
@@ -24,7 +26,7 @@ class Sidebar extends Component {
                     <MessageSVG className="sidebar__svg"/>
                     Messages
                 </NavLink>
-                <NavLink className="sidebar__history" to="/users/browse-history">
+                <NavLink className="sidebar__history" to={`/users/browse-history/${userID}`}>
                     <HistorySVG className="sidebar__svg"/>
                     History
                 </NavLink>

@@ -320,34 +320,40 @@ module.exports = {
         try {
             const {userID} = req.params;
             const user = await User.findById(userID);
-            const browseHistory = await Promise.all(user.browseHistory.map(async (postID) => {
-                const post = await Post.aggregate([
+            const browsedIDs = user.browseHistory;
+            let promises = browsedIDs.map(ID => {
+                return Post.aggregate([
                     {
                         "$match": {
-                            "_id": postID
+                            "_id": ID
                         }
                     },
                     {
                         "$lookup": {
-                            from: 'users',
-                            localField: 'authorID',
-                            foreignField: '_id',
+                            from: "users",
+                            localField: "authorID",
+                            foreignField: "_id",
                             as: "author"
-                        },
+                        }
+                    },
+                    {
+                        "$unwind": "$author"
                     },
                     {
                         "$lookup": {
-                            from: 'tags',
-                            localField: 'tagID',
-                            foreignField: '_id',
-                            as: 'tag'
+                            from: "tags",
+                            localField: "tagIDs",
+                            foreignField: "_id",
+                            as: "tags"
                         }
                     }
-                ]);
-                return post[0];
-            }));
-            console.log(browseHistory);
-            res.json(browseHistory);
+                ])
+            })
+            let values = await Promise.all(promises);
+            let browsedPosts = values.map(value => {
+                return value[0];
+            });
+            res.json(browsedPosts);
         } catch (err) {
             next(err);
         }

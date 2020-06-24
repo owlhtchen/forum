@@ -8,25 +8,29 @@ import TagBar from "../Tag/TagBar";
 export default class PostSummary extends Component {
 
     render() {
-        const { post, collapsed } = this.props;
+        let { post, collapsed } = this.props;
+        collapsed = (collapsed === undefined)? true: collapsed;
         let isPostComment = (post.postType === "post-comment");
+        let isSubComment = (post.postType === "sub-comment");
         let titleUrl = `/posts/expanded-post/${post._id}`;
         if (isPostComment) {
                 titleUrl = `/posts/expanded-post/${post.parentID}`;
+        } else if(isSubComment) {
+            titleUrl = `/posts/expanded-post/${post.ancestorID}`;
         }
         // console.log(post);  // TODO: DELETE
         return (
             <div className="post-summary">
                 <ProfileDetailedSmall user={post.author} />
                 { post.tags.length !== 0 && <TagBar tags={post.tags} />}
-                <h1 className="post-summary__title">
+                <h2 className="post-summary__title">
                     <Link to={titleUrl} >
                         {post.title}
                     </Link>
-                </h1>
+                </h2>
                 <div className="post-summary__content">
                     <MarkdownView
-                        collapsed={true}
+                        collapsed={collapsed}
                         content={post.content}
                         disallowedTypes={['heading']}
                     />

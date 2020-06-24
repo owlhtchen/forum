@@ -83,7 +83,7 @@ export default class Homepage extends Component {
         const { posts } = this.state;
         let inner;
         if(posts.length === 0) {
-            inner = <LoadingCircle width="20rem" height="20rem"/>
+            inner = <LoadingCircle width="15rem" height="15rem"/>
         } else {
             inner = posts.map((post) => {
                 return <PostSummary post={post} key={post._id} />;

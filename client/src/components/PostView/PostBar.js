@@ -12,7 +12,7 @@ import {cancelUpVotePost, checkUpVoted, upVotePost} from "../../utils/post";
 import './PostBar.scss';
 import CommentCreator from "../CreatePost/CommentCreator";
 import axios from 'axios';
-import { handleError } from "../utils/index";
+import { handleError } from "../../utils/index";
 import MorePopup from "./MorePopup";
 
 let bodyStyle = getComputedStyle(document.body);

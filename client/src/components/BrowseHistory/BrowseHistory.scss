@@ -1,0 +1,12 @@
+@import "../variables";
+
+.browse-history {
+  width: var(--homepage-width);
+  padding: var(--homepage-padding);
+
+  &__title {
+    text-align: center;
+    color: var(--navbar-primary-color);
+    margin: 2rem 0;
+  }
+}

@@ -11,7 +11,7 @@ import Profile from './Profile';
 import Tag from './Tag';
 import SearchResult from './SearchResult'
 import TagDetail from './TagDetail'
-import BrowseHistory from './BrowseHistory'
+import BrowseHistory from './BrowseHistory/BrowseHistory'
 import Sidebar from "./Sidebar/Sidebar";
 import './App.scss';
 import GetSecret from "./GetSecret";
@@ -36,10 +36,10 @@ class App extends Component {
                                 exact path="/posts/expanded-post/:postID"
                                 render={props => <PostView {...props} /> }
                             />
+                            <Route exact path="/users/browse-history/:userID" component={authGuard(BrowseHistory)}/>
                             <Route exact path="/users/profile/:userID" component={authGuard(Profile)}/>
                             <Route exact path="/tags/tag-by-id/:tagID" component={TagDetail}/>
                             <Route exact path="/search/:keyword?" component={SearchResult}/>
-                            <Route exact path="/users/browse-history" component={BrowseHistory}/>
                             <Route exact path="/" component={Homepage}/>
                         </Switch>
                     </div>

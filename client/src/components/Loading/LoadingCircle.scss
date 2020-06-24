@@ -1,9 +1,9 @@
 @import "../variables";
 
 .loader {
-  border: 16px solid var(--loading-bg-color);
+  //border: 16px solid var(--loading-bg-color);
   border-radius: 50%;
-  border-top: 16px solid var(--loading-primary-color);
+  //border-top: 16px solid var(--loading-primary-color);
   //width: 12rem;
   //height: 12rem;
   -webkit-animation: spin 2s linear infinite; /* Safari */

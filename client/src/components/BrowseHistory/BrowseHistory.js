@@ -1,14 +1,16 @@
 import React, {Component} from 'react'
-import {getBrowseHistory} from '../utils/user'
-import PostSummary from './PostSummary/PostSummary'
+import {getBrowseHistory} from '../../utils/user'
+import PostSummary from '../PostSummary/PostSummary'
 import {connect} from 'react-redux';
+import LoadingCircle from "../Loading/LoadingCircle";
+import './BrowseHistory.scss';
 
 class BrowseHistory extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            browseHistory: []
+            browseHistory: null
         };
     }
 
@@ -22,12 +24,18 @@ class BrowseHistory extends Component {
 
     render() {
         const {browseHistory} = this.state;
+        if(browseHistory === null) {
+            return <LoadingCircle width={"15rem"} />
+        }
         return (
-            <div>
-                <h4>Recent Browse History</h4>
+            <div className="browse-history">
+                <h1 className="browse-history__title">Recent Browse History</h1>
                 {
                     browseHistory.map((post) => {
-                        return <PostSummary post={post}/>
+                        return <PostSummary
+                            post={post}
+                            key={post._id}
+                        />
                     })
                 }
             </div>

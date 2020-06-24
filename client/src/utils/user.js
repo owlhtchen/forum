@@ -57,7 +57,6 @@ export const checkBlock = async (sender, receiver) => {
 }
 
 export const getBrowseHistory = async (userID) => {
-    console.log(userID);
-    let res = await axios.get('/users/browse-history/' + userID);
-    return res.data;
+    let { data:browsedPosts } = await axios.get('/users/browse-history/' + userID);
+    return browsedPosts;
 }

@@ -12,6 +12,8 @@ router.post('/favorite', auth.isUser, UserController.favoritePost);
 router.post('/cancelFavorite', auth.isUser, UserController.cancelFavoritePost);
 router.get('/checkFavorite/:userID/:postID', auth.isUser, UserController.checkFavorite);
 
+router.get('/browse-history/:userID', auth.isUser, UserController.getBrowseHistory);
+
 router.get('/get-user/:userID', UserController.getUserByID);
 router.post('/check-follow-user', UserController.checkFollowUser);
 router.post('/follow-user', UserController.followUser);
@@ -22,6 +24,5 @@ router.get('/get-username-with-prefix/:prefix', UserController.getUsernameWithPr
 router.post('/edit-bio', UserController.editBio);
 router.post('/check-block-user', UserController.checkBlockUser);
 router.post('/block-user', UserController.blockUser);
-router.get('/browse-history/:userID', UserController.getBrowseHistory);
 
 module.exports = router; 

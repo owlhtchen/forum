@@ -5,7 +5,10 @@ const ReactMarkdown = require('react-markdown/with-html');
 
 class MarkdownView extends Component {
     imageSize = (props) => {
-        return <img {...props} style={{maxWidth: '50%'}} />
+        return <img
+                    {...props}
+                    style={{maxWidth: '50%', display: "block", padding: "1rem 0"}}
+                />
     }
 
     expandContent = (e) => {

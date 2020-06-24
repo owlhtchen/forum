@@ -3,7 +3,7 @@ import PostBarIcon from "./PostBarIcon";
 import {ReactComponent as BookmarkSVG} from "../assets/bookmark.svg";
 import { connect } from 'react-redux';
 import {cancelFavoritePost, checkFavorite, favoritePost} from "../../utils/user";
-import {handleError} from "../utils";
+import {handleError} from "../../utils/index";
 import './MorePopup.scss';
 
 let bodyStyle = getComputedStyle(document.body);
@@ -56,8 +56,8 @@ class MorePopup extends Component {
             inner = <p>Loading</p>;
         } else {
             inner =  <PostBarIcon
-                        text={"Favorite"}
-                        tooltip="add to favorite"
+                        text={"Bookmark"}
+                        tooltip="add to bookmark"
                         onClick={this.favorite}
                         fill={favorite? barColorActive : barColor}
                     >

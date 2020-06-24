@@ -25,10 +25,7 @@ module.exports = {
                 {$push: {postIDs: post._id}}
             ))
         }
-        Promise.all(promises)
-            .catch((err) => {
-                console.log("addPost: ", err);
-            })
+        await Promise.all(promises);
         return post;
     },
     addComment: async (formData) => {
@@ -338,10 +335,14 @@ const addUserHistory = async (userID, postID) => {
         user.browseHistory[user.browseHistory.length - 1].toString() === postID) {
         return;
     }
+    let index = user.browseHistory.findIndex(ID => { return ID.toString() === postID });
+    if(index !== -1) {
+        user.browseHistory.splice(index, 1);
+    }
     user.browseHistory.push(postID);
     const length = user.browseHistory.length;
     user.browseHistory = user.browseHistory.slice(
-        length - 5 >= 0 ? length - 5 : 0,
+        length - 150 >= 0 ? length - 150 : 0,
         length
     );
     await user.save();
