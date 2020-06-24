@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import './Loading.scss';
+import './LoadingCircle.scss';
 
-class Loading extends Component {
+class LoadingCircle extends Component {
 
     timeHandler = null;
 
@@ -38,4 +38,4 @@ class Loading extends Component {
     }
 }
 
-export default Loading;
+export default LoadingCircle;

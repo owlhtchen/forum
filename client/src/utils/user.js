@@ -10,8 +10,7 @@ export const favoritePost = async (userID, postID) => {
         userID,
         postID
     };
-    let user = await axios.post('/users/favorite', formData);
-    console.log("fav: ", user);
+    await axios.post('/users/favorite', formData);
 }
 
 export const cancelFavoritePost = async (userID, postID) => {
@@ -19,13 +18,11 @@ export const cancelFavoritePost = async (userID, postID) => {
         userID,
         postID
     };
-    let user = await axios.post('/users/cancelFavorite', formData);
-    console.log("cancel fav: ", user);
+    await axios.post('/users/cancelFavorite', formData);
 }
 
 export const checkFavorite = async (userID, postID) => {
     let res = await axios.get(`/users/checkFavorite/${userID}/${postID}`);
-    console.log("check fav: ", res.data);
     return res.data;
 }
 

@@ -6,13 +6,14 @@ import {ReactComponent as CommentSVG} from "../assets/comment.svg";
 import {ReactComponent as ReplySVG} from "../assets/reply.svg";
 import {ReactComponent as BookmarkSVG} from "../assets/bookmark.svg";
 import {ReactComponent as ShareSVG} from "../assets/share.svg";
+import {ReactComponent as MoreSVG} from "../assets/more.svg";
 import {connect} from "react-redux";
 import {cancelUpVotePost, checkUpVoted, upVotePost} from "../../utils/post";
 import './PostBar.scss';
 import CommentCreator from "../CreatePost/CommentCreator";
 import axios from 'axios';
-import {cancelFavoritePost, checkFavorite, favoritePost} from "../../utils/user";
 import { handleError } from "../utils/index";
+import MorePopup from "./MorePopup";
 
 let bodyStyle = getComputedStyle(document.body);
 let barColor = bodyStyle.getPropertyValue("--post-bar-icon-color");
@@ -27,21 +28,16 @@ class PostBar extends Component {
             upVoted: false,
             post: post,
             replyShown: false,
-            favorite: false
+            morePopUpShown: false
         };
     }
 
     async componentDidMount() {
         const { userID } = this.props;
         const { post } = this.state;
-        if(!userID) {
-            return;
-        }
         let upVoted = await checkUpVoted(userID, post._id);
-        let favorite = await checkFavorite(userID, post._id);
         this.setState({
-            upVoted,
-            favorite
+            upVoted
         });
     }
 
@@ -63,27 +59,6 @@ class PostBar extends Component {
         }
     }
 
-    favorite = async () => {
-        const { userID } = this.props;
-        if(!userID) {
-            return;
-        }
-        let { favorite, post } = this.state;
-        try {
-            if(!favorite) {
-                await favoritePost(userID, post._id);
-            } else {
-                await cancelFavoritePost(userID, post._id);
-            }
-            this.setState({
-                favorite: !favorite
-            })
-        } catch (e) {
-            handleError(e);
-        }
-
-    }
-
     toggleReply = () => {
         const { replyShown: prev} = this.state;
         this.setState({
@@ -91,10 +66,16 @@ class PostBar extends Component {
         })
     }
 
+    showMorePopUp = () => {
+        let prev = this.state.morePopUpShown;
+        this.setState({
+            morePopUpShown: !prev
+        });
+    }
+
     render() {
-        const { upVoted, post, replyShown, favorite } = this.state;
+        const { upVoted, post, replyShown, morePopUpShown } = this.state;
         const { prependComment } = this.props;
-        console.log("render ", favorite);
 
         return (
             <div className="post-bar">
@@ -118,17 +99,20 @@ class PostBar extends Component {
                     >
                         <ReplySVG />
                     </PostBarIcon>
-                    <PostBarIcon
-                        text={"Favorite"}
-                        tooltip="add to favorite"
-                        onClick={this.favorite}
-                        fill={favorite? barColorActive : barColor}
-                    >
-                        <BookmarkSVG />
-                    </PostBarIcon>
                     <PostBarIcon>
                         <ShareSVG />
                     </PostBarIcon>
+                    <div className="post-bar__more">
+                        {
+                            morePopUpShown &&
+                            <MorePopup post={post}/>
+                        }
+                        <PostBarIcon
+                            onClick={this.showMorePopUp}
+                        >
+                            <MoreSVG />
+                        </PostBarIcon>
+                    </div>
                 </div>
                 <div className="post-bar__reply">
                     {

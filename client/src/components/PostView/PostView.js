@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import Loading from "../Loading/Loading";
+import LoadingCircle from "../Loading/LoadingCircle";
 import {viewPost} from "../../utils/post";
 import {connect} from 'react-redux';
 import ProfileDetailedSmall from "../Profile/ProfileDetailedSmall";
@@ -39,7 +39,7 @@ class PostView extends Component {
     render() {
         const { post } = this.state;
         if(post === null) {
-            return <Loading
+            return <LoadingCircle
                 width="10rem"
                 height="10rem"
             />

@@ -1,0 +1,12 @@
+.post-bar__popup {
+  position: absolute;
+  bottom: 3.2rem;
+  border: 1px solid var(--color-grey-dark);
+  border-radius: 10%;
+  background-color: white;
+  padding: 1rem;
+
+  p {
+    width: min-content;
+  }
+}

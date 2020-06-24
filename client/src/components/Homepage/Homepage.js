@@ -3,7 +3,7 @@ import debounce from "lodash.debounce"
 import axios from 'axios';
 import PostSummary from '../PostSummary/PostSummary';
 import './Homepage.scss';
-import Loading from "../Loading/Loading";
+import LoadingCircle from "../Loading/LoadingCircle";
 
 export default class Homepage extends Component {
     getMorePost = async (posts) => {
@@ -83,7 +83,7 @@ export default class Homepage extends Component {
         const { posts } = this.state;
         let inner;
         if(posts.length === 0) {
-            inner = <Loading width="20rem" height="20rem"/>
+            inner = <LoadingCircle width="20rem" height="20rem"/>
         } else {
             inner = posts.map((post) => {
                 return <PostSummary post={post} key={post._id} />;
