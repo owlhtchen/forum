@@ -56,7 +56,7 @@ class MorePopup extends Component {
             inner = <p>Loading</p>;
         } else {
             inner =  <PostBarIcon
-                        text={"Bookmark"}
+                        text={"Bookmarks"}
                         tooltip="add to bookmark"
                         onClick={this.favorite}
                         fill={favorite? barColorActive : barColor}

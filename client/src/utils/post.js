@@ -92,3 +92,15 @@ export const getArticlesByUserID = async (userID) => {
     let res = await axios.get('/posts/articles-by-userid/' + userID);
     return res.data;
 }
+
+export const getPostTitleUrl = (post) => {
+    let isPostComment = (post.postType === "post-comment");
+    let isSubComment = (post.postType === "sub-comment");
+    let titleUrl = `/posts/expanded-post/${post._id}`;
+    if (isPostComment) {
+        titleUrl = `/posts/expanded-post/${post.parentID}`;
+    } else if(isSubComment) {
+        titleUrl = `/posts/expanded-post/${post.ancestorID}`;
+    }
+    return titleUrl;
+}

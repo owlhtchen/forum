@@ -18,7 +18,7 @@ class Sidebar extends Component {
                     <HomepageSVG className="sidebar__svg"/>
                     Homepage
                 </NavLink>
-                <NavLink className="sidebar__bookmarks" to="/users/bookmarks">
+                <NavLink className="sidebar__bookmarks" to={`/users/bookmarks/${userID}`}>
                     <BookmarkSVG className="sidebar__svg"/>
                     Bookmarks
                 </NavLink>

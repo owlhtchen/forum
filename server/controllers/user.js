@@ -9,6 +9,8 @@ const { usernameSingleton } = require('../utils/trie');
 const Post = require('../models/post');
 const mongoose = require('mongoose');
 const ObjectId = mongoose.Types.ObjectId;
+const { getPostsWithAuthorTags } = require('./post');
+
 
 const SignJWTToken = (user) => {
     // the claim names are only three characters long as JWT is meant to be compact.
@@ -321,41 +323,21 @@ module.exports = {
             const {userID} = req.params;
             const user = await User.findById(userID);
             const browsedIDs = user.browseHistory;
-            let promises = browsedIDs.map(ID => {
-                return Post.aggregate([
-                    {
-                        "$match": {
-                            "_id": ID
-                        }
-                    },
-                    {
-                        "$lookup": {
-                            from: "users",
-                            localField: "authorID",
-                            foreignField: "_id",
-                            as: "author"
-                        }
-                    },
-                    {
-                        "$unwind": "$author"
-                    },
-                    {
-                        "$lookup": {
-                            from: "tags",
-                            localField: "tagIDs",
-                            foreignField: "_id",
-                            as: "tags"
-                        }
-                    }
-                ])
-            })
-            let values = await Promise.all(promises);
-            let browsedPosts = values.map(value => {
-                return value[0];
-            });
+            let browsedPosts = await getPostsWithAuthorTags(browsedIDs);
             res.json(browsedPosts);
         } catch (err) {
             next(err);
+        }
+    },
+    getBookmark: async (req, res, next) => {
+        try {
+            const { userID } = req.params;
+            const user = await User.findById(userID);
+            const bookmarkIDs = user.favorite;
+            let bookmarkPosts = await getPostsWithAuthorTags(bookmarkIDs);
+            res.json(bookmarkPosts)
+        } catch (e) {
+            next(e);
         }
     }
 };

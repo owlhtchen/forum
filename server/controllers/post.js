@@ -326,6 +326,41 @@ module.exports = {
         } catch (err) {
             next(err);
         }
+    },
+    getPostsWithAuthorTags: async (postIDs) => {
+        let promises = postIDs.map(ID => {
+            return Post.aggregate([
+                {
+                    "$match": {
+                        "_id": ID
+                    }
+                },
+                {
+                    "$lookup": {
+                        from: "users",
+                        localField: "authorID",
+                        foreignField: "_id",
+                        as: "author"
+                    }
+                },
+                {
+                    "$unwind": "$author"
+                },
+                {
+                    "$lookup": {
+                        from: "tags",
+                        localField: "tagIDs",
+                        foreignField: "_id",
+                        as: "tags"
+                    }
+                }
+            ])
+        })
+        let values = await Promise.all(promises);
+        let browsedPosts = values.map(value => {
+            return value[0];
+        });
+        return browsedPosts;
     }
 }
 

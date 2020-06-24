@@ -60,3 +60,8 @@ export const getBrowseHistory = async (userID) => {
     let { data:browsedPosts } = await axios.get('/users/browse-history/' + userID);
     return browsedPosts;
 }
+
+export const getBookmarks = async (userID) => {
+    let { data:bookmarks } = await axios.get('/users/bookmarks/' + userID);
+    return bookmarks;
+}

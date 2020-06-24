@@ -13,6 +13,7 @@ router.post('/cancelFavorite', auth.isUser, UserController.cancelFavoritePost);
 router.get('/checkFavorite/:userID/:postID', auth.isUser, UserController.checkFavorite);
 
 router.get('/browse-history/:userID', auth.isUser, UserController.getBrowseHistory);
+router.get('/bookmarks/:userID', auth.isUser, UserController.getBookmark);
 
 router.get('/get-user/:userID', UserController.getUserByID);
 router.post('/check-follow-user', UserController.checkFollowUser);

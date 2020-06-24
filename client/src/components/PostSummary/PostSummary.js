@@ -4,21 +4,15 @@ import ProfileDetailedSmall from "../Profile/ProfileDetailedSmall";
 import './PostSummary.scss';
 import MarkdownView from "../MarkdownView/MarkdownView";
 import TagBar from "../Tag/TagBar";
+import {getPostTitleUrl} from "../../utils/post";
 
 export default class PostSummary extends Component {
 
     render() {
         let { post, collapsed } = this.props;
         collapsed = (collapsed === undefined)? true: collapsed;
-        let isPostComment = (post.postType === "post-comment");
-        let isSubComment = (post.postType === "sub-comment");
-        let titleUrl = `/posts/expanded-post/${post._id}`;
-        if (isPostComment) {
-                titleUrl = `/posts/expanded-post/${post.parentID}`;
-        } else if(isSubComment) {
-            titleUrl = `/posts/expanded-post/${post.ancestorID}`;
-        }
-        // console.log(post);  // TODO: DELETE
+        let titleUrl = getPostTitleUrl(post);
+
         return (
             <div className="post-summary">
                 <ProfileDetailedSmall user={post.author} />
@@ -36,6 +30,6 @@ export default class PostSummary extends Component {
                     />
                 </div>
             </div>
-        )
+        );
     }
 }

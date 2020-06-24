@@ -16,6 +16,7 @@ import Sidebar from "./Sidebar/Sidebar";
 import './App.scss';
 import GetSecret from "./GetSecret";
 import PostView from "./PostView/PostView";
+import Bookmarks from "./Bookmarks/Bookmarks";
 
 class App extends Component {
 
@@ -37,6 +38,8 @@ class App extends Component {
                                 render={props => <PostView {...props} /> }
                             />
                             <Route exact path="/users/browse-history/:userID" component={authGuard(BrowseHistory)}/>
+                            <Route exact path="/users/bookmarks/:userID" component={authGuard(Bookmarks)}/>
+
                             <Route exact path="/users/profile/:userID" component={authGuard(Profile)}/>
                             <Route exact path="/tags/tag-by-id/:tagID" component={TagDetail}/>
                             <Route exact path="/search/:keyword?" component={SearchResult}/>
