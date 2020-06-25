@@ -30,6 +30,7 @@ class AddContact extends Component {
                     type="text"
                     className="add-contact__input"
                     onChange={this.handleChange}
+                    placeholder={"type username here"}
                 />
                 <div className="add-contact__popup">
                     {

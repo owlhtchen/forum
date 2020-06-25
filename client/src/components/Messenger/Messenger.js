@@ -1,16 +1,19 @@
 import React, {Component} from 'react';
 import './Messenger.scss';
-import AddContact from "./AddContact";
+import AddContact from "../AddContact/AddContact";
 import SVGIcon from "../SVGIcon/SVGIcon";
 import { ReactComponent as AddChatSVG} from "../assets/add-chat.svg";
 import { ReactComponent as BackSVG} from "../assets/back.svg";
+import MessageBox from "../MessageBox/MessageBox";
 
 class Messenger extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            addChatShown: false
+            addChatShown: true,
+            currentChatRooms: [],
+            selectedReceiver: null
         }
     }
 
@@ -23,10 +26,13 @@ class Messenger extends Component {
 
     setSelectedUser = async (user) => {
         console.log(user);
+        this.setState({
+            selectedReceiver: user
+        });
     }
 
     render() {
-        const { addChatShown } = this.state;
+        const { addChatShown, selectedReceiver } = this.state;
         let content = addChatShown ? (
             <AddContact
                 setSelectedUser={this.setSelectedUser}
@@ -47,7 +53,9 @@ class Messenger extends Component {
                     {content}
                 </div>
                 <div className="messenger__messages">
-
+                    <MessageBox
+                        selectedReceiver={selectedReceiver}
+                    />
                 </div>
             </div>
         );
