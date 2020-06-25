@@ -2,16 +2,16 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const chatroomSchema = new Schema({
-    first: {
+    firstID: {
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
-    second: {
+    secondID: {
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
     history: [{
-        sender: {
+        senderID: {
             type: Schema.Types.ObjectId,
             ref: 'User'
         },

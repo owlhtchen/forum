@@ -53,9 +53,12 @@ class Messenger extends Component {
                     {content}
                 </div>
                 <div className="messenger__messages">
-                    <MessageBox
-                        selectedReceiver={selectedReceiver}
-                    />
+                    {
+                        selectedReceiver &&
+                        <MessageBox
+                            selectedReceiver={selectedReceiver}
+                        />
+                    }
                 </div>
             </div>
         );

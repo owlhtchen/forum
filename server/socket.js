@@ -1,58 +1,31 @@
 const Chatroom = require('./models/chatroom');
+const { getChatRoomName } = require('./utils/helpers');
+const { addChatMessage } = require('./utils/chat');
 
 module.exports = (io) => {
     let module = {};
 
     io.on('connection', function (socket) {
+
         socket.on("room", (room) => {
+            console.log("joined ", room);
             socket.join(room);
         });
 
         socket.on("new message", async (data) => {
-            let first;
-            let second;
-            if (data.sender < data.receiver) {
-                first = data.sender;
-                second = data.receiver;
-            } else {
-                first = data.receiver;
-                second = data.sender;
-            }
-            let foundUser = await Chatroom.findOne({
-                first: first,
-                second: second
-            });
-            if (foundUser) {
-                await Chatroom.updateMany(
-                    {
-                        first: first,
-                        second: second
-                    },
-                    {
-                        $push: {
-                            history: {
-                                sender: data.sender,
-                                content: data.content,
-                                time: new Date()
-                            }
-                        }
-                    }
-                );
-            } else {
-                let chatroom = new Chatroom({
-                    first: first,
-                    second: second,
-                    history: [{
-                        sender: data.sender,
-                        content: data.content,
-                        time: new Date()
-                    }]
+            if(true) {
+                // for testing
+                console.log(data);
+                socket.broadcast.emit('new message', {
+                    data
                 });
-                await chatroom.save();
+                return;
             }
-              // database ends
 
-            socket.broadcast.to(first).emit('new message', data);
+            await addChatMessage(data.senderID, data.receiverID, data.content);
+
+            const chatRoomName = getChatRoomName(data.senderID, data.receiverID);
+            socket.broadcast.to(chatRoomName).emit('new message', data);
             socket.emit('new message', data);
         })
     })

@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import MessagePopup from './MessagePopup'
+// import MessagePopup from './MessagePopup'
 import {connect} from 'react-redux'
 import {getUserByID} from '../utils/user'
 import UploadImage from './UploadImage';
@@ -60,7 +60,7 @@ class Profile extends Component {
                 }
                 {
                     String(profileUser._id) !== this.props.userID && [
-                        <MessagePopup key="message-popup" receiver={profileUser._id}/>,
+                        // <MessagePopup key="message-popup" receiver={profileUser._id}/>,
                         <FollowUser key="follow-user" profileUser={profileUser}></FollowUser>,
                         <Block key="block-user" profileUser={profileUser}></Block>
                     ]}

@@ -25,11 +25,6 @@ db.once('open', function () {
     mongoose.connection.db.listCollections({name: 'tags'})
         .next(async function (err, collinfo) {
             if (!collinfo) {
-                // console.log("Root Tag created");
-                // const rootTag = new Tag({
-                //     name: "Root Tag"
-                // });
-                // await rootTag.save();
             }
         });
 
@@ -45,9 +40,17 @@ db.once('open', function () {
     app.use(express.static(path.join(__dirname, '../client/public/avatars')));
     app.use(express.static(path.join(__dirname, '../client/public/default_avatars')));
 
-    let http = require('http').createServer(app);
-    let io = require('socket.io')(http);
+    let SOCKET_PORT = 8080;
+    // https://socket.io/docs/server-api/
+    const io = require('socket.io')();
+    const server = require('http').createServer();
+    io.attach(server, {
+        pingInterval: 10000,
+        pingTimeout: 5000,
+        cookie: false
+    });
     require('./socket')(io);
+    server.listen(SOCKET_PORT);
 
     app.use('/users', users);
     app.use('/posts', posts);
@@ -62,10 +65,8 @@ db.once('open', function () {
     });
 
     const port = process.env.PORT || 5000;
-    // app.listen(port);
-    // console.log('App is listening on port ' + port); 
+    app.listen(port, () => {
+        console.log('App is listening on port ' + port);
+    });
 
-    http.listen(port, function () {
-        console.log('socket.io is listening on ' + port);
-    })
 });

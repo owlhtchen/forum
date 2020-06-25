@@ -6,7 +6,7 @@
   "scripts": {
     "start": "npm run start-dev",
     "client-dev": "npm start --prefix client",
-    "server-dev": "cross-env NODE_ENV=prod nodemon server/index.js",
+    "server-dev": "cross-env NODE_ENV=prod nodemon --verbose server/index.js",
     "start-dev": "concurrently \"npm run server-dev\" \"npm run client-dev\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

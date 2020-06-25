@@ -16,8 +16,16 @@
     align-items: center;
 
     input {
+      padding: 0.5rem 1.5rem;
       font-size: inherit;
+      border-radius: 3rem;
       width: 47%;
+      border:none;
+      background-color: var(--color-grey-light);
+    }
+
+    input:focus, input:active {
+      outline: none;
     }
 
     button {
