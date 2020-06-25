@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import './MarkdownEditor.scss';
 import axios from 'axios';
 import ProfileSmall from "../Profile/ProfileSmall";
+import {getUsersWithPrefix} from "../../utils/user";
 
 class AtUserPopUp extends Component {
 
@@ -14,16 +15,10 @@ class AtUserPopUp extends Component {
 
     handleChange = async() => {
         const prefix = document.querySelector(".markdown__input").value;
-        if(prefix) {
-            const { data } = await axios.get(`/users/get-username-with-prefix/${prefix}`);
-            this.setState({
-                usersWithPrefix: data
-            });
-        } else {
-            this.setState({
-                usersWithPrefix: []
-            })
-        }
+        let usersWithPrefix = await getUsersWithPrefix(prefix);
+        this.setState({
+            usersWithPrefix
+        });
     }
 
     render() {

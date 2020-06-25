@@ -8,7 +8,7 @@ class MessagePopup extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            open: false,
+            open: true,
             socket: null,
             messages: [],
             user: null,

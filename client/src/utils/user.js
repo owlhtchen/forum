@@ -65,3 +65,13 @@ export const getBookmarks = async (userID) => {
     let { data:bookmarks } = await axios.get('/users/bookmarks/' + userID);
     return bookmarks;
 }
+
+export const getUsersWithPrefix = async (prefix) => {
+    if(prefix) {
+        let { data } = await axios.get(`/users/get-username-with-prefix/${prefix}`);
+        return data;
+    } else {
+        return [];
+    }
+
+}

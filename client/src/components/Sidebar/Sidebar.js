@@ -22,7 +22,7 @@ class Sidebar extends Component {
                     <BookmarkSVG className="sidebar__svg"/>
                     Bookmarks
                 </NavLink>
-                <NavLink className="sidebar__messages" to="/users/messages">
+                <NavLink className="sidebar__messages" to={`/users/messenger/${userID}`}>
                     <MessageSVG className="sidebar__svg"/>
                     Messages
                 </NavLink>

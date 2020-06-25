@@ -1,7 +1,7 @@
 const Chatroom = require('./models/chatroom');
 
 module.exports = (io) => {
-    var module = {};
+    let module = {};
 
     io.on('connection', function (socket) {
         socket.on("room", (room) => {
@@ -50,7 +50,7 @@ module.exports = (io) => {
                 });
                 await chatroom.save();
             }
-            ;  // database ends
+              // database ends
 
             socket.broadcast.to(first).emit('new message', data);
             socket.emit('new message', data);
