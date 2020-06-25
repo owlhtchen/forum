@@ -1,6 +1,6 @@
 const Chatroom = require('./models/chatroom');
 const { getChatRoomName } = require('./utils/helpers');
-const { addChatMessage } = require('./utils/chat');
+const { addChatMessage } = require('./controllers/chatroom');
 
 module.exports = (io) => {
     let module = {};
@@ -13,20 +13,14 @@ module.exports = (io) => {
         });
 
         socket.on("new message", async (data) => {
-            if(true) {
-                // for testing
-                console.log(data);
-                socket.broadcast.emit('new message', {
-                    data
-                });
-                return;
-            }
-
-            await addChatMessage(data.senderID, data.receiverID, data.content);
+            let foundChat = await addChatMessage(data.senderID, data.receiverID, data.content);
+            let history = foundChat.history;
+            let lastMessage = history[history.length - 1];
 
             const chatRoomName = getChatRoomName(data.senderID, data.receiverID);
-            socket.broadcast.to(chatRoomName).emit('new message', data);
-            socket.emit('new message', data);
+            console.log("last msg: ", lastMessage);
+            socket.broadcast.to(chatRoomName).emit('new message', lastMessage);
+            socket.emit('new message', lastMessage);
         })
     })
 

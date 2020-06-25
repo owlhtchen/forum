@@ -3,7 +3,10 @@ const Schema = mongoose.Schema;
 const { getRandomInt } = require('../utils/helpers');
 
 const userSchema = new Schema({
-    email: String, //'local'
+    email: {
+        type: String,
+        unique: true
+    }, //'local'
     thirdPartyID: String,  // 'facebook' or 'google'
     username: String,
     gender: {

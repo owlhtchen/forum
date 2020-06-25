@@ -25,9 +25,14 @@ class Messenger extends Component {
     }
 
     setSelectedUser = async (user) => {
-        console.log(user);
+        console.log("1 ", this);
         this.setState({
-            selectedReceiver: user
+            selectedReceiver: null
+        }, () => {
+            console.log("2 ", this);
+            this.setState({
+                selectedReceiver: user
+            });
         });
     }
 

@@ -6,6 +6,8 @@ import { connect } from 'react-redux';
 
 import io from 'socket.io-client/dist/socket.io.js';
 import {getChatRoomName, getUserByID} from "../../utils/user";
+import {getAllChatHistory} from "../../utils/chatroom";
+import LoadingCircle from "../Loading/LoadingCircle";
 
 class MessageBox extends Component {
 
@@ -16,21 +18,40 @@ class MessageBox extends Component {
 
     constructor(props) {
         super(props);
+        let socket =  io('http://localhost:8080/');
+        socket.on("new message", (lastMessage) => {
+            const prev = [...this.state.messages];
+            prev.push(lastMessage);
+            console.log("on new message: ", prev);
+
+            this.setState({
+                messages: prev
+            });
+        })
         this.state = {
-            socket: io('http://localhost:8080/'),
-            sender: null
+            socket: socket,
+            sender: null,
+            messages: []   // chatroom.history
         }
     }
 
-    async componentDidMount() {
+    setUpChat = async () => {
         const { userID, selectedReceiver } = this.props;
         let { socket } = this.state;
+        let receiverID = selectedReceiver._id;
         let user = await getUserByID(userID);
+        let history = await getAllChatHistory(userID, receiverID);
         this.setState({
-            sender: user
+            sender: user,
+            messages: history
         })
-        let chatRoomName = getChatRoomName(user._id, selectedReceiver._id);
+        console.log("after mount: ", this.state.messages);
+        let chatRoomName = getChatRoomName(userID, receiverID);
         socket.emit("room", chatRoomName);
+    }
+
+    async componentDidMount() {
+        await this.setUpChat();
     }
 
     handleSend = (e) => {
@@ -55,16 +76,30 @@ class MessageBox extends Component {
     }
 
     render() {
-        // a isNew props ? from socket.io server?
-        const { selectedReceiver } = this.props;
+        const { selectedReceiver, userID } = this.props;
+        const { sender } = this.state;
+        const { messages } = this.state;
         if(!selectedReceiver) {
             return <h2>Let's start a chat! Click the icon on the left side.</h2>;
+        }
+        if(!sender || !selectedReceiver) {
+            return <LoadingCircle width={"12rem"} />
         }
         return (
             <div className="message-box">
                 <ProfileSmall user={selectedReceiver} />
                 <div className="message-box__content">
-                    ##
+                    {
+                        messages.map(message => {
+                            let fromUser =
+                                (message.senderID.toString() === userID) ? sender : selectedReceiver;
+                            return (
+                              <div
+                                key={message._id}
+                              >{`${fromUser.username}: ${message.content}`}</div>
+                            );
+                        })
+                    }
                 </div>
                 <form onSubmit={this.handleSend} className="message-box__form">
                     <input className="message-box__input"/>

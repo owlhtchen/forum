@@ -9,8 +9,7 @@ const posts = require('./routes/post');
 const tags = require('./routes/tag');
 const uploads = require('./routes/multer');
 const searchs = require('./routes/search');
-
-const Tag = require('./models/tag');
+const chatrooms = require('./routes/chatroom');
 
 mongoose.connect('mongodb://localhost/forum', {
     useNewUrlParser: true,
@@ -50,13 +49,20 @@ db.once('open', function () {
         cookie: false
     });
     require('./socket')(io);
-    server.listen(SOCKET_PORT);
+    server.listen(SOCKET_PORT, (e) => {
+        if(e) {
+            console.log(e);
+            return;
+        }
+        console.log(`socker.io server is listening on ${SOCKET_PORT}`);
+    });
 
     app.use('/users', users);
     app.use('/posts', posts);
     app.use('/tags', tags);
     app.use('/upload', uploads);
     app.use('/search', searchs);
+    app.use('/chat-rooms', chatrooms);
 
     // Handles any requests that don't match the ones above
     app.get('*', (req, res) => {
@@ -66,7 +72,7 @@ db.once('open', function () {
 
     const port = process.env.PORT || 5000;
     app.listen(port, () => {
-        console.log('App is listening on port ' + port);
+        console.log('Express App is listening on port ' + port);
     });
 
 });

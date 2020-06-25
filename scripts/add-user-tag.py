@@ -15,7 +15,7 @@ tags.drop()
 for i in range(1, 6):
     for ch in ascii_lowercase:
         username = ch * i
-        email = "{}@{}.com".format(ch, ch)
+        email = "{}@{}.com".format(username, ch)
         user = {
             'username': username,
             'email':email,
