@@ -1,24 +1,24 @@
 import React, {Component} from 'react';
 import './Messenger.scss';
-import axios from "axios";
-import {getUsersWithPrefix} from "../../utils/user";
-import ProfileSmall from "../Profile/ProfileSmall";
+import AddContact from "./AddContact";
+import SVGIcon from "../SVGIcon/SVGIcon";
+import { ReactComponent as AddChatSVG} from "../assets/add-chat.svg";
+import { ReactComponent as BackSVG} from "../assets/back.svg";
 
 class Messenger extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            usersWithPrefix: []
-        };
+            addChatShown: false
+        }
     }
 
-    handleChange = async() => {
-        const prefix = document.querySelector(".messenger__input").value;
-        let usersWithPrefix = await getUsersWithPrefix(prefix);
+    toggleAddChat = () => {
+        const prev = this.state.addChatShown;
         this.setState({
-            usersWithPrefix
-        });
+            addChatShown: !prev
+        })
     }
 
     setSelectedUser = async (user) => {
@@ -26,33 +26,25 @@ class Messenger extends Component {
     }
 
     render() {
-        const { usersWithPrefix } = this.state;
+        const { addChatShown } = this.state;
+        let content = addChatShown ? (
+            <AddContact
+                setSelectedUser={this.setSelectedUser}
+            />
+        ) : (
+          <div>Placeholder</div>
+        );
         return (
             <div className="messenger">
                 <div className="messenger__contacts">
-                    <div className="messenger__prefix">
-                        <input
-                            type="text"
-                            className="messenger__input"
-                            onFocus={() => { console.log("yes"); }}
-                            onBlur={() => {console.log("no"); }}
-                            onChange={this.handleChange}
-                        />
-                        <div className="messenger__popup">
-                            {
-                                usersWithPrefix.map(user => {
-                                    return (
-                                        <ProfileSmall
-                                            key={user._id}
-                                            user={user}
-                                            setSelectedUser={this.setSelectedUser}
-                                        />
-                                    );
-                                })
-                            }
-                        </div>
-                    </div>
-
+                    <SVGIcon
+                        width={"3.5rem"}
+                        tooltip="add new chat"
+                        onClick={this.toggleAddChat}
+                    >
+                        {addChatShown? <BackSVG /> : <AddChatSVG />}
+                    </SVGIcon>
+                    {content}
                 </div>
                 <div className="messenger__messages">
 

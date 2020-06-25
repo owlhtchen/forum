@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import PostBarIcon from "./PostBarIcon";
+import SVGIcon from "../SVGIcon/SVGIcon";
 import {ReactComponent as UpvoteSVG} from "../assets/up.svg";
 import {ReactComponent as DownvoteSVG} from "../assets/down.svg";
 import {ReactComponent as CommentSVG} from "../assets/comment.svg";
@@ -80,38 +80,38 @@ class PostBar extends Component {
         return (
             <div className="post-bar">
                 <div className="post-bar__icons">
-                    <PostBarIcon
+                    <SVGIcon
                         text={`${post.likedBy.length}`}
                         tooltip={"up vote"}
                         onClick={this.upVote}
                         fill={upVoted? barColorActive : barColor}
                     >
                         <UpvoteSVG />
-                    </PostBarIcon>
-                    <PostBarIcon
+                    </SVGIcon>
+                    <SVGIcon
                         text={`${post.commentIDs.length}`}
                     >
                         <CommentSVG />
-                    </PostBarIcon>
-                    <PostBarIcon
+                    </SVGIcon>
+                    <SVGIcon
                         text={"Reply"}
                         onClick={this.toggleReply}
                     >
                         <ReplySVG />
-                    </PostBarIcon>
-                    <PostBarIcon>
+                    </SVGIcon>
+                    <SVGIcon>
                         <ShareSVG />
-                    </PostBarIcon>
+                    </SVGIcon>
                     <div className="post-bar__more">
                         {
                             morePopUpShown &&
                             <MorePopup post={post}/>
                         }
-                        <PostBarIcon
+                        <SVGIcon
                             onClick={this.showMorePopUp}
                         >
                             <MoreSVG />
-                        </PostBarIcon>
+                        </SVGIcon>
                     </div>
                 </div>
                 <div className="post-bar__reply">

@@ -9,30 +9,8 @@
   &__contacts {
     border: 2px red solid;
     grid-area: contacts;
-    font-size: 2.5rem;
+    font-size: 2.2rem;
     padding: 1.5rem;
-  }
-
-  &__prefix {
-    position: relative;
-  }
-
-  &__input {
-    display: block;
-    margin: 0 auto;
-    padding: 0.6rem 1rem;
-    width: 100%;
-    font-size: inherit;
-    border-radius: 2.5rem;
-
-    &:focus {
-      outline: none;
-    }
-  }
-
-  &__popup {
-    position: absolute;
-    top: 5.5rem;
   }
 
   &__messages {

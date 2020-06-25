@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import './PostBarIcon.scss';
+import './SVGIcon.scss';
 
-class PostBarIcon extends Component {
+class SVGIcon extends Component {
     showToolTip = (e) => {
         let toolTipSpan = e.currentTarget.querySelector(".post-icon__tooltip");
         if(toolTipSpan && (!toolTipSpan.style.display || toolTipSpan.style.display === "none") ){
@@ -18,7 +18,14 @@ class PostBarIcon extends Component {
 
     render() {
 
-        let { text, tooltip, children, onClick, fill } = this.props;
+        let { text, tooltip, children, onClick, fill, width } = this.props;
+        let style = {
+            "fill": fill
+        }
+        if(width) {
+            style["width"] = width;
+            style["height"] = width;
+        }
 
         return (
             <div className="post-icon" onClick={onClick}
@@ -28,7 +35,7 @@ class PostBarIcon extends Component {
                 <div className="post-icon__main">
                     <div
                         className="post-icon__svg"
-                        style={{fill: fill}}
+                        style={style}
                     >
                         {children}
                     </div>
@@ -46,4 +53,4 @@ class PostBarIcon extends Component {
     }
 }
 
-export default PostBarIcon;
+export default SVGIcon;

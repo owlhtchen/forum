@@ -1,0 +1,18 @@
+.add-contact {
+  &__input {
+    display: block;
+    margin: 0 auto;
+    padding: 0.6rem 1rem;
+    width: 100%;
+    font-size: inherit;
+    border-radius: 2.5rem;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  &__popup {
+    margin: 1rem 0;
+  }
+}
