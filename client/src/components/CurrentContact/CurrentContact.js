@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import {getCurrentContact} from "../../utils/chatroom";
 import LoadingCircle from "../Loading/LoadingCircle";
+import './CurrentContact.scss';
+import {formatDate} from "../../utils";
 
 class CurrentContact extends Component {
     constructor(props) {
@@ -32,23 +34,37 @@ class CurrentContact extends Component {
         });
     }
 
+
     render() {
-        const { userID } = this.props;
+        const { userID, setSelectedUser } = this.props;
         let { chatRecords } = this.state;
         if(!chatRecords) {
             return <LoadingCircle width={"6rem"}/>;
         }
-        console.log(chatRecords);
         return (
             <div className="current-contact">
                 {
                     chatRecords.map(chatRecord => {
                         let other = (chatRecord.firstID === userID) ? chatRecord.second : chatRecord.first;
+                        let lastMsg = chatRecord.history.slice(-1)[0];
                         return (
                           <div
+                              onClick={() => {setSelectedUser(other)}}
+                              className="chat-overview"
                             key={chatRecord._id}
                           >
-                              {other.username}
+                              <div className="chat-overview__left">
+                                  <img src={`/${other.avatarFile}`} alt="" className="chat-overview__img"/>
+                              </div>
+                              <div className="chat-overview__right">
+                                  <div className="chat-overview__top">
+                                      <span className="chat-overview__primary">{other.username}</span>
+                                      <span className="chat-overview__sub">{formatDate(new Date(lastMsg.time))}</span>
+                                  </div>
+                                  <p
+                                    className="chat-overview__bottom chat-overview__sub"
+                                  >{lastMsg.content}</p>
+                              </div>
                           </div>
                         );
                     })

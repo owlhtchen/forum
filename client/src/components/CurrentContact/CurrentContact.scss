@@ -1,3 +1,58 @@
-.current-contact {
+@import "../variables";
 
+.current-contact {
+  max-height: 75vh;
+  overflow: auto;
+}
+
+.chat-overview {
+
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  column-gap: 5%;
+  border-top: 2px solid var(--color-grey-dark);
+  padding: .8rem;
+
+  &:hover {
+    background-color: var(--color-grey-light);
+  }
+
+  &__left {
+    //border: 2px solid purple;
+    grid-column: 1 / 2;
+  }
+
+  &__right {
+    //border: 2px solid purple;
+    grid-column: 2 / 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  &__top {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__bottom {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 14vw;
+  }
+
+  &__img {
+    width: 95%;
+    border-radius: 50%;
+  }
+
+  &__primary {
+    font-weight: bold;
+  }
+
+  &__sub {
+    font-size: 1.6rem;
+    color: var(--color-grey-dark);
+  }
 }

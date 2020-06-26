@@ -27,11 +27,9 @@ class Messenger extends Component {
     }
 
     setSelectedUser = async (user) => {
-        console.log("1 ", this);
         this.setState({
             selectedReceiver: null
         }, () => {
-            console.log("2 ", this);
             this.setState({
                 selectedReceiver: user
             });
@@ -40,13 +38,14 @@ class Messenger extends Component {
 
     render() {
         const { addChatShown, selectedReceiver } = this.state;
-        const { userID: senderID } = this.props;
         let content = addChatShown ? (
             <AddContact
                 setSelectedUser={this.setSelectedUser}
             />
         ) : (
-          <CurrentContact />
+          <CurrentContact
+            setSelectedUser={this.setSelectedUser}
+          />
         );
         return (
             <div className="messenger">
