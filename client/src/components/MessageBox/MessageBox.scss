@@ -1,15 +1,15 @@
 @import "../variables";
 
 .message-box {
-  height: 100%;
+
   &__content {
-    border: 2px solid red;
     margin-top: 3rem;
+    height: 66vh ;
+    overflow: auto;
   }
   &__form {
     position: fixed;
     bottom: 0;
-    border: 2px solid red;
     height: 5.5rem;
     font-size: inherit;
     width: 100%;

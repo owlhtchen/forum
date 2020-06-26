@@ -52,6 +52,8 @@ class MessageBox extends Component {
 
     async componentDidMount() {
         await this.setUpChat();
+        let content = document.querySelector(".message-box__content");
+        content.scrollTop = content.scrollHeight; // keep scrolled to bottom
     }
 
     handleSend = (e) => {

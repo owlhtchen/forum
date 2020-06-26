@@ -43,6 +43,7 @@ class CurrentContact extends Component {
         }
         return (
             <div className="current-contact">
+                <h3>Contacts</h3>
                 {
                     chatRecords.map(chatRecord => {
                         let other = (chatRecord.firstID === userID) ? chatRecord.second : chatRecord.first;

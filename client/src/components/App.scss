@@ -35,6 +35,7 @@ body {
 .container {
   display: grid;
   grid-template-columns: minmax(min-content, 15vw) 1fr;
+  grid-template-rows: 10vh 90vh;
   grid-template-areas:
           "header header"
           "sidebar content";

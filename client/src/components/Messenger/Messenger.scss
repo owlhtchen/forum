@@ -8,13 +8,12 @@
   font-size: 2.2rem;
 
   &__contacts {
-    border: 2px red solid;
+    border-right: 2px solid var(--color-grey-dark);
     grid-area: contacts;
     padding: 1.5rem;
   }
 
   &__messages {
-    border: 2px red solid;
     grid-area: messages;
     padding: 2rem;
   }
