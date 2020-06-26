@@ -18,6 +18,10 @@ const chatroomSchema = new Schema({
         content: String,
         time: {
             type: Date
+        },
+        read: {
+            type: Boolean,
+            default: false
         }
     }]
 });

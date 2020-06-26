@@ -1,5 +1,5 @@
 const Chatroom = require('./models/chatroom');
-const { getChatRoomName } = require('./utils/helpers');
+const { getChatRoomName } = require('./controllers/chatroom');
 const { addChatMessage } = require('./controllers/chatroom');
 
 module.exports = (io) => {
@@ -8,7 +8,6 @@ module.exports = (io) => {
     io.on('connection', function (socket) {
 
         socket.on("room", (room) => {
-            console.log("joined ", room);
             socket.join(room);
         });
 
@@ -18,7 +17,6 @@ module.exports = (io) => {
             let lastMessage = history[history.length - 1];
 
             const chatRoomName = getChatRoomName(data.senderID, data.receiverID);
-            console.log("last msg: ", lastMessage);
             socket.broadcast.to(chatRoomName).emit('new message', lastMessage);
             socket.emit('new message', lastMessage);
         })

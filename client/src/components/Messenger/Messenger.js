@@ -5,13 +5,15 @@ import SVGIcon from "../SVGIcon/SVGIcon";
 import { ReactComponent as AddChatSVG} from "../assets/add-chat.svg";
 import { ReactComponent as BackSVG} from "../assets/back.svg";
 import MessageBox from "../MessageBox/MessageBox";
+import CurrentContact from "../CurrentContact/CurrentContact";
+import { connect } from 'react-redux';
 
 class Messenger extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            addChatShown: true,
+            addChatShown: false,
             currentChatRooms: [],
             selectedReceiver: null
         }
@@ -38,12 +40,13 @@ class Messenger extends Component {
 
     render() {
         const { addChatShown, selectedReceiver } = this.state;
+        const { userID: senderID } = this.props;
         let content = addChatShown ? (
             <AddContact
                 setSelectedUser={this.setSelectedUser}
             />
         ) : (
-          <div>Placeholder</div>
+          <CurrentContact />
         );
         return (
             <div className="messenger">
@@ -70,4 +73,10 @@ class Messenger extends Component {
     }
 }
 
-export default Messenger;
+const mapStateToProps = (state) => {
+    return {
+        userID: state.user.userID
+    };
+}
+
+export default connect(mapStateToProps)(Messenger);

@@ -40,10 +40,10 @@ class MessageBox extends Component {
         let { socket } = this.state;
         let receiverID = selectedReceiver._id;
         let user = await getUserByID(userID);
-        let history = await getAllChatHistory(userID, receiverID);
+        let messages = await getAllChatHistory(userID, receiverID);
         this.setState({
             sender: user,
-            messages: history
+            messages: messages
         })
         console.log("after mount: ", this.state.messages);
         let chatRoomName = getChatRoomName(userID, receiverID);
@@ -62,7 +62,6 @@ class MessageBox extends Component {
         if(!content || !content.trim() || !selectedReceiver || !sender) {
             return;
         }
-        console.log("Send! ", content);
         let { socket } = this.state;
         let senderID = sender._id;
         let receiverID = selectedReceiver._id;
