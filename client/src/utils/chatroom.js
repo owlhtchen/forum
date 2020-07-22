@@ -23,3 +23,12 @@ export const getCurrentContact = async (userID) => {
     let { data: chatRecords } = await  axios.get(`/chat-rooms/current-contact/${userID}`);
     return chatRecords;
 }
+
+export const markAsRead = async (myID, otherID) => {
+    const timestamp = new Date();
+    await axios.post('/chat-rooms/mark-as-read', {
+        myID,
+        otherID,
+        timestamp
+    })
+}

@@ -30,6 +30,7 @@ class CurrentContact extends Component {
                 }
             }
         })
+        // console.log(chatRecords);
         this.setState({
             chatRecords
         });
@@ -76,9 +77,17 @@ class CurrentContact extends Component {
                                       <span className="chat-overview__primary">{other.username}</span>
                                       <span className="chat-overview__sub">{formatDate(new Date(lastMsg.time))}</span>
                                   </div>
-                                  <p
-                                    className="chat-overview__bottom chat-overview__sub"
-                                  >{lastMsg.content}</p>
+                                  <div className="chat-overview__bottom chat-overview__sub">
+                                      <span>
+                                          {lastMsg.content}
+                                      </span>
+                                  </div>
+                                  {
+                                      chatRecord.unreadMsg >  0 &&
+                                      <span className="chat-overview__sub chat-overview__badge">
+                                          {chatRecord.unreadMsg}
+                                      </span>
+                                  }
                               </div>
                           </div>
                         );

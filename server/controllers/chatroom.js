@@ -114,7 +114,25 @@ module.exports = {
         res.json(chatRecords);
     },
     markAsRead: async (req, res, next) => {
-
+        let { myID, otherID, timestamp } = req.body;
+        timestamp = new Date(timestamp);
+        let { firstID, secondID } = module.exports.getOrderedChatters(myID, otherID);
+        await Chatroom.updateMany(
+            {
+                "firstID": firstID,
+                "secondID": secondID,
+                "history.time": {
+                    $lte: timestamp
+                },
+                "history.senderID": otherID
+            },
+            {
+                $set: {
+                    "history.$[].read": true
+                }
+            }
+        )
+        res.end();
     },
     getChatRoomName: (senderID, receiverID) => {
         senderID = senderID.toString();
