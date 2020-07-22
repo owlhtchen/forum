@@ -9,11 +9,12 @@ class CurrentContact extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            chatRecords: null
+            chatRecords: null,
+            interval: null
         };
     }
 
-    async componentDidMount() {
+    fetchChatRecords = async () => {
         const { userID } = this.props;
         let chatRecords = await getCurrentContact(userID);
         chatRecords = chatRecords.sort((record1, record2) => {
@@ -31,6 +32,19 @@ class CurrentContact extends Component {
         })
         this.setState({
             chatRecords
+        });
+    }
+
+    componentDidMount() {
+        this.setState({
+            interval: setInterval(this.fetchChatRecords, 3000)
+        });
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.state.interval);
+        this.setState({
+            interval: null
         });
     }
 

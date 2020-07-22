@@ -27,6 +27,7 @@ class MessageBox extends Component {
             this.setState({
                 messages: prev
             });
+            this.scrollToBottom();
         })
         this.state = {
             socket: socket,
@@ -50,10 +51,14 @@ class MessageBox extends Component {
         socket.emit("room", chatRoomName);
     }
 
-    async componentDidMount() {
-        await this.setUpChat();
+    scrollToBottom = () => {
         let content = document.querySelector(".message-box__content");
         content.scrollTop = content.scrollHeight; // keep scrolled to bottom
+    }
+
+    async componentDidMount() {
+        await this.setUpChat();
+        this.scrollToBottom();
     }
 
     handleSend = (e) => {
