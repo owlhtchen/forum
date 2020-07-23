@@ -301,15 +301,14 @@ module.exports = {
             next(err);
         }
     },
-    getArticlesByUserID: async (req, res, next) => {
+    getPostsByUserID: async (req, res, next) => {
         const {userID} = req.params;
         try {
             let result = await Post.aggregate([
                 {
                     "$match": {
                         "$and": [
-                            {"authorID": mongoose.Types.ObjectId(userID)},
-                            {"postType": "article"}
+                            {"authorID": mongoose.Types.ObjectId(userID)}
                         ]
                     }
                 },
@@ -320,6 +319,9 @@ module.exports = {
                         foreignField: "_id",
                         as: "author"
                     }
+                },
+                {
+                    "$unwind": "$author"
                 }
             ]);
             res.json(result);

@@ -1,41 +1,32 @@
 import React, {Component} from 'react'
 import axios from 'axios'
 import {connect} from 'react-redux'
+import './EditBio.scss'
 
 class EditBio extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            bio: ''
-        };
-    }
 
-    handleSubmit = async (e) => {
-        const {bio} = this.state;
+    handleSubmit = async () => {
+        let bioInput = document.querySelector("#user-bio");
+        if(!bioInput || !bioInput.value) {
+            return;
+        }
         const {userID} = this.props;
         await axios.post('/users/edit-bio', {
-            bio: bio,
+            bio: bioInput.value,
             userID: userID
         });
     }
 
-    handleEdit = (e) => {
-        this.setState({
-            bio: e.target.value
-        });
-    }
-
     render() {
+        const { hideEditBio } = this.props;
         return (
-            <div>
-                <form onSubmit={this.handleSubmit}>
-                    <fieldset>
-                        <label htmlFor="user-bio">Edit Bio: &nbsp;</label>
-                        <input type="text" onChange={this.handleEdit} name="user-bio"></input>
-                        <button>Submit Bio</button>
-                    </fieldset>
-                </form>
-            </div>
+            <form onSubmit={this.handleSubmit} className="edit-bio">
+                <input type="text" id="user-bio" name="user-bio"/>
+                <button className="edit-bio__btn">Save</button>
+                <div className="edit-bio__btn"
+                     onClick={hideEditBio}
+                >Cancel</div>
+            </form>
         )
     }
 }

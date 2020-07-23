@@ -18,6 +18,6 @@ router.post('/follow-post', PostController.followPost);
 router.post('/check-follow-post', PostController.checkFollowPost);
 router.get('/get-posts-followers/:postID', PostController.getPostFollowers);
 router.post('/delete-post', PostController.deletePost);
-router.get('/articles-by-userid/:userID', PostController.getArticlesByUserID);
+router.get('/posts-by-userid/:userID', PostController.getPostsByUserID);
 
 module.exports = router; 

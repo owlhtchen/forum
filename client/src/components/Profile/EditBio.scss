@@ -1,0 +1,24 @@
+@import "../variables";
+
+.edit-bio {
+  input {
+    font-size: inherit;
+    border-radius: 4rem;
+    padding: 0.2rem 1rem;
+    margin-right: 1rem;
+    &:focus {
+      outline: none;
+    }
+  }
+
+  &__btn {
+    display: inline-block;
+    border: none;
+    border-radius: 2rem;
+    margin-right: 1rem;
+    font-size: inherit;
+    line-height: 1.6;
+    padding: 0.2rem 0.6rem;
+    background-color: var(--color-grey-light);
+  }
+}

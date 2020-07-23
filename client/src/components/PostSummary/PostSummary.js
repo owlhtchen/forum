@@ -16,7 +16,7 @@ export default class PostSummary extends Component {
         return (
             <div className="post-summary">
                 <ProfileDetailedSmall user={post.author} />
-                { post.tags.length !== 0 && <TagBar tags={post.tags} />}
+                { post.tags && post.tags.length !== 0 && <TagBar tags={post.tags} />}
                 <h2 className="post-summary__title">
                     <Link to={titleUrl} >
                         {post.title}

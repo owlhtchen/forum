@@ -88,8 +88,8 @@ export const getParentPost = async (postID) => {
     return res.data;
 };
 
-export const getArticlesByUserID = async (userID) => {
-    let res = await axios.get('/posts/articles-by-userid/' + userID);
+export const getPostsByUserID = async (userID) => {
+    let res = await axios.get('/posts/posts-by-userid/' + userID);
     return res.data;
 }
 

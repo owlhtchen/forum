@@ -9,6 +9,7 @@
     height: 18vw;
     box-shadow: 0.2rem .2rem 0.2rem #c0c1c2;
     position: relative;
+    margin-bottom: 4rem;
   }
 
   &__image {
@@ -36,5 +37,12 @@
 
   &__intro {
     height: 60%;
+    padding-left: 16vw;
+  }
+
+  &__content {
+    h1 {
+      color: var(--navbar-primary-color);
+    }
   }
 }

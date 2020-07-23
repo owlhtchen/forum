@@ -9,6 +9,7 @@ import CommentSummary from "../CommentSummary/CommentSummary";
 import SVGIcon from "../SVGIcon/SVGIcon";
 import { ReactComponent as DeleteSVG} from "../assets/delete.svg";
 import { cancelFavoritePost } from '../../utils/user';
+import PostCommentSummary from "../PostCommentSummary/PostCommentSummary";
 
 class Bookmarks extends Component {
     constructor(props) {
@@ -53,25 +54,9 @@ class Bookmarks extends Component {
                 <h1 className="bookmarks__title">Bookmarks</h1>
                 {
                     bookmarks.map((post, index) => {
-                        let summary;
-                        if(post.postType === "post") {
-                            summary =  (
-                                <PostSummary
-                                    post={post}
-                                    key={post._id}
-                                />
-                            );
-                        } else {
-                            summary = (
-                              <CommentSummary
-                                post={post}
-                                key={post._id}
-                              />
-                            );
-                        }
                         return (
                             <div>
-                                {summary}
+                                <PostCommentSummary post={post} />
                                 <SVGIcon onClick={() => { this.deleteBookmark(post._id, index); } }>
                                     <DeleteSVG />
                                 </SVGIcon>
