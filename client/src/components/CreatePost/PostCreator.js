@@ -122,9 +122,9 @@ class PostCreator extends Component {
                     <button
                         className="post-form__btn post-form__submit" type="submit"
                     >Submit</button>
-                    <button
+                    <div
                         className="post-form__btn post-form__submit" onClick={this.reset}
-                    >Reset</button>
+                    >Reset</div>
                 </form>
                 <HashTagPopUp />
             </div>

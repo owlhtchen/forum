@@ -1,0 +1,40 @@
+@import "../variables";
+
+.profile {
+  width: var(--profile-width);
+  margin-left: 4rem;
+  margin-top: 1rem;
+
+  &__header {
+    height: 18vw;
+    box-shadow: 0.2rem .2rem 0.2rem #c0c1c2;
+    position: relative;
+  }
+
+  &__image {
+    position: absolute;
+    left: 2vw;
+    top: 3vw;
+
+    img {
+      width: 12vw;
+      border-radius: 15%;
+    }
+
+    .post-icon {
+      position: absolute;
+      bottom: -1.2vw;
+      right: 0;
+    }
+
+  }
+
+  &__upper {
+    height: 40%;
+    background-color: var(--profile-header-grey);
+  }
+
+  &__intro {
+    height: 60%;
+  }
+}

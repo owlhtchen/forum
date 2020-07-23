@@ -3,3 +3,6 @@ public/avatars
 **/package-lock.json
 **/.idea/
 **/.vscode/
+
+./client/public/avatars/
+!./client/public/avatars/.gitkeep

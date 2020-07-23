@@ -11,7 +11,6 @@ const mongoose = require('mongoose');
 const ObjectId = mongoose.Types.ObjectId;
 const { getPostsWithAuthorTags } = require('./post');
 
-
 const SignJWTToken = (user) => {
     // the claim names are only three characters long as JWT is meant to be compact.
     return jwt.sign({
@@ -339,5 +338,20 @@ module.exports = {
         } catch (e) {
             next(e);
         }
+    },
+    deleteUserHistory: async (req, res, next) => {
+        const { userID, postID } = req.body;
+        let user;
+        try {
+            user = await User.findById(userID);
+            let index = user.browseHistory.findIndex(ID => { return ID.toString() === postID });
+            if(index !== -1) {
+                user.browseHistory.splice(index, 1);
+            }
+            await user.save();
+        } catch (e) {
+            console.log(e);
+        }
+        res.end();
     }
 };

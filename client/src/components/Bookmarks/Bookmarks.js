@@ -6,6 +6,9 @@ import {getBookmarks} from "../../utils/user";
 import {handleError} from "../../utils";
 import './Bookmarks.scss';
 import CommentSummary from "../CommentSummary/CommentSummary";
+import SVGIcon from "../SVGIcon/SVGIcon";
+import { ReactComponent as DeleteSVG} from "../assets/delete.svg";
+import { cancelFavoritePost } from '../../utils/user';
 
 class Bookmarks extends Component {
     constructor(props) {
@@ -30,6 +33,16 @@ class Bookmarks extends Component {
         }
     }
 
+    deleteBookmark = (postID, index) => {
+        const { userID } = this.props;
+        let { bookmarks: prev } = this.state;
+        prev.splice(index, 1);
+        this.setState({
+            bookmarks: prev
+        });
+        cancelFavoritePost(userID, postID);
+    }
+
     render() {
         const { bookmarks } = this.state;
         if(bookmarks === null) {
@@ -39,22 +52,31 @@ class Bookmarks extends Component {
             <div className="bookmarks">
                 <h1 className="bookmarks__title">Bookmarks</h1>
                 {
-                    bookmarks.map(post => {
+                    bookmarks.map((post, index) => {
+                        let summary;
                         if(post.postType === "post") {
-                            return (
+                            summary =  (
                                 <PostSummary
                                     post={post}
                                     key={post._id}
                                 />
                             );
                         } else {
-                            return (
+                            summary = (
                               <CommentSummary
                                 post={post}
                                 key={post._id}
                               />
                             );
                         }
+                        return (
+                            <div>
+                                {summary}
+                                <SVGIcon onClick={() => { this.deleteBookmark(post._id, index); } }>
+                                    <DeleteSVG />
+                                </SVGIcon>
+                            </div>
+                        )
                     })
                 }
             </div>

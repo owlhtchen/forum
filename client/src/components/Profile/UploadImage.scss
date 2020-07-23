@@ -1,0 +1,13 @@
+.upload-cover {
+  display: inline-block;
+  border: green 2px solid;
+  font-size: 2rem;
+
+  input[type="file"] {
+    display: none;
+  }
+
+  label {
+    cursor: pointer;
+  }
+}

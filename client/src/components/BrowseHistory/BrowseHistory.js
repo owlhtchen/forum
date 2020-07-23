@@ -1,9 +1,11 @@
 import React, {Component} from 'react'
-import {getBrowseHistory} from '../../utils/user'
+import {deleteUserHistory, getBrowseHistory} from '../../utils/user'
 import PostSummary from '../PostSummary/PostSummary'
 import {connect} from 'react-redux';
 import LoadingCircle from "../Loading/LoadingCircle";
 import './BrowseHistory.scss';
+import SVGIcon from "../SVGIcon/SVGIcon";
+import { ReactComponent as DeleteSVG} from "../assets/delete.svg";
 
 class BrowseHistory extends Component {
 
@@ -22,6 +24,16 @@ class BrowseHistory extends Component {
         });
     }
 
+    deletePostHistory = (postID, index) => {
+        const { userID } = this.props;
+        const { browseHistory: prev } = this.state;
+        prev.splice(index, 1);
+        this.setState({
+            browseHistory: prev
+        })
+        deleteUserHistory(userID, postID);
+    }
+
     render() {
         const {browseHistory} = this.state;
         if(browseHistory === null) {
@@ -31,11 +43,18 @@ class BrowseHistory extends Component {
             <div className="browse-history">
                 <h1 className="browse-history__title">Recent Browse History</h1>
                 {
-                    browseHistory.map((post) => {
-                        return <PostSummary
-                            post={post}
-                            key={post._id}
-                        />
+                    browseHistory.map((post, index) => {
+                        return (
+                            <div>
+                                <PostSummary
+                                    post={post}
+                                    key={post._id}
+                                />
+                                <SVGIcon onClick={() => this.deletePostHistory(post._id, index) }>
+                                    <DeleteSVG />
+                                </SVGIcon>
+                            </div>
+                        );
                     })
                 }
             </div>

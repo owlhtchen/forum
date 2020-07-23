@@ -85,5 +85,23 @@ export const getUsersWithPrefix = async (prefix) => {
     } else {
         return [];
     }
+}
 
+export const deleteUserHistory = async (userID, postID) => {
+    await axios.post('/users/delete-history', {
+        userID,
+        postID
+    });
+}
+
+export const uploadUserAvatar = async (userID, userAvatar) => {
+    let formData = new FormData();
+    formData.append('userID', userID);
+    formData.append('userAvatar', userAvatar);
+    const config= {
+        "headers": {
+            "content-type": "multipart/form-data"
+        }
+    };
+    await axios.post('/upload/avatar', formData, config);
 }

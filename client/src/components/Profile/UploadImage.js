@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import axios from 'axios'
 import {connect} from 'react-redux'
+import './UploadImage.scss'
 
 class UploadImage extends Component {
     constructor(props) {
@@ -10,7 +11,10 @@ class UploadImage extends Component {
         };
     }
 
-    handleSubmit = async (e) => {
+    handleChoose = async (e) => {
+        this.setState({
+            file: e.target.files[0]
+        });
         const {userID} = this.props;
         let formData = new FormData();
         if (!userID || !this.state.file) {
@@ -26,22 +30,11 @@ class UploadImage extends Component {
         await axios.post('/upload/avatar', formData, config);
     }
 
-    handleChoose = (e) => {
-        this.setState({
-            file: e.target.files[0]
-        });
-    }
-
     render() {
         return (
-            <div>
-                <form onSubmit={this.handleSubmit}>
-                    <fieldset>
-                        <label htmlFor="user-avatar">Choose avatar: &nbsp;</label>
-                        <input type="file" onChange={this.handleChoose} name="user-avatar"></input>
-                        <button>Upload</button>
-                    </fieldset>
-                </form>
+            <div className="upload-cover">
+                <label htmlFor="user-avatar">Choose avatar</label>
+                <input id="user-avatar" type="file" onChange={this.handleChoose} name="user-avatar"/>
             </div>
         )
     }

@@ -50,7 +50,7 @@ class Header extends Component {
                             <CameraSVG />
                         </NavLinkTooltip>,
                         // <NavLinkTooltip
-                        //     tooltip = "View Profile"
+                        //     tooltip = "View ProfileSmall"
                         //     to={{ pathname: "/users/profile/" + userID }}
                         //     key="navlink-profile">
                         //     <ProfileSVG />

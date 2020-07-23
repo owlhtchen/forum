@@ -7,7 +7,7 @@ import Signin from './SignIn/Signin';
 import Post from './CreatePost/PostCreator';
 import Homepage from './Homepage/Homepage';
 import authGuard from './authGuard';
-import Profile from './Profile';
+import Profile from './Profile/Profile';
 import Tag from './Tag';
 import SearchResult from './SearchResult'
 import TagDetail from './TagDetail'

@@ -357,14 +357,14 @@ module.exports = {
             ])
         })
         let values = await Promise.all(promises);
-        let browsedPosts = values.map(value => {
+        return values.map(value => {
             return value[0];
         });
-        return browsedPosts;
     }
 }
 
-const addUserHistory = async (userID, postID) => {
+async function addUserHistory(userID, postID) {
+    // if I define this in user.js and require it, this will have circular require calls
     const user = await User.findById(userID);
     if (user.browseHistory.length > 0 &&
         user.browseHistory[user.browseHistory.length - 1].toString() === postID) {

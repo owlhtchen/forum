@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {getArticlesByUserID} from '../utils/post'
+import {getArticlesByUserID} from '../../utils/post'
 import {Link} from 'react-router-dom'
 
 export default class Collection extends Component {

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import ProfileSmall from "../Profile/ProfileSmall";
+import ProfileSmall from "../ProfileSmall/ProfileSmall";
 import {getUsersWithPrefix} from "../../utils/user";
 import './AddContact.scss';
 
