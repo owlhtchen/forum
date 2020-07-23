@@ -58,6 +58,14 @@ class Profile extends Component {
         })
     }
 
+    editBio = (bio) => {
+        const { profileUser: prev } = this.state;
+        prev.bio = bio;
+        this.setState({
+            profileUser: prev
+        });
+    }
+
     render() {
         const { profileUser, editBioShown, posts } = this.state;
         const { userID } = this.props;
@@ -101,7 +109,10 @@ class Profile extends Component {
                             }
                         </h3>
                         {   editBioShown &&
-                            <EditBio hideEditBio={this.hideEditBio}/>
+                            <EditBio
+                                hideEditBio={this.hideEditBio}
+                                editBio={this.editBio}
+                            />
                         }
                     </div>
                 </div>

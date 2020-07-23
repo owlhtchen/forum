@@ -5,16 +5,22 @@ import './EditBio.scss'
 
 class EditBio extends Component {
 
-    handleSubmit = async () => {
+    handleSubmit = async (e) => {
+        e.preventDefault();
+        const { editBio, hideEditBio } = this.props;
         let bioInput = document.querySelector("#user-bio");
         if(!bioInput || !bioInput.value) {
             return;
         }
         const {userID} = this.props;
+        if(editBio) {
+            editBio(bioInput.value);
+        }
         await axios.post('/users/edit-bio', {
             bio: bioInput.value,
             userID: userID
         });
+        hideEditBio();
     }
 
     render() {
