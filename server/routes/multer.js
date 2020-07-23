@@ -18,12 +18,31 @@ var storage = multer.diskStorage({
     }
 })
 
-var upload = multer({storage: storage});
+var upload = multer({
+    storage: storage,
+    limits: {
+        fileSize: 1024 * 1024
+    },
+    fileFilter: (req, file, cb) => {
+        if (file.mimetype === "image/png" || file.mimetype === "image/jpg" || file.mimetype === "image/jpeg") {
+            cb(null, true);
+        } else {
+            cb(null, false);
+            return cb(new Error('Only .png, .jpg and .jpeg format allowed!'));
+        }
+    }
+}).single('userAvatar');
 
-router.post('/avatar', upload.single('userAvatar'), async (req, res, next) => {
+router.post('/avatar', upload, async (req, res, next) => {
+    console.log(" -------------------- ");
     // req.file is the `avatar` file
     // req.body will hold the text fields, if there were any
     const avatarName = uuidv4() + path.extname(req.file.originalname);
+    const { userID } = req.body;
+    const user = await User.findById(userID);
+    if(user && user.avatarFile && !user.avatarFile.startsWith("default_")) {
+        fs.unlinkSync(path.resolve(req.file.destination, user.avatarFile));
+    }
     await sharp(req.file.path)
         .resize(300, 300)
         .toFile(
@@ -31,7 +50,7 @@ router.post('/avatar', upload.single('userAvatar'), async (req, res, next) => {
         );
     fs.unlinkSync(req.file.path);
     await User.updateMany({
-        _id: req.body.userID
+        _id: userID
     }, {
         avatarFile: avatarName
     });

@@ -42,8 +42,12 @@ class Profile extends Component {
         if(!userAvatar || !userID) {
             return;
         }
-        await uploadUserAvatar(userID, userAvatar);
-        window.location.reload();
+        try {
+            await uploadUserAvatar(userID, userAvatar);
+            window.location.reload();
+        } catch (e) {
+            alert("upload file failed, file type must be jpeg, jpg, png. file size should be less than 1MB");
+        }
     }
 
     showEditBio = () => {
@@ -94,6 +98,7 @@ class Profile extends Component {
                                 </label>
                                 <input id="user-avatar" type="file" hidden
                                        onChange={this.uploadImage}
+                                       accept="image/x-png,image/jpg,image/jpeg"
                                 />
                             </div>
                         }
@@ -120,7 +125,8 @@ class Profile extends Component {
                     <h1>Timeline</h1>
                     {
                         posts.map(post => {
-                            return <PostCommentSummary post={post} />
+                            return <PostCommentSummary post={post}
+                            key={post._id}/>
                         })
                     }
                 </div>

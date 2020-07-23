@@ -322,6 +322,11 @@ module.exports = {
                 },
                 {
                     "$unwind": "$author"
+                },
+                {
+                    "$sort": {
+                        createDate: -1
+                    }
                 }
             ]);
             res.json(result);

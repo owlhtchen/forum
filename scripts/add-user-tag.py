@@ -27,7 +27,7 @@ for i in range(1, 6):
             'favorite': [],
             'isAdmin': False,
             'bio': "Hi, I am {}.".format(username),
-            'avatarFile': "{}.jpg".format(randint(0, 9)),
+            'avatarFile': "default_{}.jpg".format(randint(0, 9)),
         }
         userID = users.insert_one(user).inserted_id
         password = {
