@@ -9,7 +9,7 @@ import Homepage from './Homepage/Homepage';
 import authGuard from './authGuard';
 import Profile from './Profile/Profile';
 import Tag from './Tag';
-import SearchResult from './SearchResult'
+import SearchResult from './SearchResult/SearchResult'
 import TagDetail from './TagDetail'
 import BrowseHistory from './BrowseHistory/BrowseHistory'
 import Sidebar from "./Sidebar/Sidebar";

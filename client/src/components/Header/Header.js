@@ -24,7 +24,7 @@ class Header extends Component {
             <header className="header">
                 <Link className="header__brand" to="/">Forum</Link>
 
-                <SearchBar/>
+                <SearchBar />
 
                 <ul className="header__nav">
 
@@ -50,7 +50,7 @@ class Header extends Component {
                             <CameraSVG />
                         </NavLinkTooltip>,
                         // <NavLinkTooltip
-                        //     tooltip = "View ProfileSmall"
+                        //     tooltip = "View ProfileSummary"
                         //     to={{ pathname: "/users/profile/" + userID }}
                         //     key="navlink-profile">
                         //     <ProfileSVG />

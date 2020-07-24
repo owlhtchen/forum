@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import MarkdownView from "../MarkdownView/MarkdownView";
 import PostBar from "./PostBar";
-import ProfileDetailedSmall from "../ProfileSmall/ProfileDetailedSmall";
+import ProfileDetailedSmall from "../ProfileSummary/ProfileDetailedSmall";
 import './Comment.scss';
 
 class Comment extends Component {

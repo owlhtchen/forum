@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import './MessageBox.scss';
-import ProfileSmall from "../ProfileSmall/ProfileSmall";
+import ProfileSmall from "../ProfileSummary/ProfileSmall";
 import {ReactComponent as SendSVG} from "../assets/send.svg";
 import { connect } from 'react-redux';
 

@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import LoadingCircle from "../Loading/LoadingCircle";
 import {viewPost} from "../../utils/post";
 import {connect} from 'react-redux';
-import ProfileDetailedSmall from "../ProfileSmall/ProfileDetailedSmall";
+import ProfileDetailedSmall from "../ProfileSummary/ProfileDetailedSmall";
 import {Link} from "react-router-dom";
 import MarkdownView from "../MarkdownView/MarkdownView";
 import './PostView.scss'

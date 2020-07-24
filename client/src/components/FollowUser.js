@@ -39,7 +39,7 @@ class FollowUser extends Component {
                 following: !following
             });
         } catch (err) {
-            console.log("axios exception in ProfileSmall handle follow");
+            console.log("axios exception in ProfileSummary handle follow");
         }
     }
 

@@ -19,6 +19,17 @@ class Messenger extends Component {
         }
     }
 
+    componentDidMount() {
+        if(this.props.location.state) {
+            const { selectedReceiver } = this.props.location.state;
+            if(selectedReceiver) {
+                this.setState({
+                    selectedReceiver
+                })
+            }
+        }
+    }
+
     toggleAddChat = () => {
         const prev = this.state.addChatShown;
         this.setState({

@@ -50,6 +50,9 @@ const getPostsWith = async (keyword) => {
                 }
         },
         {
+            "$unwind": "$author"
+        },
+        {
             "$match":
                 {
                     "$or": [
@@ -83,8 +86,7 @@ const getPostsWith = async (keyword) => {
 }
 
 const getUsernameWith = async (keyword) => {
-    let foundusers = await User.find({
+    return await User.find({
         username: {"$regex": keyword, "$options": "$i"}
     });
-    return foundusers;
 }

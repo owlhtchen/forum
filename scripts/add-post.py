@@ -17,11 +17,12 @@ postColl.drop()
 # allUsers = userColl.find()
 allUsers = userColl.aggregate([
     {"$sample": { "size": 20 }}])
+firstUser = userColl.find_one()
 
 i = 0
 
 template = """
-[#aaaaa](/tags/tag-by-id/5ee97b218a1eed08e47b64ba) [@Huiting_Chen](/users/profile/5ee911e9cf7c13102c16e0ae)
+[#aaaaa](/tags/tag-by-id/5ee97b218a1eed08e47b64ba) [@{}](/users/profile/{})
 
 # Heading
 
@@ -29,7 +30,7 @@ template = """
 
 
 ![flower](https://source.unsplash.com/KJGBY76mmS4/500x350)
-"""
+""".format(firstUser["username"], firstUser["_id"])
 
 
 def newPostComment(authorID, content, ancestorID, parentID, title):

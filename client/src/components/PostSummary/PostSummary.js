@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {Link} from 'react-router-dom'
-import ProfileDetailedSmall from "../ProfileSmall/ProfileDetailedSmall";
+import ProfileDetailedSmall from "../ProfileSummary/ProfileDetailedSmall";
 import './PostSummary.scss';
 import MarkdownView from "../MarkdownView/MarkdownView";
 import TagBar from "../Tag/TagBar";

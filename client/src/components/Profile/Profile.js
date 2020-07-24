@@ -6,9 +6,12 @@ import './Profile.scss';
 import SVGIcon from "../SVGIcon/SVGIcon";
 import {ReactComponent as UploadSVG} from "../assets/upload.svg";
 import {ReactComponent as PenSVG} from "../assets/pen.svg";
+import {ReactComponent as MessageSVG} from "../assets/message.svg";
 import EditBio from "./EditBio";
 import {getPostsByUserID} from "../../utils/post";
 import PostCommentSummary from "../PostCommentSummary/PostCommentSummary";
+import {Link} from "react-router-dom";
+import {formatDate} from "../../utils";
 
 class Profile extends Component {
     constructor(props) {
@@ -30,7 +33,7 @@ class Profile extends Component {
                 posts: posts
             });
         } catch (err) {
-            console.log("axios exception in ProfileSmall Mount");
+            console.log("axios exception in ProfileSummary Mount");
         }
     }
 
@@ -89,7 +92,7 @@ class Profile extends Component {
                             <div>
                                 <label htmlFor="user-avatar">
                                     <SVGIcon
-                                        width={"2.7vw"}
+                                        width={"2vw"}
                                         fill={"#36c7f7"}
                                         tooltip={"upload profile image"}
                                     >
@@ -104,21 +107,38 @@ class Profile extends Component {
                         }
                     </div>
                     <div className="profile__intro">
-                        <h1>{profileUser.username}</h1>
-                        <h3>
+                        <div className="profile__first-row">
+                            <h1>
+                                {profileUser.username}
+                            </h1>
+                            <Link
+                                to={{
+                                    pathname: `/users/messenger/${userID}`,
+                                    state: { selectedReceiver: profileUser }
+                                }}
+                            >
+                                <SVGIcon width="5rem" fill="black" tooltip="Message me">
+                                    <MessageSVG />
+                                </SVGIcon>
+                            </Link>
+                        </div>
+                        <p>
                             <span>Bio: {profileUser.bio}</span>
                             { isMine &&
                             <SVGIcon onClick={() => { this.showEditBio(); }}  tooltip={"Edit bio"}>
                                 <PenSVG />
                             </SVGIcon>
                             }
-                        </h3>
+                        </p>
                         {   editBioShown &&
                             <EditBio
                                 hideEditBio={this.hideEditBio}
                                 editBio={this.editBio}
                             />
                         }
+                        <p>
+                            Joined {formatDate(new Date(profileUser.joinDate))}
+                        </p>
                     </div>
                 </div>
                 <div className="profile__content">

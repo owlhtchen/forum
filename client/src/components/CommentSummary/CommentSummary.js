@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import ProfileDetailedSmall from "../ProfileSmall/ProfileDetailedSmall";
+import ProfileDetailedSmall from "../ProfileSummary/ProfileDetailedSmall";
 import TagBar from "../Tag/TagBar";
 import {Link} from "react-router-dom";
 import MarkdownView from "../MarkdownView/MarkdownView";

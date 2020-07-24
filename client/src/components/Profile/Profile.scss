@@ -38,6 +38,17 @@
   &__intro {
     height: 60%;
     padding-left: 16vw;
+    & > * {
+      margin-bottom: 1rem;
+    }
+  }
+
+  &__first-row {
+    display: flex;
+
+    & > * {
+      margin-right: 2rem;
+    }
   }
 
   &__content {

@@ -37,15 +37,13 @@
     border-radius: 10rem;
     padding: 0.2rem 3.5rem 0.2rem 2rem;
     margin-right: -3.2rem;
-    width: 80%;
+    width: 100%;
     transition: all 0.3s;
 
     &:focus {
       outline: none;
       appearance: none;
-      width: 100%;
       box-shadow: 0.1rem 0 0.5rem var(--color-grey-dark);
-      transform: translateY(-0.3rem);
     }
 
     &::placeholder {
