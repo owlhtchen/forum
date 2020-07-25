@@ -1,9 +1,14 @@
 import React, {Component} from 'react'
-import Axios from 'axios';
 import './SearchResult.scss';
 import PostSummary from '../PostSummary/PostSummary';
 import UserSummary from '../ProfileSummary/UserSummary';
-import TagSummary from '../TagSummary';
+import TagSummary from '../Tag/TagSummary';
+import {getSearchResultsWith} from "../../utils/search";
+import {ReactComponent as DiscussSVG} from "../assets/article.svg";
+import {ReactComponent as ProfileSVG} from "../assets/profile.svg";
+import {ReactComponent as HashTagSVG} from "../assets/hashtag.svg";
+import {ReactComponent as PlusSVG} from "../assets/plus.svg";
+import SVGIcon from "../SVGIcon/SVGIcon";
 
 export default class SearchResult extends Component {
     constructor(props) {
@@ -11,14 +16,16 @@ export default class SearchResult extends Component {
         this.state = {
             users: [],
             posts: [],
-            tags: []
+            tags: [],
+            postsShown: true,
+            usersShown: true,
+            tagsShown: true
         };
     }
 
-    async componentDidMount() {
+    searchWithKeyword = async () => {
         const {keyword} = this.props.match.params;
-        let res = await Axios.get('/search/' + keyword);
-        const {users, posts, tags} = res.data;
+        let {users, posts, tags} = await getSearchResultsWith(keyword);
         this.setState({
             users,
             posts,
@@ -26,46 +33,112 @@ export default class SearchResult extends Component {
         });
     }
 
+    async componentDidMount() {
+        await this.searchWithKeyword();
+    }
+
     async componentDidUpdate(prevProps) {
         const {keyword} = this.props.match.params;
         if (keyword !== prevProps.match.params.keyword) {
-            let res = await Axios.get('/search/' + keyword);
-            const {users, posts, tags} = res.data;
-            this.setState({
-                users,
-                posts,
-                tags
-            });
+            await this.searchWithKeyword();
         }
     }
 
+    setShown = (postsShown, usersShown, tagsShown) => {
+        this.setState({
+            postsShown,
+            usersShown,
+            tagsShown
+        })
+    }
+
+    showPosts = () => {
+        this.setShown(true, false, false);
+    }
+
+    showUsers = () => {
+        this.setShown(false, true, false);
+    }
+
+    showTags = () => {
+        this.setShown(false, false, true);
+    }
+
+    showAll = () => {
+        this.setShown(true, true, true);
+    }
+
     render() {
-        const {users, posts, tags} = this.state;
+        const {users, posts, tags, postsShown, usersShown, tagsShown} = this.state;
         return (
             <div className="search-result">
-                <div>
-                    <h1>Posts</h1>
+                <div className="search-result__left">
                     {
-                        posts.map((post, index) => {
-                            return <PostSummary key={index} post={post}/>
-                        })
+                        postsShown &&
+                        <div>
+                            <h1>Posts</h1>
+                            {
+                                posts.map((post, index) => {
+                                    return <PostSummary key={index} post={post}/>
+                                })
+                            }
+                        </div>
+                    }
+                    {
+                        usersShown &&
+                        <div>
+                            <h1>Users</h1>
+                            {
+                                users.map((user, index) => {
+                                    return <UserSummary key={index} user={user}/>
+                                })
+                            }
+                        </div>
+                    }
+                    {
+                        tagsShown &&
+                        <div>
+                            <h1>Tags</h1>
+                            {
+                                tags.map((tag, index) => {
+                                    return <TagSummary key={index} tag={tag}/>
+                                })
+                            }
+                        </div>
                     }
                 </div>
-                <div>
-                    <h1>Users</h1>
-                    {
-                        users.map((user, index) => {
-                            return <UserSummary key={index} user={user}/>
-                        })
-                    }
-                </div>
-                <div>
-                    <h1>Tags</h1>
-                    {
-                        tags.map((tag, index) => {
-                            return <TagSummary key={index} tag={tag}/>
-                        })
-                    }
+                <div className="search-result__right">
+                    <h1>Filter by</h1>
+                    <div className="search-result__filter-panel">
+                        <div className="search-result__filter-item"
+                             onClick={this.showPosts}>
+                            <SVGIcon>
+                                <DiscussSVG />
+                            </SVGIcon>
+                            Posts
+                        </div>
+                        <div className="search-result__filter-item"
+                             onClick={this.showUsers}>
+                            <SVGIcon>
+                                <ProfileSVG />
+                            </SVGIcon>
+                            Users
+                        </div>
+                        <div className="search-result__filter-item"
+                             onClick={this.showTags}>
+                            <SVGIcon>
+                                <HashTagSVG />
+                            </SVGIcon>
+                            Tags
+                        </div>
+                        <div className="search-result__filter-item"
+                             onClick={this.showAll}>
+                            <SVGIcon>
+                                <PlusSVG />
+                            </SVGIcon>
+                            Show all
+                        </div>
+                    </div>
                 </div>
             </div>
         );

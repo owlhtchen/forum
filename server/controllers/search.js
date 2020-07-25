@@ -17,10 +17,21 @@ module.exports = {
 };
 
 const getTagsWith = async (keyword) => {
-    let foundTags = await Tag.find({
-        "name": {"$regex": keyword, "$options": "$i"}
-    });
-    return foundTags;
+    return Tag.aggregate([
+        {
+            "$match": {
+                "name": {"$regex": keyword, "$options": "$i"},
+            },
+        },
+        {
+            "$lookup": {
+                from: "posts",
+                localField: "postIDs",
+                foreignField: "_id",
+                as: "posts"
+            }
+        }
+    ]);
 }
 
 const getPostsWith = async (keyword) => {
@@ -74,9 +85,6 @@ const getPostsWith = async (keyword) => {
                     "$or": [
                         {
                             "postType": "post"
-                        },
-                        {
-                            "postType": "article"
                         }
                     ]
                 }

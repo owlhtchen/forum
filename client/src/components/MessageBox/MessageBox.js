@@ -68,6 +68,10 @@ class MessageBox extends Component {
     async componentWillUnmount() {
         const { userID, selectedReceiver } = this.props;
         await markAsRead(userID, selectedReceiver._id);
+        let { socket } = this.state;
+        if(socket) {
+            socket.disconnect();
+        }
     }
 
     handleSend = (e) => {

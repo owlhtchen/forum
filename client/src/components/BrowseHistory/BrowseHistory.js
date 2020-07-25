@@ -44,6 +44,10 @@ class BrowseHistory extends Component {
                 <h1 className="browse-history__title">Recent Browse History</h1>
                 {
                     browseHistory.map((post, index) => {
+                        if(!post) {
+                            console.log(browseHistory);
+                            return <div/>;
+                        }
                         return (
                             <div>
                                 <PostSummary
