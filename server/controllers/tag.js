@@ -56,14 +56,50 @@ module.exports = {
                                     ],
                                     as: "author"
                                 }
+                            },
+                            {
+                                "$unwind": "$author"
+                            },
+                            {
+                                "$unwind": "$tagIDs"
+                            },
+                            {
+                                "$lookup": {
+                                    from: "tags",
+                                    let: {"tagIDs": "$tagIDs"},
+                                    pipeline: [
+                                        {"$match": {"$expr": {"$eq": ["$_id", "$$tagIDs"]}}}
+                                    ],
+                                    as: "tags"
+                                }
+                            },
+                            {
+                                "$unwind": "$tags"
+                            },
+                            {
+                                $group: {
+                                    "_id": "$_id",
+                                    "ancestorID": {"$first": "$ancestorID"},
+                                    "author": {"$first": "$author"},
+                                    "authorID": {"$first": "$authorID"},
+                                    "commentID": {"$first": "$commentID"},
+                                    "content": {"$first": "$content"},
+                                    "createDate": {"$first": "$createDate"},
+                                    "isDeleted": {"$first": "$isDeleted"},
+                                    "likedBy": {"$first": "$likedBy"},
+                                    "postType": {"$first": "$postType"},
+                                    "tagIDs": {"$push": "$tagIDs"},
+                                    "title": {"$first": "$title"},
+                                    "tags": {"$push": "$tags"},
+                                }
                             }
                         ],
                         as: "posts"
                     }
                 }
             ]);
-            console.log(JSON.stringify(foundTag[0]));
-            res.json(foundTag[0]);
+            let tag = foundTag[0];
+            res.json(tag);
         } catch (err) {
             next(err);
         }

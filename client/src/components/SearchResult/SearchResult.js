@@ -44,6 +44,7 @@ export default class SearchResult extends Component {
         return (
             <div className="search-result">
                 <div>
+                    <h1>Posts</h1>
                     {
                         posts.map((post, index) => {
                             return <PostSummary key={index} post={post}/>
@@ -51,6 +52,7 @@ export default class SearchResult extends Component {
                     }
                 </div>
                 <div>
+                    <h1>Users</h1>
                     {
                         users.map((user, index) => {
                             return <UserSummary key={index} user={user}/>
@@ -58,6 +60,7 @@ export default class SearchResult extends Component {
                     }
                 </div>
                 <div>
+                    <h1>Tags</h1>
                     {
                         tags.map((tag, index) => {
                             return <TagSummary key={index} tag={tag}/>

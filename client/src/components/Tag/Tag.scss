@@ -1,10 +1,13 @@
 @import "../variables";
 
-.search-result {
+.tag {
   width: var(--homepage-width);
   padding: var(--homepage-padding);
 
   h1 {
+    text-transform: capitalize;
     color: var(--navbar-primary-color);
+    display: flex;
+    align-items: center;
   }
 }

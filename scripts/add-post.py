@@ -21,16 +21,21 @@ firstUser = userColl.find_one()
 
 i = 0
 
-template = """
-[#aaaaa](/tags/tag-by-id/5ee97b218a1eed08e47b64ba) [@{}](/users/profile/{})
+def getTemplate(tag):
+    template = """
+[#{}](/tags/tag-by-id/{}) [@{}](/users/profile/{})
+
 
 # Heading
 
-[google](https://www.google.com/)    
+
+[google](https://www.google.com/)
 
 
 ![flower](https://source.unsplash.com/KJGBY76mmS4/500x350)
-""".format(firstUser["username"], firstUser["_id"])
+    """.format(tag["name"], tag["_id"],
+        firstUser["username"], firstUser["_id"])
+    return str(template)
 
 
 def newPostComment(authorID, content, ancestorID, parentID, title):
@@ -102,17 +107,19 @@ for user in allUsers:
     # print(" ------------------------------ ")
     # print(user)
     title = fake.text()[:10]
-    content = ""
-    if i % 5 != 0 and i % 7 != 0:
-        content = ' '.join([fake.text() for i in range(10)])
-    else:
-        content = template + ' '.join([fake.text() for i in range(3)])
     authorID = user["_id"]
     postType = "post"
     sampleSize = randint(2, 5)
     tags = tagColl.aggregate([ { "$sample": { "size": sampleSize } } ])
     tags = list(tags)
     tagIDs = [tag["_id"] for tag in tags]
+    content = ""
+    template = getTemplate(tags[0])
+    if i % 5 != 0 and i % 7 != 0:
+        content = ' '.join([fake.text() for i in range(10)])
+    else:
+        # content = template + ' '.join([fake.text() for i in range(3)])
+        content = template
     # print(tagIDs)
     post = {
         "title": title,
@@ -130,6 +137,12 @@ for user in allUsers:
     myquery = { "_id": postID }
     newvalues = { "$set": { "ancestorID": postID } }
     postColl.update_one(myquery, newvalues)
+
+    for tag in tags:
+        res = tagColl.update_one(
+        {"_id": tag["_id"]},
+        {"$push": {"postIDs": postID} }
+        )
 
     # add post comment
     commentIDs = []

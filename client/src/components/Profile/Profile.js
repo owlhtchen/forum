@@ -122,14 +122,14 @@ class Profile extends Component {
                                 </SVGIcon>
                             </Link>
                         </div>
-                        <p>
+                        <div>
                             <span>Bio: {profileUser.bio}</span>
                             { isMine &&
                             <SVGIcon onClick={() => { this.showEditBio(); }}  tooltip={"Edit bio"}>
                                 <PenSVG />
                             </SVGIcon>
                             }
-                        </p>
+                        </div>
                         {   editBioShown &&
                             <EditBio
                                 hideEditBio={this.hideEditBio}

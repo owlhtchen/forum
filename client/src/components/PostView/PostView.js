@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import LoadingCircle from "../Loading/LoadingCircle";
-import {viewPost} from "../../utils/post";
+import {getPostTitleUrl, viewPost} from "../../utils/post";
 import {connect} from 'react-redux';
 import ProfileDetailedSmall from "../ProfileSummary/ProfileDetailedSmall";
 import {Link} from "react-router-dom";
@@ -44,13 +44,12 @@ class PostView extends Component {
                 height="10rem"
             />
         }
-        console.log(post);
-        let titleUrl = `/posts/expanded-post/${post._id}`;
+        let titleUrl = getPostTitleUrl(post);
         return (
             <div className="post-view">
                 <div className="post-view__main">
                     <ProfileDetailedSmall user={post.author} />
-                    <TagBar tags={post.tags}/>
+                    { post.tags && post.tags.length > 0 && <TagBar tags={post.tags}/> }
                     <h1 className="post-view__title">
                         <Link to={titleUrl} >
                             {post.title}

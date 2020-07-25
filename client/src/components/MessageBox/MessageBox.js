@@ -18,7 +18,7 @@ class MessageBox extends Component {
 
     constructor(props) {
         super(props);
-        let socket =  io('http://localhost:8080/');
+        let socket =  io('http://localhost:8080');
         socket.on("new message", (lastMessage) => {
             const prev = [...this.state.messages];
             prev.push(lastMessage);

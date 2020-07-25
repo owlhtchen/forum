@@ -36,7 +36,7 @@ for i in range(1, 6):
         }
         passwords.insert_one(password)
 
-for i in range(100):
+for i in range(35):
     tag = {
         "name": 'tag{}'.format(i),
         "postIDs": []

@@ -8,9 +8,8 @@ import Post from './CreatePost/PostCreator';
 import Homepage from './Homepage/Homepage';
 import authGuard from './authGuard';
 import Profile from './Profile/Profile';
-import Tag from './Tag';
 import SearchResult from './SearchResult/SearchResult'
-import TagDetail from './TagDetail'
+import Tag from './Tag/Tag'
 import BrowseHistory from './BrowseHistory/BrowseHistory'
 import Sidebar from "./Sidebar/Sidebar";
 import './App.scss';
@@ -43,7 +42,7 @@ class App extends Component {
                             <Route exact path="/users/messenger/:userID" component={authGuard(Messenger)}/>
 
                             <Route exact path="/users/profile/:userID" component={authGuard(Profile)}/>
-                            <Route exact path="/tags/tag-by-id/:tagID" component={TagDetail}/>
+                            <Route exact path="/tags/tag-by-id/:tagID" component={Tag}/>
                             <Route exact path="/search/:keyword?" component={SearchResult}/>
                             <Route exact path="/" component={Homepage}/>
                         </Switch>
