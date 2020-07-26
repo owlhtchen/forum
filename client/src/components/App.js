@@ -41,7 +41,7 @@ class App extends Component {
                             <Route exact path="/users/bookmarks/:userID" component={authGuard(Bookmarks)}/>
                             <Route exact path="/users/messenger/:userID" component={authGuard(Messenger)}/>
 
-                            <Route exact path="/users/profile/:userID" component={authGuard(Profile)}/>
+                            <Route exact path="/users/profile/:userID" component={Profile}/>
                             <Route exact path="/tags/tag-by-id/:tagID" component={Tag}/>
                             <Route exact path="/search/:keyword?" component={SearchResult}/>
                             <Route exact path="/" component={Homepage}/>

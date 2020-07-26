@@ -4,4 +4,13 @@
   //border: 2px solid red;
   width: var(--homepage-width);
   padding: var(--homepage-padding);
+
+  &__choice {
+    font-size: 2rem;
+    span {
+      margin-right: 2rem;
+      color: var(--navbar-primary-color);
+      font-weight: bold;
+    }
+  }
 }

@@ -2,7 +2,7 @@
 
 ## Features
 
-- Homepage
+- LoadOnScroll
   - Followed users/posts
   
 - Users 

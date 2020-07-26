@@ -1,7 +1,7 @@
 const User = require('../models/user');
 const Post = require('../models/post');
 const Tag = require('../models/tag');
-const Followtag = require('../models/followtag');
+const FollowUser = require('../models/followuser');
 let mongoose = require('mongoose');
 let ObjectId = require('mongoose').Types.ObjectId;
 
@@ -73,79 +73,6 @@ module.exports = {
             res.send(post);
         } catch (e) {
             next(e);
-        }
-    },
-    filterSortedPosts: async (req, res, next) => {
-        const baseScore = 50;
-        const upvoteDecrease = 1000 * 60 * 60 * 8;
-        const {lastPost} = req.body;
-        let result;
-        let query = [
-            {
-                '$match': {isDeleted: {'$eq': false}}
-            },
-            {
-                '$addFields': {
-                    'score': {
-                        "$add": [
-                            {'$size': '$likedBy'},  // op1
-                            baseScore,  // op2
-                            {"$subtract": [0, {"$divide": [{"$subtract": [new Date(), "$createDate"]}, upvoteDecrease]}]} //op3
-                        ]
-                    }
-                },
-
-            },
-            {"$sort": {"score": -1}},
-            {
-                $lookup: {
-                    from: "users",
-                    localField: "authorID",
-                    foreignField: "_id",
-                    as: "author"
-                }
-            },
-            {
-                $unwind: {
-                    path: "$author"
-                }
-            },
-            {
-                $lookup: {
-                    from: 'tags',
-                    localField: 'tagIDs',
-                    foreignField: '_id',
-                    as: 'tags'
-                }
-            },
-            {
-                "$match": {
-                    "$or": [
-                        {"postType": "post"},
-                        {"postType": "story"},
-                        // {"postType": "post-comment"}
-                    ]
-                }
-            },
-        ];
-        try {
-            if (!lastPost) {
-                let q1 = query.concat([{
-                    "$limit": 100
-                }]);
-                result = await Post.aggregate(q1);
-            } else {
-                const lastPostScore = lastPost.likedBy.length + baseScore -
-                    (new Date().getTime() - Date.parse(lastPost.createDate)) / upvoteDecrease;
-                let q2 = query.concat([
-                    {"$match": {"score": {"$lt": lastPostScore}}},
-                    {"$limit": 50}
-                ]);
-                result = await Post.aggregate(q2);
-            }
-            res.json(result);
-        } catch (err) {
-            next(err);
         }
     },
     viewPost: async (req, res, next) => {
@@ -331,6 +258,149 @@ module.exports = {
         return values.map(value => {
             return value[0];
         });
+    },
+    filterSortedPosts: async (req, res, next) => {
+        const baseScore = 50;
+        const upvoteDecrease = 1000 * 60 * 60 * 8;
+        const {lastPost} = req.body;
+        let result;
+        let query = [
+            {
+                '$match': {isDeleted: {'$eq': false}}
+            },
+            {
+                "$match": {
+                    "$or": [
+                        {"postType": "post"},
+                        {"postType": "story"},
+                        // {"postType": "post-comment"}
+                    ]
+                }
+            },
+            {
+                '$addFields': {
+                    'score': {
+                        "$add": [
+                            {'$size': '$likedBy'},  // op1
+                            baseScore,  // op2
+                            {"$subtract": [0, {"$divide": [{"$subtract": [new Date(), "$createDate"]}, upvoteDecrease]}]} //op3
+                        ]
+                    }
+                },
+
+            },
+            {"$sort": {"score": -1}},
+            {
+                $lookup: {
+                    from: "users",
+                    localField: "authorID",
+                    foreignField: "_id",
+                    as: "author"
+                }
+            },
+            {
+                $unwind: {
+                    path: "$author"
+                }
+            },
+            {
+                $lookup: {
+                    from: 'tags',
+                    localField: 'tagIDs',
+                    foreignField: '_id',
+                    as: 'tags'
+                }
+            },
+        ];
+        try {
+            if (!lastPost) {
+                let q1 = query.concat([{
+                    "$limit": 20
+                }]);
+                result = await Post.aggregate(q1);
+            } else {
+                const lastPostScore = lastPost.likedBy.length + baseScore -
+                    (new Date().getTime() - Date.parse(lastPost.createDate)) / upvoteDecrease;
+                let q2 = query.concat([
+                    {"$match": {"score": {"$lt": lastPostScore}}},
+                    {"$limit": 25}
+                ]);
+                result = await Post.aggregate(q2);
+            }
+            res.json(result);
+        } catch (err) {
+            next(err);
+        }
+    },
+    filterFollowingPosts: async (req, res, next) => {
+        try {
+            const { userID, lastPost } = req.body;
+            const followings = await FollowUser.find({
+                "followerID": userID
+            });
+            const followingIDs = followings.map(following => {
+                return following.followedID
+            });
+            console.log(followingIDs);
+            let query = [
+                {
+                    "$match": {
+                        "authorID": { "$in": followingIDs },
+                        // "postType": { "$ne": "sub-comment"}
+                    }
+                },
+                {
+                  "$sort": {
+                      "createDate": -1
+                  }
+                },
+                {
+                    "$lookup": {
+                        from: "users",
+                        localField: "authorID",
+                        foreignField: "_id",
+                        as: "author"
+                    }
+                },
+                {
+                    "$unwind": {
+                        path: "$author"
+                    }
+                },
+                {
+                    "$lookup": {
+                        from: 'tags',
+                        localField: 'tagIDs',
+                        foreignField: '_id',
+                        as: 'tags'
+                    }
+                },
+            ];
+            if(!lastPost) {
+                query = query.concat([{
+                    "$limit": 10
+                }])
+            } else {
+                let lastDate =  new Date(lastPost.createDate);
+                query = query.concat([
+                    {
+                        "$match": {
+                            "createDate": {
+                                "$lt": lastDate
+                            }
+                        },
+                    },
+                    {
+                        "$limit": 10
+                    }
+                ])
+            }
+            let followingPosts = await Post.aggregate(query);
+            console.log(followingPosts.length);
+            res.json(followingPosts);
+        } catch (e) {
+            next(e);
+        }
     }
 }
 

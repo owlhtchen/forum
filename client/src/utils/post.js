@@ -104,3 +104,14 @@ export const getPostTitleUrl = (post) => {
     }
     return titleUrl;
 }
+
+export const getTrendingPost = async (filter) => {
+    const res = await axios.post('/posts/filter-sorted-posts', filter);
+    return res.data;
+}
+
+export const getFollowingPost = async (filter, userID) => {
+    filter["userID"] = userID;
+    const res = await axios.post('/posts/filter-following-posts', filter);
+    return res.data;
+}

@@ -31,7 +31,10 @@ class Profile extends Component {
             const {userID} = this.props.match.params;
             const profileUser = await getUserByID(userID);
             const posts = await getPostsByUserID(userID);
-            const following = await checkFollowUser(profileUser._id, userID);
+            let following = false;
+            if(userID) {
+                following = await checkFollowUser(profileUser._id, userID);
+            }
             this.setState({
                 profileUser: profileUser,
                 posts: posts,
@@ -80,6 +83,10 @@ class Profile extends Component {
     toggleFollow = async () => {
         const { profileUser, following } = this.state;
         const { userID } = this.props;
+        if(!userID) {
+            this.props.history.push("/users/signin");
+            return ;
+        }
         await toggleFollow(profileUser._id, userID, following);
         this.setState({
             following: !following
@@ -95,6 +102,8 @@ class Profile extends Component {
             );
         }
         let isMine = (profileUser._id === userID);
+        let messageBoxUrl = userID ? `/users/messenger/${userID}` : "/users/signin";
+        console.log(messageBoxUrl);
         return (
             <div className="profile">
                 <div className="profile__header">
@@ -126,7 +135,7 @@ class Profile extends Component {
                             </h1>
                             <Link
                                 to={{
-                                    pathname: `/users/messenger/${userID}`,
+                                    pathname: messageBoxUrl,
                                     state: { selectedReceiver: profileUser }
                                 }}
                             >

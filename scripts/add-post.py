@@ -106,64 +106,65 @@ for user in allUsers:
     # postType, authorID, content, title, tagIDs
     # print(" ------------------------------ ")
     # print(user)
-    title = fake.text()[:10]
-    authorID = user["_id"]
-    postType = "post"
-    sampleSize = randint(2, 5)
-    tags = tagColl.aggregate([ { "$sample": { "size": sampleSize } } ])
-    tags = list(tags)
-    tagIDs = [tag["_id"] for tag in tags]
-    content = ""
-    template = getTemplate(tags[0])
-    if i % 5 != 0 and i % 7 != 0:
-        content = ' '.join([fake.text() for i in range(10)])
-    else:
-        # content = template + ' '.join([fake.text() for i in range(3)])
-        content = template
-    # print(tagIDs)
-    post = {
-        "title": title,
-        "content": content,
-        "authorID": authorID,
-        "postType": postType,
-        "tagIDs": tagIDs,
-        "isDeleted": False,
-        "likedBy": [],
-        "commentIDs": [],
-        "createDate": datetime.datetime.utcnow()
-    }
-    postID = postColl.insert_one(post).inserted_id
+    for k in range(randint(3, 7)):  # each users make a few posts
+        title = fake.text()[:10]
+        authorID = user["_id"]
+        postType = "post"
+        sampleSize = randint(2, 5)
+        tags = tagColl.aggregate([ { "$sample": { "size": sampleSize } } ])
+        tags = list(tags)
+        tagIDs = [tag["_id"] for tag in tags]
+        content = ""
+        template = getTemplate(tags[0])
+        if i % 5 != 0 and i % 7 != 0:
+            content = ' '.join([fake.text() for i in range(10)])
+        else:
+            # content = template + ' '.join([fake.text() for i in range(3)])
+            content = template
+        # print(tagIDs)
+        post = {
+            "title": title,
+            "content": content,
+            "authorID": authorID,
+            "postType": postType,
+            "tagIDs": tagIDs,
+            "isDeleted": False,
+            "likedBy": [],
+            "commentIDs": [],
+            "createDate": datetime.datetime.utcnow()
+        }
+        postID = postColl.insert_one(post).inserted_id
 
-    myquery = { "_id": postID }
-    newvalues = { "$set": { "ancestorID": postID } }
-    postColl.update_one(myquery, newvalues)
+        myquery = { "_id": postID }
+        newvalues = { "$set": { "ancestorID": postID } }
+        postColl.update_one(myquery, newvalues)
 
-    for tag in tags:
-        res = tagColl.update_one(
-        {"_id": tag["_id"]},
-        {"$push": {"postIDs": postID} }
-        )
+        for tag in tags:
+            res = tagColl.update_one(
+            {"_id": tag["_id"]},
+            {"$push": {"postIDs": postID} }
+            )
 
-    # add post comment
-    commentIDs = []
-    for i in range(randint(3, 5)):
-        tempAuthorID = list(userColl.aggregate([ {"$sample": { "size": 1 } }]))[0]["_id"]
-        commentID = newPostComment(
-            tempAuthorID, 
-            "{}".format(i),
-            postID,
-            postID,
-            title
-        )
-        subCommentIDs = nestSubComments(
-            2,
-            commentID,
-            commentID,
-            title
-        )
-        setPostCommentIDs(commentID, subCommentIDs)
-        commentIDs.append(commentID)
-    setPostCommentIDs(postID, commentIDs)  
+        # add post comment
+        commentIDs = []
+        for j in range(randint(3, 5)):
+            tempAuthorID = list(userColl.aggregate([ {"$sample": { "size": 1 } }]))[0]["_id"]
+            commentID = newPostComment(
+                tempAuthorID,
+                "{}".format(j),
+                postID,
+                postID,
+                title
+            )
+            subCommentIDs = nestSubComments(
+                2,
+                commentID,
+                commentID,
+                title
+            )
+            setPostCommentIDs(commentID, subCommentIDs)
+            commentIDs.append(commentID)
+        setPostCommentIDs(postID, commentIDs)
 
-    i += 1
+        i += 1
     # print(" ------------------------------ ")
