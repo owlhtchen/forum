@@ -315,7 +315,7 @@ module.exports = {
         try {
             if (!lastPost) {
                 let q1 = query.concat([{
-                    "$limit": 20
+                    "$limit": 15
                 }]);
                 result = await Post.aggregate(q1);
             } else {
@@ -323,7 +323,7 @@ module.exports = {
                     (new Date().getTime() - Date.parse(lastPost.createDate)) / upvoteDecrease;
                 let q2 = query.concat([
                     {"$match": {"score": {"$lt": lastPostScore}}},
-                    {"$limit": 25}
+                    {"$limit": 15}
                 ]);
                 result = await Post.aggregate(q2);
             }
@@ -341,7 +341,6 @@ module.exports = {
             const followingIDs = followings.map(following => {
                 return following.followedID
             });
-            console.log(followingIDs);
             let query = [
                 {
                     "$match": {
@@ -378,7 +377,7 @@ module.exports = {
             ];
             if(!lastPost) {
                 query = query.concat([{
-                    "$limit": 10
+                    "$limit": 15
                 }])
             } else {
                 let lastDate =  new Date(lastPost.createDate);
@@ -391,12 +390,11 @@ module.exports = {
                         },
                     },
                     {
-                        "$limit": 10
+                        "$limit": 15
                     }
                 ])
             }
             let followingPosts = await Post.aggregate(query);
-            console.log(followingPosts.length);
             res.json(followingPosts);
         } catch (e) {
             next(e);

@@ -19,16 +19,13 @@ class Homepage extends Component {
     }
 
     showFollowing = () => {
+        if(!this.props.userID) {
+            this.props.history.push('/users/signin');
+            return;
+        }
         this.setState({
             trendingShown: false
         });
-    }
-
-    redirectLogin = () => {
-        const { userID } = this.props;
-        if(!userID) {
-            this.props.history.push('/users/signin');
-        }
     }
 
     render() {
@@ -37,14 +34,13 @@ class Homepage extends Component {
         if(trendingShown) {
             content = (
                 <LoadOnScroll getMorePosts={getTrendingPost}
-                id={"1"}/>
+                />
             );
         } else {
             content = (
-                <div onClick={this.redirectLogin}>
+                <div>
                     <LoadOnScroll
                         getMorePosts={getFollowingPost}
-                        id={"2"}
                     />
                 </div>
             )

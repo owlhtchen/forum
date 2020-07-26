@@ -69,9 +69,8 @@ class LoadOnScroll extends Component {
                 if (isLoading || !hasMore) return;
 
                 if (
-                    (window.innerHeight + window.scrollY) >= document.body.offsetHeight
+                    (window.innerHeight + window.scrollY) >= document.body.offsetHeight * 0.90
                 ) {
-                    alert("!");
                     await this.getMorePosts(posts, userID);
                 }
             } catch (err) {
