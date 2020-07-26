@@ -12,6 +12,10 @@ const notificationSchema = new Schema({
         postID: {
             type: Schema.Types.ObjectId,
             ref: 'Post'
+        },
+        read: {
+            type: Boolean,
+            default: false
         }
     }]
 })

@@ -1,0 +1,37 @@
+@import "../variables";
+
+.follow-btn {
+
+  display: inline-block;
+
+  button {
+    width: 12rem;
+    border: var(--color-sky-blue) 1px solid;
+    color: var(--color-sky-blue);
+    font-size: 2rem;
+    padding: 0.6rem;
+    border-radius: 1rem;
+    background-color: inherit;
+    text-transform: capitalize;
+  }
+
+  & button:active, & button:focus, & button:hover {
+    outline: none;
+  }
+
+  &:hover .showUnFollow span {
+    display: none;
+  }
+
+  &:hover .showUnFollow:before {
+    content:"Unfollow";
+  }
+
+  &:hover .showUnFollow {
+    background-color: red;
+    color: white;
+    border-color: red;
+  }
+
+
+}

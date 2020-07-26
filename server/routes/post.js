@@ -14,8 +14,6 @@ router.post('/cancelUpVote', auth.isUser, PostController.cancelUpVotePost);
 router.get('/checkUpVote/:userID/:postID', auth.isUser, PostController.checkUpVoted);
 
 router.get('/get-parent-post/:postID', PostController.getParentPost);
-router.post('/follow-post', PostController.followPost);
-router.post('/check-follow-post', PostController.checkFollowPost);
 router.get('/get-posts-followers/:postID', PostController.getPostFollowers);
 router.post('/delete-post', PostController.deletePost);
 router.get('/posts-by-userid/:userID', PostController.getPostsByUserID);

@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {getUserByID, uploadUserAvatar} from '../../utils/user'
+import {getUserByID, toggleFollow, uploadUserAvatar} from '../../utils/user'
 import LoadingCircle from "../Loading/LoadingCircle";
 import './Profile.scss';
 import SVGIcon from "../SVGIcon/SVGIcon";
@@ -12,6 +12,8 @@ import {getPostsByUserID} from "../../utils/post";
 import PostCommentSummary from "../PostCommentSummary/PostCommentSummary";
 import {Link} from "react-router-dom";
 import {formatDate} from "../../utils";
+import FollowUser from "../FollowBtn/FollowBtn";
+import {checkFollowUser} from '../../utils/user';
 
 class Profile extends Component {
     constructor(props) {
@@ -19,7 +21,8 @@ class Profile extends Component {
         this.state = {
             profileUser: null,
             editBioShown: false,
-            posts: []
+            posts: [],
+            following: null
         };
     }
 
@@ -28,9 +31,11 @@ class Profile extends Component {
             const {userID} = this.props.match.params;
             const profileUser = await getUserByID(userID);
             const posts = await getPostsByUserID(userID);
+            const following = await checkFollowUser(profileUser._id, userID);
             this.setState({
                 profileUser: profileUser,
-                posts: posts
+                posts: posts,
+                following: following
             });
         } catch (err) {
             console.log("axios exception in ProfileSummary Mount");
@@ -41,7 +46,6 @@ class Profile extends Component {
         const { userID } = this.props;
         let input = document.querySelector("#user-avatar");
         let userAvatar = input.files[0];
-        console.log(userAvatar);
         if(!userAvatar || !userID) {
             return;
         }
@@ -73,10 +77,19 @@ class Profile extends Component {
         });
     }
 
-    render() {
-        const { profileUser, editBioShown, posts } = this.state;
+    toggleFollow = async () => {
+        const { profileUser, following } = this.state;
         const { userID } = this.props;
-        if (!profileUser) {
+        await toggleFollow(profileUser._id, userID, following);
+        this.setState({
+            following: !following
+        })
+    }
+
+    render() {
+        const { profileUser, editBioShown, posts, following } = this.state;
+        const { userID } = this.props;
+        if (!profileUser || following === null) {
             return (
                 <LoadingCircle />
             );
@@ -121,6 +134,13 @@ class Profile extends Component {
                                     <MessageSVG />
                                 </SVGIcon>
                             </Link>
+                            {
+                                !isMine &&
+                                <FollowUser
+                                    following={following}
+                                    toggleFollow={this.toggleFollow}
+                                />
+                            }
                         </div>
                         <div>
                             <span>Bio: {profileUser.bio}</span>

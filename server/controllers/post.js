@@ -1,7 +1,7 @@
 const User = require('../models/user');
 const Post = require('../models/post');
 const Tag = require('../models/tag');
-const Followpost = require('../models/followpost');
+const Followtag = require('../models/followtag');
 let mongoose = require('mongoose');
 let ObjectId = require('mongoose').Types.ObjectId;
 
@@ -234,42 +234,6 @@ module.exports = {
                 parentID = currentPost.parentID;
             }
             res.json(currentID);
-        } catch (err) {
-            next(err);
-        }
-    },
-    followPost: async (req, res, next) => {
-        const {post, follower, startFollowing} = req.body;
-        try {
-            if (startFollowing) {
-                let newFollowpost = new Followpost({
-                    post,
-                    follower
-                });
-                await newFollowpost.save();
-            } else {
-                await Followpost.deleteMany({
-                    post,
-                    follower
-                });
-            }
-            res.end();
-        } catch (err) {
-            next(err);
-        }
-    },
-    checkFollowPost: async (req, res, next) => {
-        try {
-            const followPost = await Followpost.findOne(req.body);
-            if (followPost) {
-                return res.json({
-                    following: true
-                });
-            } else {
-                return res.json({
-                    following: false
-                });
-            }
         } catch (err) {
             next(err);
         }

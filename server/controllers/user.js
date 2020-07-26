@@ -164,10 +164,10 @@ module.exports = {
     },
     checkFollowUser: async (req, res, next) => {
         try {
-            const {user, follower} = req.body;
+            const {followedID, followerID} = req.params;
             const followUser = await Followuser.findOne({
-                user: user,
-                follower: follower
+                followedID,
+                followerID
             });
             if (followUser) {
                 return res.json(true);
@@ -179,18 +179,18 @@ module.exports = {
         }
     },
     followUser: async (req, res, next) => {
-        const {user, follower, startFollowing} = req.body;
+        const {followedID, followerID, alreadyFollowing} = req.body;
         try {
-            if (startFollowing) {
+            if (!alreadyFollowing) {
                 let newFollowuser = new Followuser({
-                    user,
-                    follower
+                    followedID,
+                    followerID
                 });
                 await newFollowuser.save();
             } else {
                 await Followuser.deleteMany({
-                    user,
-                    follower
+                    followedID,
+                    followerID
                 });
             }
             res.end();

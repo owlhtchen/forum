@@ -43,31 +43,6 @@ export const getUserFollowers = async (userID) => {
     return res.data;
 };
 
-export const notifyFollowers = async (followers, message, postID) => {
-    await axios.post('/users/notify-followers', {
-        followers,
-        message,
-        postID: postID
-    });
-};
-
-export const checkBlock = async (sender, receiver) => {
-    try {
-        let res1 = await axios.post('/users/check-block-user', {
-            user: sender,
-            victim: receiver
-        });
-        let res2 = await axios.post('/users/check-block-user', {
-            user: receiver,
-            victim: sender
-        })
-        const blocked = res1.data || res2.data;
-        return blocked;
-    } catch (err) {
-        console.log(err);
-    }
-}
-
 export const getBrowseHistory = async (userID) => {
     let { data:browsedPosts } = await axios.get('/users/browse-history/' + userID);
     return browsedPosts;
@@ -104,4 +79,43 @@ export const uploadUserAvatar = async (userID, userAvatar) => {
         }
     };
     await axios.post('/upload/avatar', formData, config);
+}
+
+export const checkFollowUser = async (followedID, followerID) => {
+    let { data: following } = await axios.get(`/users/check-follow-user/${followedID}/${followerID}`);
+    return following;
+}
+
+export const toggleFollow = async (followedID, followerID, alreadyFollowing) => {
+    let formData = {
+        followedID,
+        followerID,
+        alreadyFollowing
+    };
+    await axios.post('/users/follow-user', formData);
+}
+
+export const notifyFollowers = async (followers, message, postID) => {
+    await axios.post('/users/notify-followers', {
+        followers,
+        message,
+        postID: postID
+    });
+};
+
+export const checkBlock = async (sender, receiver) => {
+    try {
+        let res1 = await axios.post('/users/check-block-user', {
+            user: sender,
+            victim: receiver
+        });
+        let res2 = await axios.post('/users/check-block-user', {
+            user: receiver,
+            victim: sender
+        })
+        const blocked = res1.data || res2.data;
+        return blocked;
+    } catch (err) {
+        console.log(err);
+    }
 }
