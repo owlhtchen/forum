@@ -10,6 +10,7 @@ const tags = require('./routes/tag');
 const uploads = require('./routes/multer');
 const searchs = require('./routes/search');
 const chatrooms = require('./routes/chatroom');
+const notifications = require('./routes/notification');
 
 mongoose.connect('mongodb://localhost/forum', {
     useNewUrlParser: true,
@@ -63,6 +64,7 @@ db.once('open', function () {
     app.use('/upload', uploads);
     app.use('/search', searchs);
     app.use('/chat-rooms', chatrooms);
+    app.use('/notifications', notifications);
 
     // Handles any requests that don't match the ones above
     app.get('*', (req, res) => {

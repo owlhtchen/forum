@@ -24,8 +24,6 @@ router.get('/get-username-with-prefix/:prefix', UserController.getUsernameWithPr
 router.get('/check-follow-user/:followedID/:followerID', UserController.checkFollowUser);
 router.post('/follow-user', UserController.followUser);
 router.get('/get-user-followers/:userID', UserController.getUserFollowers);
-router.post('/notify-followers', UserController.notifyFollowers);
-router.get('/get-notifications/:userID', UserController.getNotifications);
 
 router.post('/check-block-user', UserController.checkBlockUser);
 router.post('/block-user', UserController.blockUser);

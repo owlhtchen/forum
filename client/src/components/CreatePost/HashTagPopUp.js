@@ -39,7 +39,6 @@ class HashTagPopUp extends Component {
                     return <p
                         key={i}
                         onClick={() => {
-                            // alert("hi");
                             setSelectedHashTag(tag);
                         } }
                     className="hash-popup__name">#{tag.name}</p>

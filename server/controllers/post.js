@@ -2,6 +2,7 @@ const User = require('../models/user');
 const Post = require('../models/post');
 const Tag = require('../models/tag');
 const FollowUser = require('../models/followuser');
+const NotificationController = require('./notification');
 let mongoose = require('mongoose');
 let ObjectId = require('mongoose').Types.ObjectId;
 
@@ -70,6 +71,26 @@ module.exports = {
             }
             let postList = await getPostWithAuthor(post);
             post = postList[0];
+            // notification
+            let mentionedIDs = [];
+            const regexp = RegExp(/\[@[a-zA-Z0-9\s]+\]\(\/users\/profile\/([a-zA-Z0-9]+)+\)/,'g');
+            const content = post.content || "";
+            const matches = content.matchAll(regexp);
+            for(const match of matches) {
+                mentionedIDs.push(match[1]);
+            }
+            const ancestor = await Post.findById(post.ancestorID);
+            const messageContent = `You were mentioned in post [${ancestor.title}](/posts/expanded-post/${post.ancestorID}#${post._id})`;
+            let notifyPromises = [];
+            for(const mentionedID of mentionedIDs) {
+                notifyPromises.push(
+                    NotificationController.notifyReceiverIDContent(
+                        mentionedID,
+                        messageContent
+                    )
+                );
+            }
+            await Promise.all(notifyPromises);
             res.send(post);
         } catch (e) {
             next(e);
@@ -273,7 +294,7 @@ module.exports = {
                     "$or": [
                         {"postType": "post"},
                         {"postType": "story"},
-                        // {"postType": "post-comment"}
+                        {"postType": "post-comment"}
                     ]
                 }
             },

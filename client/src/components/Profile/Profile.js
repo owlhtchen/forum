@@ -103,7 +103,6 @@ class Profile extends Component {
         }
         let isMine = (profileUser._id === userID);
         let messageBoxUrl = userID ? `/users/messenger/${userID}` : "/users/signin";
-        console.log(messageBoxUrl);
         return (
             <div className="profile">
                 <div className="profile__header">

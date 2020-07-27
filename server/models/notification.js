@@ -2,22 +2,23 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const notificationSchema = new Schema({
-    receiver: {
+    receiverID: {
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
     messages: [{
         content: String,
         time: Date,
-        postID: {
-            type: Schema.Types.ObjectId,
-            ref: 'Post'
-        },
         read: {
             type: Boolean,
             default: false
         }
     }]
+});
+
+notificationSchema.pre("save", function (next)  {
+    //
+    next();
 })
 
 const Notification = mongoose.model('Notification', notificationSchema);

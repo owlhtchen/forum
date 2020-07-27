@@ -4,12 +4,12 @@ const Password = require('../models/password');
 const {JWT_SECRET} = require('../config/index');
 const Followuser = require('../models/followuser');
 const Block = require('../models/block');
-const Notification = require('../models/notification');
 const { usernameSingleton } = require('../utils/trie');
 const Post = require('../models/post');
 const mongoose = require('mongoose');
 const ObjectId = mongoose.Types.ObjectId;
 const { getPostsWithAuthorTags } = require('./post');
+const NotificationController = require('./notification');
 
 const SignJWTToken = (user) => {
     // the claim names are only three characters long as JWT is meant to be compact.
@@ -187,6 +187,9 @@ module.exports = {
                     followerID
                 });
                 await newFollowuser.save();
+                let follower = await User.findById(followerID);
+                await NotificationController.notifyReceiverIDContent(followedID,
+                    `[@${follower.username}](/users/profile/${follower._id}) follows you`);
             } else {
                 await Followuser.deleteMany({
                     followedID,
@@ -207,55 +210,6 @@ module.exports = {
             res.json(userFollowers);
         } catch (err) {
             next(err);
-        }
-    },
-    notifyFollowers: async (req, res, next) => {
-        const {followers, message, postID} = req.body;
-        try {
-            await Promise.all(followers.map(async (entry) => {
-                const receiver = entry.follower;
-                let foundNotification = await Notification.findOne({
-                    receiver: receiver
-                });
-                if (!foundNotification) {
-                    let newNotification = new Notification({
-                        receiver: receiver,
-                        messages: [{
-                            content: message,
-                            time: new Date(),
-                            postID: postID
-                        }]
-                    });
-                    await newNotification.save();
-                } else {
-                    await Notification.updateMany(
-                        {receiver: receiver},
-                        {
-                            "$push": {
-                                'messages': {
-                                    content: message,
-                                    time: new Date(),
-                                    postID: postID
-                                }
-                            }
-                        }
-                    )
-                }
-            }));
-            res.end();
-        } catch (err) {
-            next(err);
-        }
-    },
-    getNotifications: async (req, res, next) => {
-        const {userID} = req.params;
-        let notification = await Notification.findOne({
-            receiver: userID
-        });
-        if (notification) {
-            res.json(notification.messages);
-        } else {
-            res.json([]);
         }
     },
     getUsernameWithPrefix: async (req, res, next) => {

@@ -22,7 +22,6 @@ class MessageBox extends Component {
         socket.on("new message", (lastMessage) => {
             const prev = [...this.state.messages];
             prev.push(lastMessage);
-            console.log("on new message: ", prev);
 
             this.setState({
                 messages: prev

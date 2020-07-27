@@ -1,0 +1,23 @@
+.notification {
+  position: relative;
+
+  &__dropdown {
+    position: absolute;
+    z-index: 100;
+    max-height: 40vh;
+    overflow: auto;
+    width: 20vw;
+    background-color: white;
+    padding: 0.2rem;
+    border: var(--navbar-primary-color) 1px dashed;
+  }
+
+  &__dropdown-close {
+    color: red;
+    font-weight: bold;
+    font-size: 2rem;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+}
