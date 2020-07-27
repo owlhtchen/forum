@@ -26,7 +26,6 @@ class CommentCreator extends Component {
         this.setState({
             mdeValue: ""
         })
-        console.log("CommentCreator reset");
     }
 
     handleSubmit = async (e) => {
@@ -39,6 +38,8 @@ class CommentCreator extends Component {
         } else { // parent is story, post-comment or sub-comment
             postType = "sub-comment";
         }
+        console.log(parentPost.postType);
+        console.log(postType);
         let authorID = userID;
         let content = mdeValue;
         let newComment = await addComment(postType, authorID, content, parentPost);

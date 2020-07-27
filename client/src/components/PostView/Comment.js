@@ -27,7 +27,7 @@ class Comment extends Component {
     render() {
         const { post } = this.state;
         return (
-            <div className="comment">
+            <div className="comment" id={post._id}>
                 <div className="comment__main">
                     <ProfileDetailedSmall user={post.author} />
                     <MarkdownView

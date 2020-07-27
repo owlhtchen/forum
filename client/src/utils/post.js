@@ -94,14 +94,18 @@ export const getPostsByUserID = async (userID) => {
 }
 
 export const getPostTitleUrl = (post) => {
-    let isPostComment = (post.postType === "post-comment");
-    let isSubComment = (post.postType === "sub-comment");
-    let titleUrl = `/posts/expanded-post/${post._id}`;
-    if (isPostComment) {
-        titleUrl = `/posts/expanded-post/${post.parentID}`;
-    } else if(isSubComment) {
-        titleUrl = `/posts/expanded-post/${post.ancestorID}`;
-    }
+    // let isPostComment = (post.postType === "post-comment");
+    // let isSubComment = (post.postType === "sub-comment");
+    // let isPost = (post.postType === "post");
+    let titleUrl = `/posts/expanded-post/${post.ancestorID}`;
+    // if (isPostComment) {
+    //     titleUrl = `/posts/expanded-post/${post.parentID}`;
+    // } else if(isSubComment) {
+    //     titleUrl = `/posts/expanded-post/${post.ancestorID}`;
+    // } else if(isPost) {
+    //     titleUrl = `/posts/expanded-post/${post._id}`;
+    // }
+    titleUrl += `#${post._id}`;
     return titleUrl;
 }
 

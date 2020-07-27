@@ -26,6 +26,21 @@ class PostView extends Component {
         this.setState({
             post
         });
+        this.scrollToAnchorTag();
+    }
+
+    scrollToAnchorTag = () => {
+        let { hash } = window.location;
+        if(hash && hash.length > 0) {
+            hash = hash.substring(1)
+            let jumpToPost = document.getElementById(`${hash}`);
+            if(hash !== this.state.post._id) {
+                jumpToPost.style.border = "2px dashed #e879c1";
+            }
+            setTimeout(()=> {
+                jumpToPost.scrollIntoView();
+            }, 200);
+        }
     }
 
     prependComment = (newComment) => {
@@ -47,7 +62,7 @@ class PostView extends Component {
         let titleUrl = getPostTitleUrl(post);
         return (
             <div className="post-view">
-                <div className="post-view__main">
+                <div className="post-view__main" id={post._id}>
                     <ProfileDetailedSmall user={post.author} />
                     { post.tags && post.tags.length > 0 && <TagBar tags={post.tags}/> }
                     <h1 className="post-view__title">

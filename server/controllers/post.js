@@ -345,7 +345,7 @@ module.exports = {
                 {
                     "$match": {
                         "authorID": { "$in": followingIDs },
-                        // "postType": { "$ne": "sub-comment"}
+                        // "postType": { "$eq": "post-comment"}
                     }
                 },
                 {
@@ -380,7 +380,7 @@ module.exports = {
                     "$limit": 15
                 }])
             } else {
-                let lastDate =  new Date(lastPost.createDate);
+                let lastDate =  new Date(new Date(lastPost.createDate).getTime() - 1000);
                 query = query.concat([
                     {
                         "$match": {
