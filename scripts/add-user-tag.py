@@ -4,6 +4,7 @@ from random import randint
 from string import ascii_lowercase
 client = MongoClient('localhost', 27017)
 
+client.drop_database('forum')
 db = client['forum']
 users = db['users']
 passwords = db['passwords']

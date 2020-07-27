@@ -12,16 +12,19 @@ db = client['forum']
 userColl = db['users']
 postColl = db['posts']
 tagColl = db['tags']
+notificationColl = db['notifications']
 postColl.drop()
+notificationColl.drop()
 
 # allUsers = userColl.find()
 allUsers = userColl.aggregate([
     {"$sample": { "size": 20 }}])
+allUsers = list(allUsers)
 firstUser = userColl.find_one()
 
 i = 0
 
-def getTemplate(tag):
+def getTemplate(tag, user):
     template = """
 [#{}](/tags/tag-by-id/{}) [@{}](/users/profile/{})
 
@@ -34,7 +37,7 @@ def getTemplate(tag):
 
 ![flower](https://source.unsplash.com/KJGBY76mmS4/500x350)
     """.format(tag["name"], tag["_id"],
-        firstUser["username"], firstUser["_id"])
+        user["username"], user["_id"])
     return str(template)
 
 
@@ -102,11 +105,50 @@ def setPostCommentIDs(postID, commentIDs):
     newvalues = { "$set": { "commentIDs": commentIDs } }
     postColl.update_one(myquery, newvalues)      
 
+
+def notifyMentionedUser(mentionedUser, postID):
+    post = postColl.find_one({
+        "_id": postID
+    })
+    ancestor = postColl.find_one({
+        "_id": post["ancestorID"]
+    })
+    record = notificationColl.find_one({
+        "receiverID": mentionedUser["_id"]
+    })
+    content = "You were mentioned in post [{}](/posts/expanded-post/{}#{})".format(
+        ancestor["title"],
+        post["ancestorID"],
+        postID
+    )
+    if record:
+        notificationColl.update_one(
+            {"receiverID": mentionedUser["_id"]},
+            {"$push": {
+                "read": False,
+                "content": content,
+                "time": datetime.datetime.utcnow()
+            }}
+        )
+    else:
+        temp = {
+                "receiverID": mentionedUser["_id"],
+                "messages": [{
+                    "read": False,
+                    "content": content,
+                    "time": datetime.datetime.utcnow()
+                }]
+            }
+        notificationColl.insert_one(
+            temp
+        )        
+
 for user in allUsers:
     # postType, authorID, content, title, tagIDs
     # print(" ------------------------------ ")
     # print(user)
-    for k in range(randint(3, 7)):  # each users make a few posts
+    # for k in range(randint(3, 7)):  # each users make a few posts
+    for k in range(randint(1, 1)):  # each users make a few posts
         title = fake.text()[:10]
         authorID = user["_id"]
         postType = "post"
@@ -115,7 +157,8 @@ for user in allUsers:
         tags = list(tags)
         tagIDs = [tag["_id"] for tag in tags]
         content = ""
-        template = getTemplate(tags[0])
+        mentionedUser = allUsers[randint(0, len(allUsers) - 1)]
+        template = getTemplate(tags[0], mentionedUser)
         if i % 5 != 0 and i % 7 != 0:
             content = ' '.join([fake.text() for i in range(10)])
         else:
@@ -139,6 +182,7 @@ for user in allUsers:
         newvalues = { "$set": { "ancestorID": postID } }
         postColl.update_one(myquery, newvalues)
 
+        # append postID to tag collection
         for tag in tags:
             res = tagColl.update_one(
             {"_id": tag["_id"]},
@@ -165,6 +209,9 @@ for user in allUsers:
             setPostCommentIDs(commentID, subCommentIDs)
             commentIDs.append(commentID)
         setPostCommentIDs(postID, commentIDs)
+
+        # notify mentionedUser
+        notifyMentionedUser(mentionedUser, postID)
 
         i += 1
     # print(" ------------------------------ ")
