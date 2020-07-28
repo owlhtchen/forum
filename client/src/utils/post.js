@@ -8,7 +8,7 @@ export const addPost = async (postType, authorID, content, title, tagIDs) => {
         title,
         tagIDs,
     };
-    let { data: post } = await axios.post('/posts/make-post', formData);
+    let { data: post } = await axios.post('/posts-back/make-post', formData);
     return post;
 }
 
@@ -22,7 +22,7 @@ export const addComment = async (postType, authorID, content, parentPost) => {
       ancestorID,
       parentID
     };
-    let { data: post } = await axios.post('/posts/make-post', formData);
+    let { data: post } = await axios.post('/posts-back/make-post', formData);
     // This is for post.comments.map in Comment.js
     post.comments = [];
     return post;
@@ -32,7 +32,7 @@ export const checkUpVoted = async (userID, postID) => {
     if(!userID) {
         return false;
     }
-    let {data: upVoted } = await axios.get(`/posts/checkUpVote/${userID}/${postID}`);
+    let {data: upVoted } = await axios.get(`/posts-back/checkUpVote/${userID}/${postID}`);
     return upVoted;
 }
 
@@ -45,7 +45,7 @@ export const upVotePost = async (userID, postID, post) => {
     if(index === -1) {
         post.likedBy.push(userID);
     }
-    await axios.post("/posts/upVote", formData);
+    await axios.post("/posts-back/upVote", formData);
     return post;
 }
 
@@ -58,12 +58,12 @@ export const cancelUpVotePost = async (userID, postID, post) => {
     if(index !== -1) {
         post.likedBy.splice(index, 1);
     }
-    await axios.post("/posts/cancelUpVote", formData);
+    await axios.post("/posts-back/cancelUpVote", formData);
     return post;
 }
 
 export const viewPost = async (postID, userID) => {
-    let url = `/posts/expanded-post/${postID}/${userID ? userID : ""}`;
+    let url = `/posts-back/expanded-post/${postID}/${userID ? userID : ""}`;
     let { data: post} = await axios.get(url);
     return post;
 }
@@ -71,25 +71,25 @@ export const viewPost = async (postID, userID) => {
 export const getPostDepth = async (postID, depth) => {
     let res;
     if(!depth) {
-        res = await axios.get("/posts/post-depth/" + postID);
+        res = await axios.get("/posts-back/post-depth/" + postID);
     } else {
-        res = await axios.get(`/posts/post-depth/${postID}/${depth}`);
+        res = await axios.get(`/posts-back/post-depth/${postID}/${depth}`);
     }
     return res.data;
 };
 
 export const getPostFollowers = async (postID) => {
-    let res = await axios.get("/posts/get-posts-followers/" + postID);
+    let res = await axios.get("/posts-back/get-posts-followers/" + postID);
     return res.data;
 };
 
 export const getParentPost = async (postID) => {
-    let res = await axios.get('/posts/get-parent-post/' + postID);
+    let res = await axios.get('/posts-back/get-parent-post/' + postID);
     return res.data;
 };
 
 export const getPostsByUserID = async (userID) => {
-    let res = await axios.get('/posts/posts-by-userid/' + userID);
+    let res = await axios.get('/posts-back/posts-by-userid/' + userID);
     return res.data;
 }
 
@@ -110,12 +110,12 @@ export const getPostTitleUrl = (post) => {
 }
 
 export const getTrendingPost = async (filter) => {
-    const res = await axios.post('/posts/filter-sorted-posts', filter);
+    const res = await axios.post('/posts-back/filter-sorted-posts', filter);
     return res.data;
 }
 
 export const getFollowingPost = async (filter, userID) => {
     filter["userID"] = userID;
-    const res = await axios.post('/posts/filter-following-posts', filter);
+    const res = await axios.post('/posts-back/filter-following-posts', filter);
     return res.data;
 }

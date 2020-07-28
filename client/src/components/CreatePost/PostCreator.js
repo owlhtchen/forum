@@ -87,7 +87,7 @@ class PostCreator extends Component {
         const { tags } = this.state;
         let index = tags.findIndex(tag => tag.name === tagName);
         if(index === -1) {
-            let { data : tag} = await axio.post('/tags/add-tag', {
+            let { data : tag} = await axio.post('/tags-back/add-tag', {
                 name: tagName
             });
             this.setState({

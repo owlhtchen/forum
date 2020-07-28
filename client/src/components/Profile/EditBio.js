@@ -16,7 +16,7 @@ class EditBio extends Component {
         if(editBio) {
             editBio(bioInput.value);
         }
-        await axios.post('/users/edit-bio', {
+        await axios.post('/users-back/edit-bio', {
             bio: bioInput.value,
             userID: userID
         });

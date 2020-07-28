@@ -48,13 +48,13 @@ db.once('open', function () {
     const io = socketio(server);
     require('./socket')(io);
 
-    app.use('/users', users);
-    app.use('/posts', posts);
-    app.use('/tags', tags);
-    app.use('/upload', uploads);
-    app.use('/search', searchs);
-    app.use('/chat-rooms', chatrooms);
-    app.use('/notifications', notifications);
+    app.use('/users-back', users);
+    app.use('/posts-back', posts);
+    app.use('/tags-back', tags);
+    app.use('/upload-back', uploads);
+    app.use('/search-back', searchs);
+    app.use('/chat-rooms-back', chatrooms);
+    app.use('/notifications-back', notifications);
 
     app.get('/*', function(req, res) {
         res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
@@ -62,8 +62,12 @@ db.once('open', function () {
 
     // Handles any requests that don't match the ones above
     app.get('*', (req, res) => {
-        console.log(__dirname);
-        res.status(404).sendFile(path.join(__dirname + '/../client/public/not-found.html'));
+        if(process.env.NODE_ENV === "dev") {
+            console.log(__dirname);
+            res.status(404).sendFile(path.join(__dirname + '/../client/public/not-found.html'));
+        } else {
+            res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
+        }
     });
 
     const port = process.env.PORT || 5000;

@@ -27,7 +27,7 @@ class UploadImage extends Component {
                 'content-type': "multipart/form-data"
             }
         };
-        await axios.post('/upload/avatar', formData, config);
+        await axios.post('/upload-back/avatar', formData, config);
     }
 
     render() {

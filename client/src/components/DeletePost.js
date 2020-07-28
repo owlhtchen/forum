@@ -6,7 +6,7 @@ class DeletePost extends Component {
     deletePost = async () => {
         try {
             const {post, userID} = this.props;
-            await axios.post('/posts/delete-post', {
+            await axios.post('/posts-back/delete-post', {
                 post: post,
                 userID: userID
             });

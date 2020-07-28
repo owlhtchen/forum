@@ -13,7 +13,7 @@ class Block extends Component {
     async componentDidMount() {
         const {profileUser, userID} = this.props;
         try {
-            let res = await axios.post('/users/check-block-user', {
+            let res = await axios.post('/users-back/check-block-user', {
                 user: userID,
                 victim: profileUser._id
             });
@@ -28,7 +28,7 @@ class Block extends Component {
     handleBlock = async () => {
         const {blocked} = this.state;
         const {profileUser, userID} = this.props;
-        await axios.post('/users/block-user', {
+        await axios.post('/users-back/block-user', {
             user: userID,
             victim: profileUser._id,
             startBlocking: !blocked

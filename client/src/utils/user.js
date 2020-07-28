@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const getUserByID = async (userID) => {
-    let res = await axios.get("/users/get-user/" + userID);
+    let res = await axios.get("/users-back/get-user/" + userID);
     return res.data;
 };
 
@@ -22,7 +22,7 @@ export const favoritePost = async (userID, postID) => {
         userID,
         postID
     };
-    await axios.post('/users/favorite', formData);
+    await axios.post('/users-back/favorite', formData);
 }
 
 export const cancelFavoritePost = async (userID, postID) => {
@@ -30,32 +30,32 @@ export const cancelFavoritePost = async (userID, postID) => {
         userID,
         postID
     };
-    await axios.post('/users/cancelFavorite', formData);
+    await axios.post('/users-back/cancelFavorite', formData);
 }
 
 export const checkFavorite = async (userID, postID) => {
-    let res = await axios.get(`/users/checkFavorite/${userID}/${postID}`);
+    let res = await axios.get(`/users-back/checkFavorite/${userID}/${postID}`);
     return res.data;
 }
 
 export const getUserFollowers = async (userID) => {
-    let res = await axios.get("/users/get-user-followers/" + userID);
+    let res = await axios.get("/users-back/get-user-followers/" + userID);
     return res.data;
 };
 
 export const getBrowseHistory = async (userID) => {
-    let { data:browsedPosts } = await axios.get('/users/browse-history/' + userID);
+    let { data:browsedPosts } = await axios.get('/users-back/browse-history/' + userID);
     return browsedPosts;
 }
 
 export const getBookmarks = async (userID) => {
-    let { data:bookmarks } = await axios.get('/users/bookmarks/' + userID);
+    let { data:bookmarks } = await axios.get('/users-back/bookmarks/' + userID);
     return bookmarks;
 }
 
 export const getUsersWithPrefix = async (prefix) => {
     if(prefix) {
-        let { data } = await axios.get(`/users/get-username-with-prefix/${prefix}`);
+        let { data } = await axios.get(`/users-back/get-username-with-prefix/${prefix}`);
         return data;
     } else {
         return [];
@@ -63,7 +63,7 @@ export const getUsersWithPrefix = async (prefix) => {
 }
 
 export const deleteUserHistory = async (userID, postID) => {
-    await axios.post('/users/delete-history', {
+    await axios.post('/users-back/delete-history', {
         userID,
         postID
     });
@@ -78,11 +78,11 @@ export const uploadUserAvatar = async (userID, userAvatar) => {
             "content-type": "multipart/form-data"
         }
     };
-    await axios.post('/upload/avatar', formData, config);
+    await axios.post('/upload-back/avatar', formData, config);
 }
 
 export const checkFollowUser = async (followedID, followerID) => {
-    let { data: following } = await axios.get(`/users/check-follow-user/${followedID}/${followerID}`);
+    let { data: following } = await axios.get(`/users-back/check-follow-user/${followedID}/${followerID}`);
     return following;
 }
 
@@ -92,11 +92,11 @@ export const toggleFollow = async (followedID, followerID, alreadyFollowing) => 
         followerID,
         alreadyFollowing
     };
-    await axios.post('/users/follow-user', formData);
+    await axios.post('/users-back/follow-user', formData);
 }
 
 export const notifyFollowers = async (followers, message, postID) => {
-    await axios.post('/users/notify-followers', {
+    await axios.post('/users-back/notify-followers', {
         followers,
         message,
         postID: postID
@@ -105,11 +105,11 @@ export const notifyFollowers = async (followers, message, postID) => {
 
 export const checkBlock = async (sender, receiver) => {
     try {
-        let res1 = await axios.post('/users/check-block-user', {
+        let res1 = await axios.post('/users-back/check-block-user', {
             user: sender,
             victim: receiver
         });
-        let res2 = await axios.post('/users/check-block-user', {
+        let res2 = await axios.post('/users-back/check-block-user', {
             user: receiver,
             victim: sender
         })
