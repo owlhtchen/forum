@@ -3,6 +3,8 @@ const path = require('path');
 const cors = require('cors');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
+const http = require('http');
+const socketio = require('socket.io');
 
 const users = require('./routes/user');
 const posts = require('./routes/post');
@@ -29,6 +31,7 @@ db.once('open', function () {
         });
 
     const app = express();
+    const server = http.createServer(app);
 
     app.use(bodyParser.urlencoded({extended: true}));
     app.use(bodyParser.json());
@@ -40,23 +43,9 @@ db.once('open', function () {
     app.use(express.static(path.join(__dirname, '../client/public/avatars')));
     app.use(express.static(path.join(__dirname, '../client/public/default_avatars')));
 
-    let SOCKET_PORT = 8080;
     // https://socket.io/docs/server-api/
-    const io = require('socket.io')();
-    const server = require('http').createServer();
-    io.attach(server, {
-        pingInterval: 10000,
-        pingTimeout: 5000,
-        cookie: false
-    });
+    const io = socketio(server);
     require('./socket')(io);
-    server.listen(SOCKET_PORT, (e) => {
-        if(e) {
-            console.log(e);
-            return;
-        }
-        console.log(`socker.io server is listening on ${SOCKET_PORT}`);
-    });
 
     app.use('/users', users);
     app.use('/posts', posts);
@@ -73,8 +62,7 @@ db.once('open', function () {
     });
 
     const port = process.env.PORT || 5000;
-    app.listen(port, () => {
+    server.listen(port, () => {
         console.log('Express App is listening on port ' + port);
     });
-
 });
