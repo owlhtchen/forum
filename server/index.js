@@ -40,6 +40,7 @@ db.once('open', function () {
 
     // Serve the static files from the React app
     // console.log(path.join(__dirname, '../client/public'));
+    app.use(express.static(path.join(__dirname, '../client/build')));
     app.use(express.static(path.join(__dirname, '../client/public/avatars')));
     app.use(express.static(path.join(__dirname, '../client/public/default_avatars')));
 
@@ -54,6 +55,10 @@ db.once('open', function () {
     app.use('/search', searchs);
     app.use('/chat-rooms', chatrooms);
     app.use('/notifications', notifications);
+
+    app.get('/*', function(req, res) {
+        res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
+    });
 
     // Handles any requests that don't match the ones above
     app.get('*', (req, res) => {

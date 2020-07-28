@@ -10,7 +10,11 @@ const User = require('../models/user');
 
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, './client/public/avatars')
+        if(process.env.NODE_ENV === "dev") {
+            cb(null, './client/public/avatars');
+        } else {
+            cb(null, '../client/public/avatars');
+        }
     },
     filename: function (req, file, cb) {
         // cb(null, uuidv4() + path.extname(file.originalname))
@@ -34,7 +38,6 @@ var upload = multer({
 }).single('userAvatar');
 
 router.post('/avatar', upload, async (req, res, next) => {
-    console.log(" -------------------- ");
     // req.file is the `avatar` file
     // req.body will hold the text fields, if there were any
     const avatarName = uuidv4() + path.extname(req.file.originalname);
