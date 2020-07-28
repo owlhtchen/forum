@@ -89,7 +89,10 @@ class LoadOnScroll extends Component {
         const { posts } = this.state;
         let inner;
         if(posts.length === 0) {
-            inner = <LoadingCircle width="15rem" height="15rem"/>
+            inner = <LoadingCircle
+                        width="15rem" height="15rem"
+                        message={"There are no posts from people you are following. Let's start by following more people."}
+                />
         } else {
             inner = posts.map((post) => {
                 return <PostSummary post={post} key={post._id} />;

@@ -17,14 +17,31 @@ import GetSecret from "./GetSecret";
 import PostView from "./PostView/PostView";
 import Bookmarks from "./Bookmarks/Bookmarks";
 import Messenger from "./Messenger/Messenger";
+import SVGIcon from "./SVGIcon/SVGIcon";
+import {ReactComponent as GithubSVG} from "./assets/github-logo.svg";
+import axios from 'axios';
 
 class App extends Component {
+
+    jumpToGithub = async () => {
+        window.location.href = "https://github.com/owlhtchen/forum";
+    }
 
     render() {
         return (
             <div className="container">
                 {/* <BrowserRouter forceRefresh={true}> */}
                 <BrowserRouter>
+                    <div className="github-link">
+                        <SVGIcon
+                            onClick={this.jumpToGithub}
+                            fill={"black"}
+                            width={"7vw"}
+                            tooltip={"view on github"}
+                        >
+                            <GithubSVG />
+                        </SVGIcon>
+                    </div>
                     <Header />
                     <Sidebar />
                     <div className="content">

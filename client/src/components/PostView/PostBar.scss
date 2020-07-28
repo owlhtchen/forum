@@ -11,4 +11,26 @@
   &__more {
     position: relative;
   }
+
+  &__link-div {
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+
+  &__link {
+    position: absolute;
+    bottom: -4.7rem;
+    background-color: white;
+    display: none;
+
+    label {
+      display: inline;
+    }
+
+    input {
+      font-size: inherit;
+      padding: 0.5rem;
+    }
+  }
 }

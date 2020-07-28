@@ -26,9 +26,10 @@ class Comment extends Component {
 
     render() {
         const { post } = this.state;
-        return (
-            <div className="comment" id={post._id}>
-                <div className="comment__main">
+        let contentDiv;
+        if(!post.isDeleted) {
+            contentDiv = (
+                <div>
                     <ProfileDetailedSmall user={post.author} />
                     <MarkdownView
                         collapsed={false}
@@ -39,6 +40,19 @@ class Comment extends Component {
                         post={post}
                         prependComment={this.prependComment}
                     />
+                </div>
+            )
+        } else {
+            contentDiv = (
+                <div>
+                    Deleted
+                </div>
+            );
+        }
+        return (
+            <div className="comment" id={post._id}>
+                <div className="comment__main">
+                    {contentDiv}
                 </div>
                 <div className="comment__nested">
                     {

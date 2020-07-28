@@ -47,7 +47,7 @@ const userSchema = new Schema({
     },
     avatarFile: {
         type: String,
-        default: getRandomInt(10) + '.jpg'
+        default: 'default_' + getRandomInt(10) + '.jpg'
     }
 });
 

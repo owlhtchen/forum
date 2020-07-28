@@ -46,3 +46,13 @@ body {
   display: grid;
   //grid-template-columns: ;
 }
+
+.github-link {
+  position: fixed;
+  top: 30%;
+  right: 2%;
+  z-index: 1000;
+  background-color: white;
+  border-radius: 50%;
+  box-shadow: 2px 2px 2px var(--color-grey-dark);
+}

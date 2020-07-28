@@ -31,16 +31,17 @@ class LoadingCircle extends Component {
     }
 
     render() {
-        let { width, height } = this.props;
+        let { width, height, message } = this.props;
         height = (height === undefined) ? width:height;
         let borderWidth = (parseInt(width) * 0.15) + "rem";
         let headingFontSize = (parseInt(width) * 0.25) + "rem";
+        message = message ? message : "Sorry, no content found. Please check later";
         return (
             <div>
                 <h1
                     className="not-found"
                     style={{ fontSize: headingFontSize}}
-                >Sorry, no content found. Please check later</h1>
+                >{message}</h1>
                 <div className="loader"
                      style={{
                          width: width,

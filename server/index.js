@@ -36,7 +36,9 @@ db.once('open', function () {
     app.use(bodyParser.urlencoded({extended: true}));
     app.use(bodyParser.json());
 
-    app.use(cors());
+    if(process.env.NODE_ENV === "dev") {
+        app.use(cors());
+    }
 
     // Serve the static files from the React app
     // console.log(path.join(__dirname, '../client/public'));

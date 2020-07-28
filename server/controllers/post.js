@@ -198,16 +198,19 @@ module.exports = {
         }
     },
     deletePost: async (req, res, next) => {
-        const {post, userID} = req.body;
+        const {postID, userID} = req.body;
+        console.log(postID)
         try {
             const user = await User.findById(userID);
-            if (!user.isAdmin && (userID !== post.authorID)) {
+            const post = await Post.findById(postID);
+            if (!user.isAdmin && (userID !== post.authorID.toString())) {
                 return res.status(401).end();
             }
-            await Post.updateMany(
-                {_id: post._id},
+            let temp = await Post.updateMany(
+                {_id: postID},
                 {isDeleted: true}
             )
+            console.log(temp)
             return res.end()
         } catch (err) {
             next(err);
@@ -294,7 +297,7 @@ module.exports = {
                     "$or": [
                         {"postType": "post"},
                         {"postType": "story"},
-                        {"postType": "post-comment"}
+                        // {"postType": "post-comment"}
                     ]
                 }
             },

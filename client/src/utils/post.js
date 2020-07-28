@@ -119,3 +119,13 @@ export const getFollowingPost = async (filter, userID) => {
     const res = await axios.post('/posts-back/filter-following-posts', filter);
     return res.data;
 }
+
+export const deletePost = async (postID, userID) => {
+    if(!postID || !userID) {
+        return ;
+    }
+    await axios.post('/posts-back/delete-post', {
+        postID,
+        userID
+    });
+}

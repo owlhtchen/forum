@@ -29,6 +29,9 @@ class Profile extends Component {
     async componentDidMount() {
         try {
             const {userID} = this.props.match.params;
+            if(userID === undefined || userID === null) {
+                return;
+            }
             const profileUser = await getUserByID(userID);
             const posts = await getPostsByUserID(userID);
             let following = false;
@@ -98,7 +101,10 @@ class Profile extends Component {
         const { userID } = this.props;
         if (!profileUser || following === null) {
             return (
-                <LoadingCircle />
+                <LoadingCircle
+                    width={"12rem"}
+                    message={"please login"}
+                />
             );
         }
         let isMine = (profileUser._id === userID);

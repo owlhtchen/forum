@@ -60,9 +60,10 @@ class PostView extends Component {
             />
         }
         let titleUrl = getPostTitleUrl(post);
-        return (
-            <div className="post-view">
-                <div className="post-view__main" id={post._id}>
+        let contentDiv;
+        if(!post.isDeleted) {
+            contentDiv = (
+                <div>
                     <ProfileDetailedSmall user={post.author} />
                     { post.tags && post.tags.length > 0 && <TagBar tags={post.tags}/> }
                     <h1 className="post-view__title">
@@ -80,6 +81,27 @@ class PostView extends Component {
                         post={post}
                         prependComment={this.prependComment}
                     />
+                </div>
+            );
+        } else {
+            contentDiv = (
+              <div>
+                  <h1 className="post-view__title">
+                      <p>Deleted</p>
+                  </h1>
+                  <div className="post-view__content">
+                      <MarkdownView
+                          collapsed={false}
+                          content={"deleted"}
+                      />
+                  </div>
+              </div>
+            );
+        }
+        return (
+            <div className="post-view">
+                <div className="post-view__main" id={post._id}>
+                    {contentDiv}
                 </div>
                 <div className="post-view__comments">
                     {

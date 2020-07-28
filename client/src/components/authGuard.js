@@ -6,7 +6,7 @@ const authGuard = (OriginalComponent) => {
     class MixedComponent extends Component {
         unAuthedRedirect = () => {
             if (!this.props.isAuthed) {
-                this.props.history.push('/');
+                this.props.history.push('/users/signin');
             }
         }
 
