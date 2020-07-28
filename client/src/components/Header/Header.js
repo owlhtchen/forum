@@ -41,14 +41,14 @@ class Header extends Component {
                             key="navlink-discuss">
                             <DiscussSVG />
                         </NavLinkTooltip>,
-                        <NavLinkTooltip
-                            tooltip = "What's up in your life?"
-                            text="Stories"
-                            to={{ pathname: "/posts/make-post",
-                                state: {"postType": "story"} }}
-                            key="navlink-article" >
-                            <CameraSVG />
-                        </NavLinkTooltip>,
+                        // <NavLinkTooltip
+                        //     tooltip = "What's up in your life?"
+                        //     text="Stories"
+                        //     to={{ pathname: "/posts/make-post",
+                        //         state: {"postType": "story"} }}
+                        //     key="navlink-article" >
+                        //     <CameraSVG />
+                        // </NavLinkTooltip>,
                         // <NavLinkTooltip
                         //     tooltip = "View ProfileSummary"
                         //     to={{ pathname: "/users/profile/" + userID }}
