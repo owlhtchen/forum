@@ -4,55 +4,79 @@ import {getCurrentContact} from "../../utils/chatroom";
 import LoadingCircle from "../Loading/LoadingCircle";
 import './CurrentContact.scss';
 import {formatDate} from "../../utils";
+import io from 'socket.io-client/dist/socket.io.js';
+import {getChatRoomName} from "../../utils/user";
 
 class CurrentContact extends Component {
     constructor(props) {
         super(props);
+        // let socket =  io();
         this.state = {
-            chatRecords: null,
+            // socket: socket,
+            chatRecords: this.props.chatRecords,
             interval: null
         };
     }
 
-    fetchChatRecords = async () => {
-        const { userID } = this.props;
-        let chatRecords = await getCurrentContact(userID);
-        chatRecords = chatRecords.sort((record1, record2) => {
-            if(record1.unreadMsg !== record2.unreadMsg) {
-                return - (record1.unreadMsg - record2.unreadMsg);
-            } else {
-                let lastMsg1 = record1.history.slice(-1)[0];
-                let lastMsg2 = record2.history.slice(-1)[0];
-                if(lastMsg1 && lastMsg2) {
-                    return - (lastMsg1.time - lastMsg2.time);
-                } else {
-                    return 0;
-                }
-            }
-        })
-        // console.log(chatRecords);
-        this.setState({
-            chatRecords
-        });
-    }
+    // fetchChatRecords = async () => {
+    //     const { userID } = this.props;
+    //     let chatRecords = await getCurrentContact(userID);
+    //     chatRecords = chatRecords.sort((record1, record2) => {
+    //         if(record1.unreadMsg !== record2.unreadMsg) {
+    //             return - (record1.unreadMsg - record2.unreadMsg);
+    //         } else {
+    //             let lastMsg1 = record1.history.slice(-1)[0];
+    //             let lastMsg2 = record2.history.slice(-1)[0];
+    //             if(lastMsg1 && lastMsg2) {
+    //                 return - (lastMsg1.time - lastMsg2.time);
+    //             } else {
+    //                 return 0;
+    //             }
+    //         }
+    //     })
+    //     // console.log(chatRecords);
+    //     return  chatRecords;
+    // }
 
-    componentDidMount() {
-        this.setState({
-            interval: setInterval(this.fetchChatRecords, 3000)
-        });
+    async componentDidMount() {
+        // let { socket} = this.state;
+        // let chatRecords = await this.fetchChatRecords();
+        // chatRecords.forEach((chatRecord) => {
+        //     const { firstID, secondID } = chatRecord;
+        //     let chatRoomName = getChatRoomName(firstID, secondID);
+        //     socket.emit("room", chatRoomName);
+        // });
+        // this.setState({
+        //     chatRecords
+        // });
+        // this.setState({
+        //     interval: setInterval(this.fetchChatRecords, 3000)
+        // });
+        // let { socket } = this.props;
+        // const { chatRecords } = this.state;
+        // let prevChatRecords = JSON.parse(JSON.stringify(chatRecords));
+        // socket.on("new message", (lastMessage) => {
+        //
+        // })
     }
 
     componentWillUnmount() {
-        clearInterval(this.state.interval);
-        this.setState({
-            interval: null
-        });
+        // let { socket, chatRecords } = this.state;
+        // chatRecords.forEach((chatRecord) => {
+        //     const { firstID, secondID } = chatRecord;
+        //     let chatRoomName = getChatRoomName(firstID, secondID);
+        //     socket.emit("room", chatRoomName);
+        // })
+        // clearInterval(this.state.interval);
+        // this.setState({
+        //     interval: null
+        // });
     }
 
 
     render() {
         const { userID, setSelectedUser } = this.props;
-        let { chatRecords } = this.state;
+        let { chatRecords } = this.props;
         if(!chatRecords) {
             return <LoadingCircle width={"6rem"}/>;
         }

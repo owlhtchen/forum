@@ -18,7 +18,7 @@ class MessageBox extends Component {
 
     constructor(props) {
         super(props);
-        let socket =  io();
+        let { socket } =  this.props;
         socket.on("new message", (lastMessage) => {
             const prev = [...this.state.messages];
             prev.push(lastMessage);
@@ -29,7 +29,7 @@ class MessageBox extends Component {
             this.scrollToBottom();
         })
         this.state = {
-            socket: socket,
+            // socket: socket,
             sender: null,
             messages: []   // chatroom.history
         }
@@ -37,7 +37,7 @@ class MessageBox extends Component {
 
     setUpChat = async () => {
         const { userID, selectedReceiver } = this.props;
-        let { socket } = this.state;
+        // let { socket } = this.state;
         let receiverID = selectedReceiver._id;
         let user = await getUserByID(userID);
         let messages = await getAllChatHistory(userID, receiverID);
@@ -47,7 +47,7 @@ class MessageBox extends Component {
         })
         // console.log("after mount: ", this.state.messages);
         let chatRoomName = getChatRoomName(userID, receiverID);
-        socket.emit("room", chatRoomName);
+        // socket.emit("room", chatRoomName);
     }
 
     scrollToBottom = () => {
@@ -67,10 +67,10 @@ class MessageBox extends Component {
     async componentWillUnmount() {
         const { userID, selectedReceiver } = this.props;
         await markAsRead(userID, selectedReceiver._id);
-        let { socket } = this.state;
-        if(socket) {
-            socket.disconnect();
-        }
+        let { socket } = this.props;
+        // if(socket) {
+        //     socket.disconnect();
+        // }
     }
 
     handleSend = (e) => {
@@ -81,7 +81,7 @@ class MessageBox extends Component {
         if(!content || !content.trim() || !selectedReceiver || !sender) {
             return;
         }
-        let { socket } = this.state;
+        let { socket } = this.props;
         let senderID = sender._id;
         let receiverID = selectedReceiver._id;
         let data = {

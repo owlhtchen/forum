@@ -5,14 +5,14 @@ export const getUserByID = async (userID) => {
     return res.data;
 };
 
-export const getChatRoomName = (senderID, receiverID) => {
-    senderID = senderID.toString();
-    receiverID = receiverID.toString();
+export const getChatRoomName = (firstID, secondID) => {
+    firstID = firstID.toString();
+    secondID = secondID.toString();
     let chatRoomName = "";
-    if(senderID < receiverID) {
-        chatRoomName = senderID + receiverID;
+    if(firstID < secondID) {
+        chatRoomName = firstID + secondID;
     } else {
-        chatRoomName = receiverID + senderID;
+        chatRoomName = secondID + firstID;
     }
     return chatRoomName;
 }
