@@ -43,9 +43,9 @@ class Messenger extends Component {
 
     componentWillUnmount() {
         let { socket } = this.state;
-        // if(socket) {
-        //     socket.disconnect();
-        // }
+        if(socket) {
+            socket.disconnect();
+        }
     }
 
     toggleAddChat = () => {
@@ -101,9 +101,10 @@ class Messenger extends Component {
                 setSelectedUser={this.setSelectedUser}
             />
         ) : (
-          <CurrentContact
+          chatRecords && <CurrentContact
             setSelectedUser={this.setSelectedUser}
             chatRecords={chatRecords}
+            socket={socket}
           />
         );
         return (

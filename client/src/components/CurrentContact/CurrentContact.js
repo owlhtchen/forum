@@ -52,12 +52,33 @@ class CurrentContact extends Component {
         // this.setState({
         //     interval: setInterval(this.fetchChatRecords, 3000)
         // });
-        // let { socket } = this.props;
-        // const { chatRecords } = this.state;
-        // let prevChatRecords = JSON.parse(JSON.stringify(chatRecords));
-        // socket.on("new message", (lastMessage) => {
-        //
-        // })
+        let { socket, userID } = this.props;
+        const { chatRecords } = this.state;
+        let prevChatRecords = JSON.parse(JSON.stringify(chatRecords));
+        socket.on("new message", (lastMessage) => {
+            prevChatRecords.forEach((chatRecord) => {
+                const { firstID, secondID } = chatRecord;
+                const otherID = (userID.toString() === firstID.toString()) ? secondID.toString() : firstID.toString();
+                if((otherID === lastMessage.receiverID.toString() &&
+                    userID.toString() === lastMessage.senderID.toString()) ||
+                    (otherID === lastMessage.senderID.toString() &&
+                        userID.toString() === lastMessage.receiverID.toString())
+                ) {
+
+                    chatRecord.history.push(lastMessage);
+                    if(lastMessage.receiverID.toString() === userID.toString()) {
+                        if(chatRecord.unreadMsg) {
+                            chatRecord.unreadMsg += 1;
+                        } else {
+                            chatRecord.unreadMsg = 1;
+                        }
+                    }
+                }
+            });
+            this.setState({
+                chatRecords: prevChatRecords
+            });
+        })
     }
 
     componentWillUnmount() {
@@ -73,10 +94,27 @@ class CurrentContact extends Component {
         // });
     }
 
+    selectUser = (other, chatRecord) => {
+        const { setSelectedUser } = this.props;
+        setSelectedUser(other);
+        const { chatRecords } = this.state;
+        let prevChatRecords = JSON.parse(JSON.stringify(chatRecords));
+        prevChatRecords.forEach((prevChatRecord) => {
+            if(prevChatRecord.firstID === chatRecord.firstID &&
+                prevChatRecord.secondID === chatRecord.secondID
+            ) {
+                chatRecord.unreadMsg = 0;
+            }
+        });
+        this.setState({
+            chatRecord: prevChatRecords
+        })
+    }
+
 
     render() {
         const { userID, setSelectedUser } = this.props;
-        let { chatRecords } = this.props;
+        let { chatRecords } = this.state;
         if(!chatRecords) {
             return <LoadingCircle width={"6rem"}/>;
         }
@@ -89,7 +127,7 @@ class CurrentContact extends Component {
                         let lastMsg = chatRecord.history.slice(-1)[0];
                         return (
                           <div
-                              onClick={() => {setSelectedUser(other)}}
+                              onClick={() => {this.selectUser(other, chatRecord)}}
                               className="chat-overview"
                             key={chatRecord._id}
                           >

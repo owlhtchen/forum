@@ -19,6 +19,7 @@ module.exports = {
                     $push: {
                         history: {
                             senderID: senderID,
+                            receiverID: receiverID,
                             content: content,
                             time: new Date()
                         }
@@ -32,6 +33,7 @@ module.exports = {
                 secondID: secondID,
                 history: [{
                     senderID: senderID,
+                    receiverID: receiverID,
                     content: content,
                     time: new Date()
                 }]

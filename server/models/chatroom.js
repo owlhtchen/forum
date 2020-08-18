@@ -15,6 +15,10 @@ const chatroomSchema = new Schema({
             type: Schema.Types.ObjectId,
             ref: 'User'
         },
+        receiverID: {
+            type: Schema.Types.ObjectId,
+            ref: 'User'
+        },
         content: String,
         time: {
             type: Date
