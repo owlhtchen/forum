@@ -148,7 +148,7 @@ class PostBar extends Component {
                         </SVGIcon>
                         <div className='post-bar__link'>
                             <label>(Copied)</label>
-                            <input value={`${copiedUrl}`} size="50"/>
+                            <input defaultValue={`${copiedUrl}`} size="50"/>
                         </div>
                     </div>
 
