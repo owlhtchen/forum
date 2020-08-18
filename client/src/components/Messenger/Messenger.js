@@ -16,12 +16,14 @@ class Messenger extends Component {
     constructor(props) {
         super(props);
         let socket =  io();
+        socket.emit("notification-room", this.props.userID.toString());
         this.state = {
             socket: socket,
             addChatShown: false,
             currentChatRooms: [],
             selectedReceiver: null,
-            chatRecords: null
+            chatRecords: null,
+            reloadingCurrentContact: false
         }
     }
 
@@ -34,6 +36,21 @@ class Messenger extends Component {
                 })
             }
         }
+        await this.refreshChatRoom();
+        let { socket } = this.state;
+        socket.on("refresh", async () => {
+            await this.refreshChatRoom();
+            this.setState({
+                reloadingCurrentContact: true
+            }, () => {
+                this.setState({
+                    reloadingCurrentContact: false
+                })
+            })
+        });
+    }
+
+    refreshChatRoom = async () => {
         let chatRecords = await this.fetchChatRecords();
         this.joinChatRooms(chatRecords);
         this.setState({
@@ -81,7 +98,6 @@ class Messenger extends Component {
                 }
             }
         })
-        // console.log(chatRecords);
         return  chatRecords;
     }
 
@@ -90,18 +106,19 @@ class Messenger extends Component {
         chatRecords.forEach((chatRecord) => {
             const { firstID, secondID } = chatRecord;
             let chatRoomName = getChatRoomName(firstID, secondID);
-            socket.emit("room", chatRoomName);
+            socket.emit("room", { chatRoomName, firstID, secondID });
         });
     }
 
     render() {
-        const { addChatShown, selectedReceiver, chatRecords, socket } = this.state;
+        const { addChatShown, selectedReceiver, chatRecords, socket, reloadingCurrentContact } = this.state;
         let content = addChatShown ? (
             <AddContact
                 setSelectedUser={this.setSelectedUser}
+                socket={socket}
             />
         ) : (
-          chatRecords && <CurrentContact
+          chatRecords && !reloadingCurrentContact &&  <CurrentContact
             setSelectedUser={this.setSelectedUser}
             chatRecords={chatRecords}
             socket={socket}

@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npm run start-dev",
+    "start": "npm run prod-server",
     "client-dev": "npm start --prefix client",
     "server-dev": "cross-env NODE_ENV=dev nodemon --verbose server/index.js",
     "start-dev": "concurrently \"npm run server-dev\" \"npm run client-dev\"",

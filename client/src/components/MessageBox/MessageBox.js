@@ -4,7 +4,6 @@ import ProfileSmall from "../ProfileSummary/ProfileSmall";
 import {ReactComponent as SendSVG} from "../assets/send.svg";
 import { connect } from 'react-redux';
 
-import io from 'socket.io-client/dist/socket.io.js';
 import {getChatRoomName, getUserByID} from "../../utils/user";
 import {getAllChatHistory, markAsRead} from "../../utils/chatroom";
 import LoadingCircle from "../Loading/LoadingCircle";
@@ -29,7 +28,6 @@ class MessageBox extends Component {
             this.scrollToBottom();
         })
         this.state = {
-            // socket: socket,
             sender: null,
             messages: []   // chatroom.history
         }
@@ -37,7 +35,6 @@ class MessageBox extends Component {
 
     setUpChat = async () => {
         const { userID, selectedReceiver } = this.props;
-        // let { socket } = this.state;
         let receiverID = selectedReceiver._id;
         let user = await getUserByID(userID);
         let messages = await getAllChatHistory(userID, receiverID);
@@ -47,7 +44,6 @@ class MessageBox extends Component {
         })
         // console.log("after mount: ", this.state.messages);
         let chatRoomName = getChatRoomName(userID, receiverID);
-        // socket.emit("room", chatRoomName);
     }
 
     scrollToBottom = () => {
@@ -67,10 +63,6 @@ class MessageBox extends Component {
     async componentWillUnmount() {
         const { userID, selectedReceiver } = this.props;
         await markAsRead(userID, selectedReceiver._id);
-        let { socket } = this.props;
-        // if(socket) {
-        //     socket.disconnect();
-        // }
     }
 
     handleSend = (e) => {

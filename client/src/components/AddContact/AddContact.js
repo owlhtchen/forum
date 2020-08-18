@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import ProfileSmall from "../ProfileSummary/ProfileSmall";
-import {getUsersWithPrefix} from "../../utils/user";
+import {getChatRoomName, getUsersWithPrefix} from "../../utils/user";
 import './AddContact.scss';
+import {connect} from "react-redux";
 
 class AddContact extends Component {
 
@@ -20,9 +21,16 @@ class AddContact extends Component {
         });
     }
 
+    setSelectedUser = (selectedUser) => {
+        const {setSelectedUser, socket, userID: secondID } = this.props;
+        setSelectedUser(selectedUser);
+        const firstID = selectedUser._id.toString();
+        let chatRoomName = getChatRoomName(firstID, secondID).toString();
+        socket.emit("room", { chatRoomName, firstID, secondID });
+    }
+
     render() {
         const { usersWithPrefix } = this.state;
-        const { setSelectedUser } = this.props;
 
         return (
             <div className="add-contact">
@@ -39,7 +47,7 @@ class AddContact extends Component {
                                 <ProfileSmall
                                     key={user._id}
                                     user={user}
-                                    setSelectedUser={setSelectedUser}
+                                    setSelectedUser={this.setSelectedUser}
                                 />
                             );
                         })
@@ -50,4 +58,10 @@ class AddContact extends Component {
     }
 }
 
-export default AddContact;
+const mapStateToProps = (state) => {
+    return {
+        userID: state.user.userID
+    };
+}
+
+export default connect(mapStateToProps)(AddContact);

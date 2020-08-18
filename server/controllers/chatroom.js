@@ -158,5 +158,27 @@ module.exports = {
             secondID = senderID;
         }
         return {firstID, secondID};
+    },
+    getNewbiesInChatRoom: (chatRecord) => {
+        let history = chatRecord.history;
+        let { senderID, receiverID } = history[history.length - 1];
+        let senderNew = true;
+        let receiverNew = true;
+        for(let i = 0; i < history.length - 1; i += 1) {
+            if(receiverID.toString() === history[i].senderID.toString()) {
+                receiverNew = false;
+            }
+            if(senderID.toString() === history[i].senderID.toString()) {
+                senderNew = false;
+            }
+        }
+        let res = [];
+        if(receiverNew) {
+            res.push(receiverID);
+        }
+        if(senderNew) {
+            res.push(senderID);
+        }
+        return res;
     }
 }
