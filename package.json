@@ -8,8 +8,8 @@
     "client-dev": "npm start --prefix client",
     "server-dev": "cross-env NODE_ENV=dev nodemon --verbose server/index.js",
     "start-dev": "concurrently \"npm run server-dev\" \"npm run client-dev\"",
-    "prod-server": "cd client && npm run build && cd .. && npm install && node ./server/index.js",
-    "prod-build": "cd client && npm run build && cd .. && npm install",
+    "prod-server": "cd client && npm install && npm run build && cd .. && npm install && node ./server/index.js",
+    "prod-build": "cd client && npm install && npm run build && cd .. && npm install",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
