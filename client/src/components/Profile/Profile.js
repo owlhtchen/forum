@@ -34,9 +34,10 @@ class Profile extends Component {
             }
             const profileUser = await getUserByID(userID);
             const posts = await getPostsByUserID(userID);
+            const myselfID = this.props.userID;
             let following = false;
             if(userID) {
-                following = await checkFollowUser(profileUser._id, userID);
+                following = await checkFollowUser(profileUser._id, myselfID);
             }
             this.setState({
                 profileUser: profileUser,
