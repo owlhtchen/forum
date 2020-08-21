@@ -29,7 +29,7 @@ class Profile extends Component {
     async componentDidMount() {
         try {
             const {userID} = this.props.match.params;
-            if(userID === undefined || userID === null) {
+            if(userID === undefined || userID === null || userID === "null") {
                 return;
             }
             const profileUser = await getUserByID(userID);
@@ -100,6 +100,10 @@ class Profile extends Component {
     render() {
         const { profileUser, editBioShown, posts, following } = this.state;
         const { userID } = this.props;
+        const urlUserID = this.props.match.params.userID;
+        if(!urlUserID || urlUserID === "null") {
+            return <h2>Please Login in </h2>;
+        }
         if (!profileUser || following === null) {
             return (
                 <LoadingCircle

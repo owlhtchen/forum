@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import GoogleLogin from 'react-google-login';
 
 import * as actions from '../../actions';
+import './Sign.scss';
 
 class Signin extends Component {
     constructor(props) {
@@ -62,17 +63,17 @@ class Signin extends Component {
                             Sign In &#8594;
                         </button>
                     </form>
-                    <hr />
-                    <h2>Or try three party sign in <span role="img" aria-label="pointing down">👇</span></h2>
-                    <div className="google-btn">
-                        <GoogleLogin
-                            clientId="48536141752-fhirsi9pum3iecolfrnnbbina2e45ia8.apps.googleusercontent.com"
-                            buttonText="Google Login"
-                            onSuccess={this.responseGoogle}
-                            onFailure={this.responseGoogle}
-                            cookiePolicy={'single_host_origin'}
-                        />
-                    </div>
+                    {/*<hr />*/}
+                    {/*<h2>Or try three party sign in <span role="img" aria-label="pointing down">👇</span></h2>*/}
+                    {/*<div className="google-btn">*/}
+                    {/*    <GoogleLogin*/}
+                    {/*        clientId="48536141752-fhirsi9pum3iecolfrnnbbina2e45ia8.apps.googleusercontent.com"*/}
+                    {/*        buttonText="Google Login"*/}
+                    {/*        onSuccess={this.responseGoogle}*/}
+                    {/*        onFailure={this.responseGoogle}*/}
+                    {/*        cookiePolicy={'single_host_origin'}*/}
+                    {/*    />*/}
+                    {/*</div>*/}
                 </div>
             </div>
         );
