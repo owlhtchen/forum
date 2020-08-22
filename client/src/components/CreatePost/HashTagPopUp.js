@@ -14,7 +14,7 @@ class HashTagPopUp extends Component {
     componentDidUpdate() {
         const { hashPrefix } = this.props;
         if(hashPrefix && hashPrefix !== "") {
-            let url = `/tags/get-tag-name-with-prefix/${encodeURI(hashPrefix)}`;
+            let url = `/tags-back/get-tag-name-with-prefix/${encodeURI(hashPrefix)}`;
             axios.get(url)
                 .then((res) => {
                     this.setState({

@@ -57,7 +57,7 @@ class MarkdownEditor extends Component {
             let wordRange = cm.findWordAt(cm.getCursor());
             wordRange.anchor.ch -= 1;
             let url = `[#${tag.name}](/tags/tag-by-id/${tag._id})`;
-            console.log("selected hash tag: ", url);
+            // console.log("selected hash tag: ", url);
             cm.doc.replaceRange(url,
                 wordRange.anchor,
                 wordRange.head);
