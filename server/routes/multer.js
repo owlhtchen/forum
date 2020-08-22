@@ -13,6 +13,7 @@ var storage = multer.diskStorage({
         if(process.env.NODE_ENV === "dev") {
             cb(null, './client/public/avatars');
         } else {
+            // check this if upload failed
             cb(null, '../client/public/avatars');
         }
     },
