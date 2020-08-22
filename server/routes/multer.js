@@ -13,7 +13,7 @@ var storage = multer.diskStorage({
         if(process.env.NODE_ENV === "dev") {
             cb(null, './client/public/avatars');
         } else {
-            cb(null, '../client/public/avatars');
+            cb(null, './client/public/avatars');
         }
     },
     filename: function (req, file, cb) {
