@@ -122,15 +122,15 @@ class Profile extends Component {
                         <img src={`/${profileUser.avatarFile}`} />
                         { isMine &&
                             <div>
-                                <label htmlFor="user-avatar">
-                                    <SVGIcon
-                                        width={"2vw"}
-                                        fill={"#36c7f7"}
-                                        tooltip={"upload profile image"}
-                                    >
-                                        <UploadSVG />
-                                    </SVGIcon>
-                                </label>
+                                {/*<label htmlFor="user-avatar">*/}
+                                {/*    <SVGIcon*/}
+                                {/*        width={"2vw"}*/}
+                                {/*        fill={"#36c7f7"}*/}
+                                {/*        tooltip={"upload profile image"}*/}
+                                {/*    >*/}
+                                {/*        <UploadSVG />*/}
+                                {/*    </SVGIcon>*/}
+                                {/*</label>*/}
                                 <input id="user-avatar" type="file" hidden
                                        onChange={this.uploadImage}
                                        accept="image/x-png,image/jpg,image/jpeg"
